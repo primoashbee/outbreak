@@ -142,7 +142,7 @@
 
 </body>
 <?php
-    include "../includes/scripts.php"
+    include "../includes/scripts.php";
     unset($_SESSION['post_data']);
 ?>
 </html>
