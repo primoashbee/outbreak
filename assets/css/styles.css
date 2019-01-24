@@ -2315,7 +2315,7 @@ table.dataTable thead td {
 .login-form-head {
     text-align: center;
     background: #303641;
-    padding: 50px;
+    padding: 30px;
 }
 
 .login-form-head h4 {
@@ -2828,3 +2828,10 @@ table.dataTable thead td {
 }
 
 /*-------------------- END Offset Sidebar ------------------- */
+
+
+
+
+.dropdown-outbreak {
+    
+}

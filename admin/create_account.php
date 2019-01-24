@@ -80,15 +80,15 @@
 
 
                                         ?>
-                                        <div class="alert alert-primary" role="alert">
-                                            <strong>Heads up!</strong> <?=$_SESSION['msg']['message']?>
+                                        <div class="alert alert-primary alert-success" role="alert">
+                                            <h2><strong>Heads up!</strong> <?=$_SESSION['msg']['message']?></h2>
                                         </div>
 
                                         <?php
                                     }else{
                                         ?>
                                         <div class="alert alert-danger" role="alert">
-                                            <strong>Heads up!</strong> <?=$_SESSION['msg']['message']?>
+                                            <h2><strong>Oh no!</strong> <?=$_SESSION['msg']['message']?></h2>
                                         </div>
 
                                         <?php
@@ -149,5 +149,6 @@
 <?php
     include "../includes/scripts.php";
     unset($_SESSION['msg']);
+    unset($_SESSION['post_data']);
 ?>
 </html>

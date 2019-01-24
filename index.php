@@ -1,5 +1,6 @@
 <?php 
 	require("config.php");
+    session_start();
 ?>
 
 <!DOCTYPE html>
@@ -26,14 +27,26 @@
                     <div class="login-form-head">
                         <h4>OUTBREAK MONITORING</h4>
                         <p>Please enter your credentials</p>
+
                     </div>
+
                     <div class="login-form-body">
-                        <div class="form-gp">
+                    <?php 
+                            if(isset($_SESSION['msg'])){
+                    ?>
+                    <div class="alert alert-danger" style="margin-top: -40px; margin-left:-40px;margin-right:-40px">
+                      <h4><center><strong><?=$_SESSION['msg']['msg']?></strong></center></h4>
+                    </div>
+                    <?php
+                            }
+
+                    ?>
+                        <div class="form-gp focused has-danger">
                             <label for="username">Username</label>
-                            <input type="text" id="username" name="username">
+                            <input type="text"  id="username" name="username" value="<?=old('username')?>">
                             <i class="ti-user"></i>
                         </div>
-                        <div class="form-gp">
+                        <div class="form-gp focused">
                             <label for="password">Password</label>
                             <input type="password" id="password" name="password">
                             <i class="ti-lock"></i>
@@ -53,6 +66,8 @@
 
 </body>
 <?php
-	include "includes/scripts.php"
+	include "includes/scripts.php";
+    unset($_SESSION['post_data']);
+    unset($_SESSION['msg']);
 ?>
 </html>

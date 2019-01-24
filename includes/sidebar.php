@@ -35,7 +35,7 @@
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-palette"></i><span>Records</span></a>
                                 <ul class="collapse">
                                     <li><a href="records.php">View Records</a></li>
-                                    <li><a href="create_records.php">Add New Record</a></li>
+                                    <li><a href="create_record.php">Add New Record</a></li>
                                 </ul>
                             </li>
                             <li>

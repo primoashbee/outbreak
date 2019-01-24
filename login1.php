@@ -2,7 +2,8 @@
 require 'config.php';
 session_start();
 if($_POST['username'] == "" || $_POST['password']==""){
-	return 'complete info';
+
+	
 }
 $username = addslashes($_POST['username']);
 $password = addslashes($_POST['password']);
@@ -13,12 +14,17 @@ if(mysqli_num_rows($res)>0){
 	if(password_verify($password,$info['password'])){
 		echo 'nice pass';
 		$_SESSION['user'] = $info;
+		header('location:admin/index.php');
 		exit;
 	}
-	echo 'wrong pass nigga';
+	$_SESSION['msg'] = array('isSucces'=>0,'msg'=>'User not found!');
+	$_SESSION['post_data'] = $_POST;
+	header('location:index.php');
 	exit;
 }
 
-echo 'wrong pass nigga';
+$_SESSION['msg'] = array('isSucces'=>0,'msg'=>'User not found!');
+$_SESSION['post_data'] = $_POST;
+header('location:index.php');
 exit;
 ?>

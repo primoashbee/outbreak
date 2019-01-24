@@ -23,11 +23,11 @@
     <!-- page container area start -->
 
     <div class="page-container">
-    <?php 
+<?php 
 
     include "../includes/sidebar.php";
 
-    ?>
+?>
 
         <!-- main content area start -->
         <div class="main-content">
@@ -52,7 +52,7 @@
                 <div class="row align-items-center">
                     <div class="col-sm-6">
                         <div class="breadcrumbs-area clearfix">
-                            <h4 class="page-title pull-left">Diseases</h4>
+                            <h4 class="page-title pull-left">Accounts</h4>
                         </div>
                     </div>
                     <div class="col-sm-6 clearfix">
@@ -73,35 +73,40 @@
                 <div class="col-lg-12 mt-5">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">List of Diseases</h4>
+                                <h4 class="header-title">List of Accounts</h4>
                                 <div class="single-table">
                                     <div class="table-responsive">
                                         <table class="table text-center">
 
                                             <thead class="text-uppercase bg-dark">
                                                 <tr class="text-white">
-                                                    <th scope="col">Name</th>
-                                                    <th scope="col">Description</th>
-                                                    <th scope="col">Action</th>
+                                                    <th scope="col">CASE #</th>
+                                                    <th scope="col">NAME</th>
+                                                    <th scope="col">GENDER</th>
+                                                    <th scope="col">BARANGAY</th>
+                                                    <th scope="col">TYPE</th>
+                                                    <th scope="col">DATE</th>
+                                                    <th scope="col">ACTION</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
 
 
                                             <?php 
-                                              $diseases = getDiseases();
+                                              $records = getPatientRecords();
 
-                                              foreach($diseases as $disease){
-                                               
-                                          
+                                              foreach($records as $record){
                                             ?>
                                                 <tr>
-                                                    <th scope="row"><?=$disease['name']?></th>
-                                                    <td><?=substr(ucfirst($disease['description']),0,45).".."  
-                                                    ?></td>
+                                                    <th scope="row"><?=$record['case_id']?></th>
+                                                    <td><?=ucfirst($record['full_name'])?></td>
+                                                    <td><?=ucfirst($record['gender'])?></td> 
+                                                    <td><?=ucfirst($record['barangay_name'])?></td> 
+                                                    <td><?=ucfirst($record['disease_name'])?></td> 
+                                                    <td><?=ucfirst($record['date_of_sickness'])?></td> 
                                                     <td>
-                                                        <button type=" button" id="<?=$disease['id']?>" class="updateDisease btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
-                                                        <button type="button" id="<?=$disease['id']?>" class="deleteDisease btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
+                                                        <button type=" button" id="<?=$record['id']?>" class="updateAccount btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
+                                                        <button type="button" id="<?=$record['id']?>" username="<?=$record['username']?>" class="deleteAccount btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
 
                                                     </td>
                                                 </tr>
@@ -121,11 +126,11 @@
         </div>
         <!-- main content area end -->
 
-    <?php 
+<?php 
 
     include "../includes/footer.php";
 
-    ?>
+?>
 
     </div>
     <!-- page container area end -->
@@ -140,15 +145,31 @@
             </div>
             <div class="modal-body">
                 <form action="#" method="POST">
+                    <input type="hidden" id="username_id">
                     <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" name="name" id="name" aria-describedby="name" placeholder="name" required="">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" name="username" id="username" aria-describedby="username" placeholder="Username" readonly="">
                     </div>
                     <div class="row">
-                        <div class="form-group col">
-                            <label for="description">Description</label>
-                            <textarea class="form-control" id="description" aria-describedby="description" placeholder="description" name="description" required=""></textarea>
-                        </div>
+                    <div class="form-group col">
+                        <label for="firstname">First Name</label>
+                        <input type="text" class="form-control" id="firstname" aria-describedby="firstname" placeholder="First Name" name="firstname" required="">
+                    </div>
+                    <div class="form-group col">
+                        <label for="lastname">Last Name</label>
+                        <input type="text" class="form-control" id="lastname" aria-describedby="lastname" placeholder="Last Name"name="lastname"  required="">
+                    </div>
+
+                    </div>
+                    <div class="row">
+                    <div class="form-group col">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" class="form-control" id="password" placeholder="Password"  required="">
+                    </div>
+                    <div class="form-group col">
+                        <label for="password_confirmation">Password Confirmation</label>
+                        <input type="password" class="form-control" id="password_confirmation" placeholder="Password Confirmation" name="password" required="">
+                    </div>
                     </div>
                 </form>
             </div>
@@ -168,7 +189,7 @@
             </div>
             <div class="modal-body">
                 <input type="hidden" id ="d_id">
-               <h3> Are you sure you want to delete this disease (<i><span id="diseaseNameDel"></span></i> )? </h3>
+               <h3> Are you sure you want to delete this Account <b><i><span id="usernameDel"></span></i></b>? </h3>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -177,86 +198,12 @@
         </div>
         </div>
     </div>
-
 </body>
 <?php
     include "../includes/scripts.php";
-    unset($_POST['msg']);
     unset($_SESSION['post_data']);
 ?>
 <script>
-    var id;
-    $('.deleteDisease').click(function(){
-        $('#d_id').val()
-        id = $(this).attr('id')
-        $.ajax({
-            url:'ajax.php',
-            data:{type:'get_disease',id:id},
-            dataType:'JSON',
-            type:'POST',
-            success: function(data){
-                $('#d_id').val(id)
-                $('#diseaseNameDel').html(data.info.name)
-            }
-        })
-        $('#alertModal').modal('show');
-    });    
-    $('.updateDisease').click(function(){
-        id = "";
-        id = $(this).attr('id')
-        $.ajax({
-            url:'ajax.php',
-            data:{type:'get_disease',id:id},
-            dataType:'JSON',
-            type:'POST',
-            success: function(data){
-                $('#diseaseName').html(data.info.name)
-                $('#name').val(data.info.name)
-                $('#description').val(data.info.description)
-                $('#updateModal').modal('show')
-            }
-        })
-    });
-
-    $('#btnUpdate').click(function(){
-        var name = $('#name').val()
-        var description = $('#description').val()
-
-        if(name == "" || description ==""){
-            alert('Please fill up all fields')
-            return;
-        }
-
-        $.ajax({
-            url:'ajax.php',
-            data: {type:'update_disease_via_id',id:id,name:name,description:description},
-            type:'POST',
-            dataType:'JSON',
-            success: function(data){
-                if(data.isSuccess){
-                    alert('Updated')
-                    location.reload()
-                }else{
-                    alert('Something went wrong');
-                }
-            }
-
-        })
-    })
-    $('#btnDelete').click(function(){
-        id = $("#d_id").val();
-        $.ajax({
-            url: 'ajax.php',
-            data: {id:id,type:'delete_disease_via_id'},
-            dataType: 'JSON',
-            type: 'POST',
-            success: function(data){
-                if(data.isSuccess){
-                    alert(data.message)
-                    location.reload()
-                }
-            }
-        })
-    });
+      
 </script>
 </html>
