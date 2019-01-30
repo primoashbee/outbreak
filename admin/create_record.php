@@ -53,7 +53,7 @@
                 <div class="row align-items-center">
                     <div class="col-sm-6">
                         <div class="breadcrumbs-area clearfix">
-                            <h4 class="page-title pull-left">Disease</h4>
+                            <h4 class="page-title pull-left">Records</h4>
                         </div>
                     </div>
                     <div class="col-sm-6 clearfix">
@@ -74,7 +74,7 @@
                 <div class="col-lg-12 mt-5">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">Add New Disease</h4>
+                                <h4 class="header-title">Add New Record</h4>
                                 <?php 
                                 if(isset($_SESSION['msg'])){
                                     if($_SESSION['msg']['isSuccess']){
@@ -119,6 +119,10 @@
                                     </div>
                                     <div class="row">
 
+                                        <div class="form-group col">
+                                            <label for="birthday">Birthday</label>
+                                            <input type="date" class ="form-control" name="birthday" value="<?=old('birthday')?>" required >
+                                        </div>
                                         <div class="form-group col">
                                             <label for="gender">Gender</label>
                                             <select name="gender" id="gender" class="form-control" required="">

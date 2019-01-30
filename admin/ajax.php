@@ -8,6 +8,17 @@ require "../config.php";
 if($_POST['type']=="get_disease"){
 	return getDiseaseByID($_POST['id']);
 }
+if($_POST['type']=="delete_record_via_id"){
+	return deleteRecordViaID($_POST['id']);
+}
+if($_POST['type']=="update_record_via_id"){
+	return updateRecordViaID($_POST['id'],$_POST);
+}
+if($_POST['type']=="get_record_via_id"){
+
+	echo getRecordViaID($_POST['id']);
+	return;
+}
 if($_POST['type']=="get_account_by_id"){
 	return getAccountByID($_POST['id']);
 }

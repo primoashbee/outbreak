@@ -1,5 +1,13 @@
 <?php 
-
+function getURL(){
+	return 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+}
+function urlHas($url,$string){
+	if(strpos($url,$string)){
+		return "active";
+	}
+	return '';
+}
 function getName(){
 	if(isset($_SESSION['user'])){
 		return $_SESSION['user']['firstname'].' '.$_SESSION['user']['lastname'];
@@ -11,19 +19,24 @@ function getBarangay(){
 	$sql ="SELECT * FROM barangays ORDER BY `NAME` ASC";
 	return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 }
-
+function getRecordViaID($id){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$sql ="SELECT * FROM records where id ='$id'";
+	
+	return json_encode(mysqli_fetch_assoc(mysqli_query($conn,$sql)));	
+}
 function hasError($params){
 	return 'Meron';
 }
-function getPatientRecords(){
+function getPatientRecords($isDeleted = false){
 $conn = mysqli_connect("localhost","root","","outbreak"); 
 $space = " ";
-$sql = "SELECT r.id,case_id, CONCAT(firstname,'$space',lastname) AS full_name, gender, b.`name` as barangay_name,d.`name` as disease_name,r.`date_of_sickness`
+$sql = "SELECT r.id,case_id, CONCAT(firstname,'$space',lastname) AS full_name, gender, b.`name` as barangay_name,d.`name` as disease_name,r.`date_of_sickness`, TIMESTAMPDIFF(YEAR, BIRTHDAY, CURDATE()) AS age
 FROM records r
 LEFT JOIN barangays b 
 ON r.barangay_id = b.id
 LEFT JOIN diseases d
-ON r.`disease_id` = d.`id` ORDER BY case_id DESC";
+ON r.`disease_id` = d.`id` where r.isDeleted = '$isDeleted' ORDER BY case_id DESC";
 
 	return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 
@@ -122,6 +135,40 @@ function checkIfUsernameExists($username){
 	return false;
 
 }
+
+
+function updateRecordViaID($id, $post_data){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$firstname = addslashes($post_data['firstname']);
+	$middlename = addslashes($post_data['middlename']);
+	$lastname = addslashes($post_data['lastname']);
+	$birthday = addslashes($post_data['birthday']);
+	$gender = addslashes($post_data['gender']);
+	$barangay_id = addslashes($post_data['barangay']);
+	$disease_id = addslashes($post_data['disease_id']);
+	$date_of_sickness = addslashes($post_data['date_of_sickness']);
+	$sql = "Update records set
+		firstname  = '$firstname',
+		middlename  = '$middlename',
+		lastname = '$lastname',
+		birthday = '$birthday',
+		gender = '$gender',
+		barangay_id = '$barangay_id',
+		disease_id = '$disease_id',
+		date_of_sickness = '$date_of_sickness'
+		where id ='$id'";
+
+	if(mysqli_query($conn,$sql)){
+		echo  json_encode(array('isSuccess'=>1,'message'=>'Record Succesfully Updated!'));
+		return;
+		
+	}
+		echo json_encode(array('isSuccess'=>0,'message'=>'Something went wrong'));
+		return;
+		
+
+}
+
 function checkIfDiseaseExists($name){
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 	$sql = "Select * from diseases where name = '$name'";
@@ -151,6 +198,17 @@ function deleteDiseaseByID($id){
 		$sql  = "Update diseases set isDeleted = true where id ='$id'";
 		if(mysqli_query($conn,$sql)){
 			echo  json_encode(array('isSuccess'=>1,'message'=>'Disease Succesfully Deleted!'));
+			return;
+			
+		}
+		echo json_encode(array('isSuccess'=>0,'message'=>'Something went wrong'));
+		return;
+}
+function deleteRecordViaID($id){
+		$conn = mysqli_connect("localhost","root","","outbreak"); 
+		$sql  = "Update records set isDeleted = true where id ='$id'";
+		if(mysqli_query($conn,$sql)){
+			echo  json_encode(array('isSuccess'=>1,'message'=>'Record Succesfully Deleted!'));
 			return;
 			
 		}

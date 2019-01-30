@@ -11,12 +11,12 @@
                 <div class="menu-inner">
                     <nav>
                         <ul class="metismenu" id="menu">
-                            <li class="active">
+                            <li class="<?=urlHas(getURL(),"index")?>">
                                 <a href="index.php" aria-expanded="true"><i class="ti-dashboard"></i><span>Dashboard</span></a>
                                 
                                    
                             </li>
-                            <li>
+                            <li class="<?=urlHas(getURL(),"account")?>">
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout-sidebar-left"></i><span>Accounts
                                     </span></a>
                                 <ul class="collapse">
@@ -24,21 +24,21 @@
                                     <li><a href="create_account.php">Create Account</a></li>
                                 </ul>
                             </li>
-                            <li>
+                            <li class="<?=urlHas(getURL(),"disease")?>">
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-pie-chart"></i><span>Diseases</span></a>
                                 <ul class="collapse">
                                     <li><a href="diseases.php">View Diseases</a></li>
                                     <li><a href="create_disease.php">Add New Disease</a></li>
                                 </ul>
                             </li>
-                            <li>
+                            <li class="<?=urlHas(getURL(),"record")?>">
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-palette"></i><span>Records</span></a>
                                 <ul class="collapse">
                                     <li><a href="records.php">View Records</a></li>
                                     <li><a href="create_record.php">Add New Record</a></li>
                                 </ul>
                             </li>
-                            <li>
+                            <li class="<?=urlHas(getURL(),"tip")?>">
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-slice"></i><span>Health Knowledge</span></a>
                                 <ul class="collapse">
                                     <li><a href="tips.php">View Tips</a></li>

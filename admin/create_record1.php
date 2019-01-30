@@ -25,11 +25,12 @@ $gender = addslashes($_POST['gender']);
 $barangay_id = $_POST['barangay'];
 $disease_id = $_POST['disease_id'];
 $date_of_sickness = addslashes($_POST['date_of_sickness']);
+$birthday = addslashes($_POST['birthday']);
 
 
 
 $sql ="
-SELECT * FROM records where firstname='$firstname' and middlename='$middlename' and lastname='$lastname' and gender = '$gender' and barangay_id ='$barangay_id' and date_of_sickness ='$date_of_sickness' and disease_id='$disease_id'";
+SELECT * FROM records where firstname='$firstname' and middlename='$middlename' and lastname='$lastname' and gender = '$gender' and birthday = '$birthday' and barangay_id ='$barangay_id' and date_of_sickness ='$date_of_sickness' and disease_id='$disease_id'";
 
 if(mysqli_num_rows(mysqli_query($conn,$sql))>0){
 	$_SESSION['msg'] = array('isSuccess'=>0,'message'=>'Record already exists in our system');
@@ -42,8 +43,8 @@ $user_id = $_SESSION['user']['id'];
 $case_id = generateCaseNumber();
 
 
-$sql = "INSERT INTO records (case_id,disease_id,firstname,middlename,lastname,gender,barangay_id,date_of_sickness,created_by) values
-('$case_id','$disease_id','$firstname','$middlename','$lastname','$gender','$barangay_id','$date_of_sickness','$user_id')";
+$sql = "INSERT INTO records (case_id,disease_id,firstname,middlename,lastname,gender,birthday,barangay_id,date_of_sickness,created_by) values
+('$case_id','$disease_id','$firstname','$middlename','$lastname','$gender','$birthday','$barangay_id','$date_of_sickness','$user_id')";
 
 
 
