@@ -60,7 +60,7 @@
                             <img class="avatar user-thumb" src="../assets/images/author/avatar.png" alt="avatar">
                             <h4 class="user-name dropdown-toggle" data-toggle="dropdown"><?=getName()?> <i class="fa fa-angle-down"></i></h4>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#changePass">Change Password</a>
+                                <a class="dropdown-item changePassword" href="#changePass">Change Password</a>
                                 <a class="dropdown-item" href="logout.php">Log Out</a>
                             </div>
                         </div>
@@ -100,19 +100,19 @@
 
 
                                 ?>
-                                <form action="create_account1.php" method="POST">
+                                <form action="create_account1.php" method="POST" id="frmCreateAccount">
                                     <div class="form-group">
                                         <label for="username">Username</label>
-                                        <input type="text" class="form-control" name="username" id="username" aria-describedby="username" placeholder="Username" required="">
+                                        <input type="text" class="form-control" name="username" id="username" aria-describedby="username" placeholder="Username" value ="<?=old('username')?>" required="">
                                     </div>
                                     <div class="row">
                                     <div class="form-group col">
                                         <label for="firstname">First Name</label>
-                                        <input type="text" class="form-control" id="firstname" aria-describedby="firstname" placeholder="First Name" name="firstname" required="">
+                                        <input type="text" class="form-control" id="firstname" aria-describedby="firstname" placeholder="First Name" name="firstname" value ="<?=old('firstname')?>" required="">
                                     </div>
                                     <div class="form-group col">
                                         <label for="lastname">Last Name</label>
-                                        <input type="text" class="form-control" id="lastname" aria-describedby="lastname" placeholder="Last Name"name="lastname"  required="">
+                                        <input type="text" class="form-control" id="lastname" aria-describedby="lastname" placeholder="Last Name"name="lastname"  value ="<?=old('lastname')?>" required="">
                                     </div>
 
                                     </div>
@@ -151,4 +151,26 @@
     unset($_SESSION['msg']);
     unset($_SESSION['post_data']);
 ?>
+
+<script>
+    
+/*    $('#frmCreateAccount').submit(function(e){
+        var p1 = $('#password').val()
+        var p2 = $('#password_confirmation').val()
+
+        if(ifHasPassword(p1,p2)){
+            if(passwordConfirmed(p1,p2)){
+              
+              
+            }
+            alert("Password must be confirmed")
+            e.prevenDefault()
+            return;
+        }
+        alert('Fill up both field')
+        e.prevenDefault()
+        return;
+    })
+*/
+</script>
 </html>

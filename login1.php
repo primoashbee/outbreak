@@ -19,12 +19,12 @@ if(mysqli_num_rows($res)>0){
 	}
 	$_SESSION['msg'] = array('isSucces'=>0,'msg'=>'User not found!');
 	$_SESSION['post_data'] = $_POST;
-	header('location:index.php');
+	header('location:login.php');
 	exit;
 }
 
 $_SESSION['msg'] = array('isSucces'=>0,'msg'=>'User not found!');
 $_SESSION['post_data'] = $_POST;
-header('location:index.php');
+header('location:login.php');
 exit;
 ?>

@@ -1,4 +1,5 @@
 <?php 
+/*
 require_once "vendor/autoload.php";
 
 
@@ -14,4 +15,20 @@ $message = $client->message()->send([
 
 
 
+require "config.php";
+$records = getDiseasesCountPerWeek(2019);
+
+foreach ($records as $key => $value) {
+	//echo $value.'<br>';
+}
+for ($x=0;$x<=52;$x++){
+	//echo 'v['.$x.']'.'<br>';
+}
+
+for($x=1;$x<=52;$x++){
+	echo "\"$x\",";
+}
+*/
+require "config.php";
+echo sendAlert(2,5,3);
 ?> 

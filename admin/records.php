@@ -60,7 +60,7 @@
                             <img class="avatar user-thumb" src="../assets/images/author/avatar.png" alt="avatar">
                             <h4 class="user-name dropdown-toggle" data-toggle="dropdown"><?=getName()?> <i class="fa fa-angle-down"></i></h4>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#changePass">Change Password</a>
+                                <a class="dropdown-item changePassword" href="#changePass">Change Password</a>
                                 <a class="dropdown-item" href="logout.php">Log Out</a>
                             </div>
                         </div>
@@ -74,16 +74,35 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title">Record List</h4>
-                                <div class="single-table">
-                                    <div class="table-responsive">
-                                        <table class="table text-center">
+                                <form action="records.php" method="GET" id="request">
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                  <label class="btn btn-secondary warning">
+                                    <input type="radio" name="request" id="option1" autocomplete="off" value="all" > All
+                                  </label>
+                                  <label class="btn btn-warning">
+                                    <input type="radio" name="request" id="option2" autocomplete="off" value="pending"> Pending
+                                  </label>
+                                  <label class="btn btn-success">
+                                    <input type="radio" name="request" id="option3" autocomplete="off" value="healthy"> Healthy
+                                  </label>
+                                  <label class="btn btn-danger">
+                                    <input type="radio" name="request" id="option4" autocomplete="off" value="deceased"> Deceased
+                                  </label>
+                                  </form>
+                                </div>
+
+                                <div class="single-table" style="margin-top: 25px">
+                                    <div class="table table-responsive">
+                                        <table class="table text-center" id="tblRecords">
 
                                             <thead class="text-uppercase bg-dark">
                                                 <tr class="text-white">
                                                     <th scope="col">CASE #</th>
+                                                    <th scope="col">STATUS</th>
                                                     <th scope="col">NAME</th>
                                                     <th scope="col">GENDER</th>
                                                     <th scope="col">AGE</th>
+                                                    <th scope="col">HOSPITAL</th>
                                                     <th scope="col">BARANGAY</th>
                                                     <th scope="col">TYPE</th>
                                                     <th scope="col">DATE</th>
@@ -94,21 +113,54 @@
 
 
                                             <?php 
-                                              $records = getPatientRecords(false);
+                                            $request = "all";
+                                            if(isset($_GET['request'])){
+                                                $request = $_GET['request'];                                                
+                                            }
+                                              $records = getPatientRecords(false,$request);
 
                                               foreach($records as $record){
                                             ?>
-                                                <tr>
+                                                <tr class="active">
                                                     <th scope="row"><?=$record['case_id']?></th>
+                                                    <th scope="row">
+                                                        
+                                                        <?php if($record['status']=="pending"){
+                                                        ?>
+                                                        <span class="status-p bg-warning">Pending</span>
+                                                        <?php }elseif($record['status']=="deceased"){
+                                                        ?>      
+                                                        <span class="status-p bg-danger">Deceased</span> 
+                                                        <?php }else{ ?>
+                                                        <span class="status-p bg-success">Healthy</span>
+                                                        <?php }?>
+                                                    </th>
+                                                    
                                                     <td><?=ucfirst($record['full_name'])?></td>
                                                     <td><?=ucfirst($record['gender'])?></td> 
                                                     <td><?=ucfirst($record['age'])?></td> 
+                                                    <td><?=ucfirst($record['hospital_name'])?></td> 
                                                     <td><?=ucfirst($record['barangay_name'])?></td> 
                                                     <td><?=ucfirst($record['disease_name'])?></td> 
                                                     <td><?=ucfirst($record['date_of_sickness'])?></td> 
+                                                    
                                                     <td>
                                                         <button type=" button" id="<?=$record['id']?>" case_id = "<?=$record['case_id']?>" class="updateRecord btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
-                                                        <button type="button" id="<?=$record['id']?>" case_id = "<?=$record['case_id']?>" username="<?=$record['username']?>" class="deleteRecord btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
+ 
+                                                        <?php if($record['status']=="pending"){
+                                                        ?>
+                                                        <button type="button" 
+                                                        id="<?=$record['id']?>" 
+                                                        case_id = "<?=$record['case_id']?>"  
+                                                        date_of_sickness = "<?=$record['date_of_sickness']?>"
+                                                        class ="onsetRecord btn btn-rounded btn-success mb-3"><i class="ti-check"></i></button>
+
+                                                        <?php } ?>
+
+
+                                                        
+
+                                                        <button type="button" id="<?=$record['id']?>" case_id = "<?=$record['case_id']?>"  class="deleteRecord btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
 
                                                     </td>
                                                 </tr>
@@ -223,7 +275,6 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Submit</button>
                 </form>
             </div>
             <div class="modal-footer">
@@ -251,12 +302,50 @@
         </div>
         </div>
     </div>
+    <div class="modal fade bd-example-modal-sm " id="onsetModal">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Release Information</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="date_of_sickness_onset">
+                    <input type="hidden" id="record_id">
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select name="status" id="status" class="form-control">
+                            <option value="">Please select</option>
+                            <option value="deceased">Deceased</option>
+                            <option value="healthy">Healthy</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="date_of_release">Date of Release</label>
+                        <input type="date" name="date_of_release" id="date_of_release" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="btnRelease" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <?php
     include "../includes/scripts.php";
     unset($_SESSION['post_data']);
 ?>
 <script>
+
+    $(function(){
+        $('#tblRecords').DataTable();
+
+    })
+    $('input[type=radio]').on('change',function(){
+        $("#request").submit();
+    });
     $('.updateRecord').click(function(){
         var id = $(this).attr('id')
         $("#update_case_id").html($(this).attr('case_id'));
@@ -283,6 +372,48 @@
         })
 
     });
+
+    $('.onsetRecord').click(function(){
+        $('#record_id').val($(this).attr('id'))
+        $('#date_of_sickness_onset').val($(this).attr('date_of_sickness'))
+        $('#onsetModal').modal('show');
+    })
+
+    $('#btnRelease').click(function(){
+        var id = $('#record_id').val()
+        var date_of_sickness = new Date($('#date_of_sickness_onset').val())
+        var date_of_release = new Date($("#date_of_release").val())
+        var status = $('#status').val()
+
+
+        if($("#date_of_sickness_onset").val() == "" || $("#date_of_release").val() =="" || status ==""){
+            alert('Fill up release form')
+            return;
+        }
+
+        if(date_of_release < date_of_sickness){
+            alert('Invalid. Release date should be on or after admission date ('+date_of_sickness.toLocaleDateString('en-US', {   
+                                        day: 'numeric',
+                                        month: 'long', 
+                                        year: 'numeric'
+                                    })+')')
+            return;
+        }
+
+        $.ajax({
+            url:'ajax.php',
+            dataType: 'JSON',
+            type: 'POST',
+            data: {type:'release_record_via_id',id:id,date_of_sickness:$('#date_of_sickness_onset').val(),date_of_release:$("#date_of_release").val(),status:status},
+            success: function(data){
+                    if(data.isSuccess){
+                        alert(data.message)
+                        location.reload()
+                    }
+            }
+        })
+
+    })
     $('.deleteRecord').click(function(){
         $('#d_id').val($(this).attr('id'))
         $('#case_id_delete').html($(this).attr('case_id'))

@@ -1,4 +1,9 @@
 <?php 
+
+require_once "vendor/autoload.php";
+
+
+
 function getURL(){
 	return 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 }
@@ -19,6 +24,16 @@ function getBarangay(){
 	$sql ="SELECT * FROM barangays ORDER BY `NAME` ASC";
 	return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 }
+function getTips($isDeleted){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$sql ="SELECT * FROM tips where isDeleted = '$isDeleted' ORDER BY created_at ASC";
+	return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
+}
+function getHospitals(){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$sql ="SELECT * FROM hospitals where isDeleted =false ORDER BY `NAME` ASC";
+	return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
+}
 function getRecordViaID($id){
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 	$sql ="SELECT * FROM records where id ='$id'";
@@ -28,16 +43,32 @@ function getRecordViaID($id){
 function hasError($params){
 	return 'Meron';
 }
-function getPatientRecords($isDeleted = false){
-$conn = mysqli_connect("localhost","root","","outbreak"); 
-$space = " ";
-$sql = "SELECT r.id,case_id, CONCAT(firstname,'$space',lastname) AS full_name, gender, b.`name` as barangay_name,d.`name` as disease_name,r.`date_of_sickness`, TIMESTAMPDIFF(YEAR, BIRTHDAY, CURDATE()) AS age
-FROM records r
-LEFT JOIN barangays b 
-ON r.barangay_id = b.id
-LEFT JOIN diseases d
-ON r.`disease_id` = d.`id` where r.isDeleted = '$isDeleted' ORDER BY case_id DESC";
-
+function getPatientRecords($isDeleted = false,$status = "pending"){
+if($status=="all"){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$space = " ";
+	$sql = "SELECT r.id,case_id, CONCAT(firstname,'$space',lastname) AS full_name, gender, b.`name` as barangay_name,d.`name` as disease_name,r.`date_of_sickness`, TIMESTAMPDIFF(YEAR, BIRTHDAY, CURDATE()) AS age, WEEK(date_of_sickness) as MW, h.id as h_id, h.name as hospital_name, r.status as `status`
+	FROM records r
+	LEFT JOIN barangays b 
+	ON r.barangay_id = b.id
+	LEFT JOIN diseases d
+	ON r.`disease_id` = d.`id` 
+	LEFT JOIN hospitals h
+	ON r.hospital_id = h.id
+	where r.isDeleted = '$isDeleted' ORDER BY case_id DESC";
+}else{
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$space = " ";
+	$sql = "SELECT r.id,case_id, CONCAT(firstname,'$space',lastname) AS full_name, gender, b.`name` as barangay_name,d.`name` as disease_name,r.`date_of_sickness`, TIMESTAMPDIFF(YEAR, BIRTHDAY, CURDATE()) AS age, WEEK(date_of_sickness) as MW, h.id as h_id, h.name as hospital_name, r.status as `status`
+	FROM records r
+	LEFT JOIN barangays b 
+	ON r.barangay_id = b.id
+	LEFT JOIN diseases d
+	ON r.`disease_id` = d.`id` 
+	LEFT JOIN hospitals h
+	ON r.hospital_id = h.id
+	where r.isDeleted = '$isDeleted'  and r.status = '$status' ORDER BY case_id DESC";
+}
 	return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 
 
@@ -104,6 +135,19 @@ function getAccountByID($id){
 	return $res;
 }
 
+function getNameByID($id){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+
+	$sql = "Select * from users where id = '$id'";	
+	if($res = mysqli_query($conn,$sql)){
+		$data =mysqli_fetch_assoc($res);
+		$res  = $data['firstname']. " ".$data['lastname']; 
+	}else{
+		$res = "";
+	}
+	return $res;
+}
+
 function getDiseases(){
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 
@@ -123,10 +167,45 @@ function getDiseaseByID($id){
 	}
 	return $res;
 }
+function getHospitalByID($id){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+
+	$sql = "Select * from hospitals where id = '$id'";
+	if($res = mysqli_query($conn,$sql)){
+		$data =mysqli_fetch_assoc($res);
+		echo json_encode(array('msg'=>200,'info'=>$data));
+	}else{
+		echo json_encode(array('msg'=>404));	
+	}
+	return $res;
+}
 
 function checkIfUsernameExists($username){
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 	$sql = "Select * from users where username = '$username'";
+	
+	$res = mysqli_query($conn,$sql);
+	if (mysqli_num_rows($res) > 0 ){
+		return true;
+	}
+	return false;
+
+}
+function checkIfTitleExists($title){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$sql = "Select * from tips where title = '$title'";
+	
+	$res = mysqli_query($conn,$sql);
+	if (mysqli_num_rows($res) > 0 ){
+		return true;
+	}
+	return false;
+
+}
+
+function checkIfHospitalExists($name){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$sql = "Select * from hospitals where name = '$name'";
 	
 	$res = mysqli_query($conn,$sql);
 	if (mysqli_num_rows($res) > 0 ){
@@ -169,6 +248,24 @@ function updateRecordViaID($id, $post_data){
 
 }
 
+function updateRecordStatusViaID($post_data){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$date_of_release = $post_data['date_of_release'];
+	$status = $post_data['status'];
+	$id = $post_data['id'];
+	$sql = "Update records set date_of_release = '$date_of_release', `status` = '$status' where id ='$id'";
+
+	if(mysqli_query($conn,$sql)){
+		echo  json_encode(array('isSuccess'=>1,'message'=>'Record Succesfully Updated!'));
+		return;
+		
+	}
+		echo json_encode(array('isSuccess'=>0,'message'=>'Something went wrong'));
+		return;
+		
+
+}
+
 function checkIfDiseaseExists($name){
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 	$sql = "Select * from diseases where name = '$name'";
@@ -193,11 +290,34 @@ function updateDiseaseByID($id,$name,$description){
 		return;
 		
 }
+function updateHospitalByID($id,$name,$address){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$sql = "Update hospitals set name = '$name', address ='$address' where id ='$id'";
+	if(mysqli_query($conn,$sql)){
+		echo  json_encode(array('isSuccess'=>1,'message'=>'Disease Succesfully Updated!'));
+		return;
+		
+	}
+		echo json_encode(array('isSuccess'=>0,'message'=>'Something went wrong'));
+		return;
+		
+}
 function deleteDiseaseByID($id){
 		$conn = mysqli_connect("localhost","root","","outbreak"); 
 		$sql  = "Update diseases set isDeleted = true where id ='$id'";
 		if(mysqli_query($conn,$sql)){
 			echo  json_encode(array('isSuccess'=>1,'message'=>'Disease Succesfully Deleted!'));
+			return;
+			
+		}
+		echo json_encode(array('isSuccess'=>0,'message'=>'Something went wrong'));
+		return;
+}
+function deleteHospitalByID($id){
+		$conn = mysqli_connect("localhost","root","","outbreak"); 
+		$sql  = "Update hospitals set isDeleted = true where id ='$id'";
+		if(mysqli_query($conn,$sql)){
+			echo  json_encode(array('isSuccess'=>1,'message'=>'Hospital Succesfully Deleted!'));
 			return;
 			
 		}
@@ -214,5 +334,225 @@ function deleteRecordViaID($id){
 		}
 		echo json_encode(array('isSuccess'=>0,'message'=>'Something went wrong'));
 		return;
+}
+function deleteTipViaID($id){
+
+		$conn = mysqli_connect("localhost","root","","outbreak"); 
+		$sql  = "Update tips set isDeleted = true where id ='$id'";
+		if(mysqli_query($conn,$sql)){
+			echo  json_encode(array('isSuccess'=>1,'message'=>'Tip Succesfully Deleted!'));
+			return;
+		}
+		echo json_encode(array('isSuccess'=>0,'message'=>'Something went wrong'));
+		return;
+}
+
+function getDiseasesCountPerYear($year){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$sql ="SELECT 
+    d.name,
+    SUM(IF(MONTH(date_of_sickness)=1, 1, 0)) AS 'January',
+    SUM(IF(MONTH(date_of_sickness)=2, 1, 0)) AS 'February',
+    SUM(IF(MONTH(date_of_sickness)=3, 1, 0)) AS 'March',
+    SUM(IF(MONTH(date_of_sickness)=4, 1, 0)) AS 'April',
+    SUM(IF(MONTH(date_of_sickness)=5, 1, 0)) AS 'May',
+    SUM(IF(MONTH(date_of_sickness)=6, 1, 0)) AS 'June',
+    SUM(IF(MONTH(date_of_sickness)=7, 1, 0)) AS 'July',
+    SUM(IF(MONTH(date_of_sickness)=8, 1, 0)) AS 'August',
+    SUM(IF(MONTH(date_of_sickness)=9, 1, 0)) AS 'September',
+    SUM(IF(MONTH(date_of_sickness)=10, 1, 0)) AS 'October',
+    SUM(IF(MONTH(date_of_sickness)=11, 1, 0)) AS 'November',
+    SUM(IF(MONTH(date_of_sickness)=12, 1, 0)) AS 'December',
+    COUNT(r.`disease_id`) AS total
+FROM records r
+
+LEFT JOIN diseases d 
+ON r.`disease_id` = d.`id`
+WHERE YEAR(date_of_sickness) = '$year'
+GROUP BY disease_id";
+	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
+	return $res;
+
+}
+
+function getDiseasesCountPerWeek($year){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$sql ="SELECT 
+    d.name,SUM(IF(WEEK(date_of_sickness)=1, 1, 0)) AS '1', 
+	SUM(IF(WEEK(date_of_sickness)=2, 1, 0)) AS '2', 
+	SUM(IF(WEEK(date_of_sickness)=3, 1, 0)) AS '3', 
+	SUM(IF(WEEK(date_of_sickness)=4, 1, 0)) AS '4', 
+	SUM(IF(WEEK(date_of_sickness)=5, 1, 0)) AS '5', 
+	SUM(IF(WEEK(date_of_sickness)=6, 1, 0)) AS '6', 
+	SUM(IF(WEEK(date_of_sickness)=7, 1, 0)) AS '7', 
+	SUM(IF(WEEK(date_of_sickness)=8, 1, 0)) AS '8', 
+	SUM(IF(WEEK(date_of_sickness)=9, 1, 0)) AS '9', 
+	SUM(IF(WEEK(date_of_sickness)=10, 1, 0)) AS '10', 
+	SUM(IF(WEEK(date_of_sickness)=11, 1, 0)) AS '11', 
+	SUM(IF(WEEK(date_of_sickness)=12, 1, 0)) AS '12', 
+	SUM(IF(WEEK(date_of_sickness)=13, 1, 0)) AS '13', 
+	SUM(IF(WEEK(date_of_sickness)=14, 1, 0)) AS '14', 
+	SUM(IF(WEEK(date_of_sickness)=15, 1, 0)) AS '15', 
+	SUM(IF(WEEK(date_of_sickness)=16, 1, 0)) AS '16', 
+	SUM(IF(WEEK(date_of_sickness)=17, 1, 0)) AS '17', 
+	SUM(IF(WEEK(date_of_sickness)=18, 1, 0)) AS '18', 
+	SUM(IF(WEEK(date_of_sickness)=19, 1, 0)) AS '19', 
+	SUM(IF(WEEK(date_of_sickness)=20, 1, 0)) AS '20', 
+	SUM(IF(WEEK(date_of_sickness)=21, 1, 0)) AS '21', 
+	SUM(IF(WEEK(date_of_sickness)=22, 1, 0)) AS '22', 
+	SUM(IF(WEEK(date_of_sickness)=23, 1, 0)) AS '23', 
+	SUM(IF(WEEK(date_of_sickness)=24, 1, 0)) AS '24', 
+	SUM(IF(WEEK(date_of_sickness)=25, 1, 0)) AS '25', 
+	SUM(IF(WEEK(date_of_sickness)=26, 1, 0)) AS '26', 
+	SUM(IF(WEEK(date_of_sickness)=27, 1, 0)) AS '27', 
+	SUM(IF(WEEK(date_of_sickness)=28, 1, 0)) AS '28', 
+	SUM(IF(WEEK(date_of_sickness)=29, 1, 0)) AS '29', 
+	SUM(IF(WEEK(date_of_sickness)=30, 1, 0)) AS '30', 
+	SUM(IF(WEEK(date_of_sickness)=31, 1, 0)) AS '31', 
+	SUM(IF(WEEK(date_of_sickness)=32, 1, 0)) AS '32', 
+	SUM(IF(WEEK(date_of_sickness)=33, 1, 0)) AS '33', 
+	SUM(IF(WEEK(date_of_sickness)=34, 1, 0)) AS '34', 
+	SUM(IF(WEEK(date_of_sickness)=35, 1, 0)) AS '35', 
+	SUM(IF(WEEK(date_of_sickness)=36, 1, 0)) AS '36', 
+	SUM(IF(WEEK(date_of_sickness)=37, 1, 0)) AS '37', 
+	SUM(IF(WEEK(date_of_sickness)=38, 1, 0)) AS '38', 
+	SUM(IF(WEEK(date_of_sickness)=39, 1, 0)) AS '39', 
+	SUM(IF(WEEK(date_of_sickness)=40, 1, 0)) AS '40', 
+	SUM(IF(WEEK(date_of_sickness)=41, 1, 0)) AS '41', 
+	SUM(IF(WEEK(date_of_sickness)=42, 1, 0)) AS '42', 
+	SUM(IF(WEEK(date_of_sickness)=43, 1, 0)) AS '43', 
+	SUM(IF(WEEK(date_of_sickness)=44, 1, 0)) AS '44', 
+	SUM(IF(WEEK(date_of_sickness)=45, 1, 0)) AS '45', 
+	SUM(IF(WEEK(date_of_sickness)=46, 1, 0)) AS '46', 
+	SUM(IF(WEEK(date_of_sickness)=47, 1, 0)) AS '47', 
+	SUM(IF(WEEK(date_of_sickness)=48, 1, 0)) AS '48', 
+	SUM(IF(WEEK(date_of_sickness)=49, 1, 0)) AS '49', 
+	SUM(IF(WEEK(date_of_sickness)=50, 1, 0)) AS '50', 
+	SUM(IF(WEEK(date_of_sickness)=51, 1, 0)) AS '51', 
+	SUM(IF(WEEK(date_of_sickness)=52, 1, 0)) AS '52', 
+	    COUNT(r.`disease_id`) AS total
+	FROM records r
+
+	LEFT JOIN diseases d 
+	ON r.`disease_id` = d.`id`
+	WHERE YEAR(date_of_sickness) = '$year'
+	GROUP BY disease_id";
+	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
+	return $res;
+
+}
+
+function getDiseasesCountPer7Day($disease_id,$year){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$sql ="SELECT 
+		  d.name,
+		  SUM(
+		    IF((DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) < 8 AND (DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) >6,1,0)
+		  ) AS '1',
+		   SUM(
+		    IF((DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) < 7 AND (DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) >5,1,0)
+		  ) AS '2',
+		   SUM(
+		    IF((DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) < 6 AND (DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) >4,1,0)
+		  ) AS '3',
+		   SUM(
+		    IF((DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) < 5 AND (DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) >3,1,0)
+		  ) AS '4',
+		   SUM(
+		    IF((DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) < 4 AND (DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) >2,1,0)
+		  ) AS '5',
+		   SUM(
+		    IF((DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) < 3 AND (DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) >1,1,0)
+		  ) AS '6',
+		  SUM(
+		    IF((DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) < 2 AND (DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) >0,1,0)
+		  ) AS '7',
+		    COUNT(r.`disease_id`) AS total
+			FROM
+			  records r 
+			  LEFT JOIN diseases d 
+			    ON r.`disease_id` = d.`id` 
+			WHERE date_of_sickness BETWEEN DATE_SUB(CURDATE(), INTERVAL 7 DAY) 
+			  AND CURDATE() 
+			  AND YEAR(date_of_sickness) = '$year' 
+			GROUP BY r.`disease_id` ";
+	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
+	return $res;
+
+}
+
+function isZero($value){
+	if($value=="" || $value == 0){
+		return 0;
+	}
+	return $value;
+}
+
+function mapColor($barangay_id,$year){
+	//$x = ['green','orange','red'];
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+
+	$sql ="SELECT COUNT(disease_id) AS total FROM records WHERE barangay_id = '$barangay_id' AND YEAR(date_of_sickness) = '$year'";
+	//echo $sql;
+	$res = mysqli_fetch_assoc(mysqli_query($conn,$sql));
+
+	$count = $res['total'];
+	//return $count;
+	if($count  < 3){
+		return 'green';
+	}elseif($count < 5){
+		return 'orange';
+	}else{
+	return 'red';
+	}
+}
+
+
+function getDiseaseCount($disease_id,$year){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+
+	$sql ="SELECT COUNT(disease_id) AS total FROM records WHERE disease_id = '$disease_id' AND YEAR(date_of_sickness) = '$year'";
+	//echo $sql;
+	$res = mysqli_fetch_assoc(mysqli_query($conn,$sql));
+
+	$count = $res['total'];
+}
+
+function sendAlert($disease_id,$count,$barangay_id){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+
+	$sql ="SELECT `name` FROM diseases WHERE id = '$disease_id'";
+	//echo $sql;
+	$res = mysqli_fetch_assoc(mysqli_query($conn,$sql));
+
+	$name = $res['name'];
+
+	$sql ="SELECT `name` FROM barangays WHERE id = '$barangay_id'";
+	//echo $sql;
+	$res2 = mysqli_fetch_assoc(mysqli_query($conn,$sql));
+
+	$brgy_name = $res2['name'];
+
+	$text =  $name." ALERT!!!!".date("Y-m-d H:i:s A")."
+			THIS IS TO INFORM YOU THAT BARANGAY ".$brgy_name." IS ON YELLOW WARNING...
+			HERE ARE SOME TIPS TO PREVENT DENGUE:
+			1.USE/WEAR INSECT REPELLENTS
+			2.DRAIN AND DUMP STANDING WATERS FOUND IN CONTAINERS INSIDE AND AROUND THE HOUSE
+			3.INSTALL OR FIX SCREENS ON WINDOWS AND DOORS
+			4.SPRAY ADULTICIDE AROUND BARANGAY
+			FOR MORE HEALTH TIPS, VISIT(PUBLIC WEBSITE).
+			PLEASE BE AWARE AND KEEPSAFE!";
+
+	$basic  = new \Nexmo\Client\Credentials\Basic('032c2fc0', 'B72Vlft6Yyff2FB5');
+	$client = new \Nexmo\Client($basic);
+	$message = $client->message()->send([
+	    'to' => '639335277757',
+	    'from' => 'ASHBEE MORGADO',
+	    'text' => "DENGUE ALERT!!!! (FEB. 13, 2019 14:00PM)"
+
+	]);
+
+
+
 }
 ?>

@@ -8,8 +8,18 @@ require "../config.php";
 if($_POST['type']=="get_disease"){
 	return getDiseaseByID($_POST['id']);
 }
+if($_POST['type']=="release_record_via_id"){
+	updateRecordStatusViaID($_POST);
+	return;
+}
+if($_POST['type']=="get_hospital"){
+	return getHospitalByID($_POST['id']);
+}
 if($_POST['type']=="delete_record_via_id"){
 	return deleteRecordViaID($_POST['id']);
+}
+if($_POST['type']=="delete_tip_via_id"){
+	return deleteTipViaID($_POST['id']);
 }
 if($_POST['type']=="update_record_via_id"){
 	return updateRecordViaID($_POST['id'],$_POST);
@@ -27,9 +37,18 @@ if($_POST['type']=="update_disease_via_id"){
 	$description = addslashes($_POST['description']);
 	return updateDiseaseByID($_POST['id'],$name,$description);
 }
+if($_POST['type']=="update_hospital_via_id"){
+	$name = addslashes($_POST['name']);
+	$address = addslashes($_POST['address']);
+	return updateHospitalByID($_POST['id'],$name,$address);
+}
 if($_POST['type']=="delete_disease_via_id"){
 	$id = $_POST['id'];
 	return deleteDiseaseByID($id);
+}
+if($_POST['type']=="delete_hospital_via_id"){
+	$id = $_POST['id'];
+	return deleteHospitalByID($id);
 }
 if($_POST['type']=="update_user_via_id"){
 	$id = $_POST['id'];
@@ -55,6 +74,19 @@ if($_POST['type']=="update_user_via_id"){
 		}
 	}
 	return;
+}
+if($_POST['type']=="change_password_via_id"){
+	$id = $_POST['id'];
+	$password  = addslashes($_POST['password']);
+	$password = password_hash($password,PASSWORD_DEFAULT);
+	$sql ="Update users set password='$password' where id = '$id'";
+	if(mysqli_query($conn,$sql)){
+		echo  json_encode(array('isSuccess'=>1,'message'=>'Account Succesffuly Updated!'));
+		return;
+	}
+	echo json_encode(array('isSuccess'=>0,'message'=>'Something went wrong'));
+	return;
+
 }
 
 if($_POST['type']=="delete_user_via_id"){

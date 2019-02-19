@@ -32,7 +32,7 @@ function initMap() {
           center:  {lat: 14.665159,lng:120.493361},
           //mapTypeId: 'terrain'
         });
-
+        /*
         google.maps.event.addListener(map, 'click', function (event) {
               displayCoordinates(event.latLng);               
           });
@@ -46,6 +46,7 @@ function initMap() {
           alert("Latitude: " + lat + "  Longitude: " + lng);
       } 
          
+         */
 
 
         // Define the LatLng coordinates for the polygon's path.
@@ -518,39 +519,39 @@ function initMap() {
         // Balanga.
         var balangaMap = new google.maps.Polygon({
           paths: balangaCoords,
-          strokeColor: 'green',
+          strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
           fillColor: 'green',
-          fillOpacity: 0.35,
+          fillOpacity: 0.6,
           text: 'Sample'
         });       
         // Cabog.
         var cabogMap = new google.maps.Polygon({
           paths: cabogCoords,
-          strokeColor: 'red',
+          strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'red',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });
         // Tanao.
         var tanatoMap = new google.maps.Polygon({
           paths: tanatoCoords,
-          strokeColor: 'blue',
+          strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'blue',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });
         var dangcolMap = new google.maps.Polygon({
           paths: dangcolCoord,
-          strokeColor: 'orange',
+          strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'orange',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });        
@@ -559,80 +560,80 @@ function initMap() {
           strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'yellow',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });       
         var tuyoMap = new google.maps.Polygon({
           paths: tuyoCoord,
-          strokeColor: 'pink',
+          strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'pink',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });       
         var muntingBatangas = new google.maps.Polygon({
           paths: muntingBatangasCoords,
-          strokeColor: 'red',
+          strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'red',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         }); 
         var bagongSilang = new google.maps.Polygon({
           paths: bagongSilangCoords,
-          strokeColor: 'brown',
+          strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'brown',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });
 
         var cataning = new google.maps.Polygon({
           paths: cataningCoords,
-          strokeColor: 'violet',
+          strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'violet',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });
         var cupangProper = new google.maps.Polygon({
           paths: cupangProperCoords,
-          strokeColor: 'orange',
+          strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'orange',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });
         var cupangWest = new google.maps.Polygon({
           paths: cupangWestCoords,
-          strokeColor: 'red',
+          strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'red',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });
         var cupangNorth = new google.maps.Polygon({
           paths: cupangNorthCoords,
-          strokeColor: 'blue',
+          strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'blue',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });
         var camacho = new google.maps.Polygon({
           paths: camachoCoords,
-          strokeColor: 'blue',
+          strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'blue',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });
@@ -641,73 +642,73 @@ function initMap() {
           strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'yellow',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });
 
         var ibayo = new google.maps.Polygon({
           paths: ibayoCoords,
-          strokeColor: 'black',
+          strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'black',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });
 
         var malabia = new google.maps.Polygon({
           paths: malabiaCoords,
-          strokeColor: 'white',
+          strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'white',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });
         var sanjose = new google.maps.Polygon({
           paths: sanjoseCoords,
-          strokeColor: 'brown',
+          strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'brown',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });
 
         var poblacion = new google.maps.Polygon({
           paths: poblacionCoords,
-          strokeColor: 'blue',
+          strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'blue',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });
         var bagumbayan = new google.maps.Polygon({
           paths: bagumbayanCoords,
-          strokeColor: 'white',
+          strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'white',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });
         var talisay = new google.maps.Polygon({
           paths: talisayCoords,
-          strokeColor: 'black',
+          strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'black',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });
         var dona = new google.maps.Polygon({
           paths: donaCoords,
-          strokeColor: 'red',
+          strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'red',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });
@@ -717,36 +718,36 @@ function initMap() {
           strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'yellow',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });
 
         var tortugas = new google.maps.Polygon({
           paths: tortugasCoords,
-          strokeColor: 'black',
+          strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'black',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });
         var puertoRivasIbaba = new google.maps.Polygon({
           paths: pueroRivasIbabaCoords,
-          strokeColor: 'white',
+          strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'white',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });
 
         var puertoRivasItaas = new google.maps.Polygon({
           paths: puertoRivasItaasCoords,
-          strokeColor: 'red',
+          strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'red',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });
@@ -757,15 +758,46 @@ function initMap() {
           strokeColor: 'yellow',
           strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: 'yellow',
+          fillColor: 'green',
           fillOpacity: 0.35,
           text: 'Sample'
         });
 
 
         balangaMap.setMap(map);
+        balangaMap.setOptions({
+          //zIndex: 99999
+        });
+        google.maps.event.addListener(balangaMap, "click", function (event) {
+            var latitude = event.latLng.lat();
+            var longitude = event.latLng.lng();
+            console.log( '{lat:'+ latitude + ', lng: ' + longitude +'}' );
+        });
+
+
+
+
         
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
         cabogMap.setMap(map);
         tanatoMap.setMap(map);
         dangcolMap.setMap(map);
@@ -793,8 +825,7 @@ function initMap() {
         sibacan.setMap(map);
 
 
-
-        attachPolygonInfoWindow(balangaMap)
+       /* attachPolygonInfoWindow(balangaMap)
 
         function attachPolygonInfoWindow(polygon) {
             var infoWindow = new google.maps.InfoWindow();
@@ -805,6 +836,106 @@ function initMap() {
                 infoWindow.open(map);
             });
         }
+*/  
+        var total_marker = 0;
+
+        var cabog = {lat: 14.626774, lng:120.469129}
+        addMarker(cabog,map,'Cabog-Cabog');
+
+        var tanato = {lat: 14.650364, lng: 120.456317}
+        addMarker(tanato,map,'Tanato');
+      
+        var dangcol = {lat:14.644233310012991, lng: 120.4822030104981}
+        addMarker(dangcol,map,'Dangcol');
+        
+        var tuyo = {lat:14.68279672986537, lng: 120.48215180230352}
+        addMarker(tuyo,map,'Tuyo');        
+
+        var batangas = {lat:14.672766885422238, lng: 120.49024571555287}
+        addMarker(batangas,map,'Munting Batangas');
+        
+        var bagong_silang = {lat:14.661007236331859, lng: 120.49679422753911}
+        addMarker(bagong_silang,map,'Bagong Silang');     
+           
+        var cataning = {lat:14.661210005459923, lng: 120.52228594201665}
+        addMarker(cataning,map,'Cataning');
+
+                   
+        var central = {lat:14.64456547942856, lng: 120.5129303969727}
+        addMarker(central,map,'Cupang Central');
+         
+        var proper = {lat:14.662852140708944, lng: 120.5404518320072}
+        addMarker(proper,map,'Cupang Proper');
+
+        var west = {lat:14.667276369157742, lng: 120.53447389978032}
+        addMarker(west,map,'Cupang West');
+
+        var north = {lat:14.671344981814649, lng: 120.53842211145025}
+        addMarker(north,map,'Cupang North');    
+
+        var tenejero = {lat:14.674104598737305, lng: 120.52418998998291}
+        addMarker(tenejero,map,'Tenejero');
+
+        var camacho = {lat:14.681494241157603, lng: 120.52101425450928}
+        addMarker(camacho,map,'Camacho');
+
+        var sanjose = {lat:14.674652318389986, lng: 120.5357428697721}
+        addMarker(sanjose,map,'San Jose');
+
+        var poblacion_ = {lat:14.678065150246209, lng: 120.53938573679216}
+        addMarker(poblacion_,map,'Poblacion');
+        
+        var malabia = {lat:14.680505917440097, lng: 120.53554975072302}
+        addMarker(malabia,map,'Malabia');    
+
+        var talisay = {lat:14.681626922813864, lng: 120.54530459609941}
+        addMarker(talisay,map,'Talisay');
+        
+        var ibayo = {lat:14.683260097963343, lng: 120.53414239242147}
+        addMarker(ibayo,map,'Ibayo');
+
+        var dona = {lat:14.683343125564651, lng: 120.54173840835165}
+        addMarker(dona,map,'Doña Francisca');
+
+        var lote ={lat:14.687264534032025, lng: 120.5495346558746}
+        addMarker(lote,map,'Puerto Rivas Lote');
+
+   
+        var itaas ={lat:14.692344318515385, lng: 120.55267571432296}
+        addMarker(itaas,map,'Puerto Rivas Itaas');  
+        
+        var ibaba = {lat:14.698949532280018, lng: 120.55775346872974}
+        addMarker(ibaba,map,'Puerto Rivas Ibaba');  
+        
+        var tortugas = {lat:14.69436591104696, lng: 120.56167783860428}
+        addMarker(tortugas,map,'Tortugas');
+
+      
+        var sibacan = {lat:14.695667859094668, lng: 120.54263938704457}
+        addMarker(sibacan,map,'Sibacan');
+      
+        var bagumbayan = {lat:14.679477535774799, lng: 120.54370867468617}
+        addMarker(bagumbayan,map,'Bagumbayan');
+
+
+
+        function addMarker(location, map, text) {
+        // Add the marker at the clicked location, and add the next-available label
+        // from the array of alphabetical characters.
+        var marker = new google.maps.Marker({
+          position: location,
+          label: {
+            text: text,
+            color: 'black',
+            fontSize: '12px',
+            fontWeight: '50px',
+          },
+          map: map
+        });
+        total_marker++
+
+      }
+      console.log(total_marker);
 }
 
 

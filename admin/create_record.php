@@ -61,7 +61,7 @@
                             <img class="avatar user-thumb" src="../assets/images/author/avatar.png" alt="avatar">
                             <h4 class="user-name dropdown-toggle" data-toggle="dropdown"><?=getName()?> <i class="fa fa-angle-down"></i></h4>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#changePass">Change Password</a>
+                                <a class="dropdown-item changePassword" href="#changePass">Change Password</a>
                                 <a class="dropdown-item" href="logout.php">Log Out</a>
                             </div>
                         </div>
@@ -152,7 +152,26 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="form-group col">
+                                        <div class="form-group col-6">
+                                            <label for="hospital_id">Hospital</label>
+                                            <select name="hospital_id" id="hospital_id" class="form-control"  required="">
+                                                <option value="">Please Select</option>
+                                                <?php 
+
+                                                    $hospital = getHospitals();
+
+                                                    foreach ($hospital as $k => $v) {
+                                                        
+                                                        ?>
+
+                                                <option value="<?=$v['id']?>"><?=$v['name']?></option>
+                                                        <?php
+                                                    }
+
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-3">
                                             <label for="disease_id">Disease</label>
                                             <select name="disease_id" id="disease_id" class="form-control"  required="">
                                                 <option value="">Please Select</option>
@@ -171,7 +190,7 @@
                                                 ?>
                                             </select>
                                         </div>
-                                        <div class="form-group col">
+                                        <div class="form-group col-3">
                                             <label for="date_of_sickness">Date</label>
                                             <input type="date" class="form-control" id="date_of_sickness" aria-describedby="date_of_sickness" placeholder="date_of_sickness" name="date_of_sickness" required=""  value="<?=old('date_of_sickness')?>">
                                         </div>
@@ -199,7 +218,18 @@
 </body>
 <?php
     include "../includes/scripts.php";
-    unset($_SESSION['msg']);
-    unset($_SESSION['post_data']);
+   
 ?>
+
+<script>
+    $("#barangay").val("<?=old('barangay')?>")
+    $("#hospital_id").val("<?=old('hospital_id')?>")
+    $("#disease_id").val("<?=old('disease_id')?>")
+    $("#gender").val("<?=old('gender')?>")
+
+    <?php 
+        unset($_SESSION['msg']);
+        unset($_SESSION['post_data']);
+    ?>
+</script>
 </html>

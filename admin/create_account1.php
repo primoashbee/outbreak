@@ -23,7 +23,9 @@ $password_confirmation = addslashes($_POST['password_confirmation']);
 
 if($password != $password_confirmation){
 	$_SESSION['msg'] = array('isSuccess'=>0,'message'=>'Password must Match');
+	$_SESSION['post_data'] = $_POST;
 	header('location:create_account.php');
+	return;
 }
 if(!checkIfUsernameExists($username)){
 	$password = password_hash($password,PASSWORD_DEFAULT);

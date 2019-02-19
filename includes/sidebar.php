@@ -3,12 +3,17 @@
         <!-- sidebar menu area start -->
         <div class="sidebar-menu">
             <div class="sidebar-header">
-                <div class="logo">
-                   <h3 style="color:white"><?=$app_title ?></h3>
+                <div class="row">
+                    <div class="col-6">
+                            <img src= "\assets\PUBLIC WEBSITE\images\logo.png"/ style="margin-left: -25px">
+                    </div>
+                    <div class="col-6" style="margin-left: -55px;margin-top: 10px">   
+                            <h3 style="color:white"><?=$app_title ?></h3> 
+                    </div>      
                 </div>
             </div>
             <div class="main-menu">
-                <div class="menu-inner">
+                <div class="menu-inner" style="width: 100%!important">
                     <nav>
                         <ul class="metismenu" id="menu">
                             <li class="<?=urlHas(getURL(),"index")?>">
@@ -38,6 +43,13 @@
                                     <li><a href="create_record.php">Add New Record</a></li>
                                 </ul>
                             </li>
+                            <li class="<?=urlHas(getURL(),"hospital")?>">
+                                <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout-column4-alt"></i><span>Hospital</span></a>
+                                <ul class="collapse">
+                                    <li><a href="hospitals.php">View Hospital</a></li>
+                                    <li><a href="create_hospital.php">Add New Hospital</a></li>
+                                </ul>
+                            </li>
                             <li class="<?=urlHas(getURL(),"tip")?>">
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-slice"></i><span>Health Knowledge</span></a>
                                 <ul class="collapse">
@@ -49,7 +61,7 @@
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-exclamation-triangle"></i>
                                     <span>Account</span></a>
                                 <ul class="collapse">
-                                    <li><a href="#changePass">Change Password</a></li>
+                                    <li class="changePassword"><a href="#changePass">Change Password</a></li>
                                     <li><a href="logout.php">Log Out</a></li>
                                 </ul>
                             </li>

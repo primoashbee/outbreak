@@ -1,5 +1,7 @@
 {
     "require": {
-        "nexmo/client": "^1.6"
+        "nexmo/client": "^1.6",
+        "phpoffice/phpspreadsheet": "^1.6",
+        "nesbot/carbon": "^2.11"
     }
 }
