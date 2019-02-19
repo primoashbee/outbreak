@@ -80,10 +80,17 @@
                         <div class="col-12">
                           <div class="card">
                             <select name="year" id="year" class="form-control">
-                              
-                              <option value="2019">2019</option>
-                              <option value="2018">2018</option>
-                              <option value="2017">2017</option>
+                              <?php 
+                                $years = getYearsInRecords();
+
+                                foreach ($years as $year) {
+                                
+                              ?>
+                              <option value="<?=$year['year']?>"><?=$year['year']?></option>
+                              <?php 
+                              }
+
+                              ?>
                             </select>
                               <div class="card-body">
                                   <h4 class="header-title">Map Status</h4>

@@ -86,7 +86,6 @@ if(!isset($_SESSION)){
 	return;
 }
 
-
 function generateCaseNumber(){
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 	$current_year = date('Y');
@@ -119,6 +118,13 @@ function getUsers(){
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 
 	$sql = "Select * from users where isDeleted=false";
+	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
+	return $res;
+}
+function getYearsInRecords(){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+
+	$sql = "SELECT DISTINCT(YEAR(date_of_sickness)) AS `year` FROM records where isDeleted =false";
 	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 	return $res;
 }
@@ -545,7 +551,7 @@ function sendAlert($disease_id,$count,$barangay_id){
 	}
 
 	$text =  $name." ALERT!!!!".date("Y-m-d H:i:s A")."
-THIS IS TO INFORM YOU THAT BARANGAY ".$brgy_name." IS ON ".$color." WARNING...
+THIS IS TO INFORM YOU THAT BARANGAY ".strtoupper($brgy_name)." IS ON ".strtoupper($color)." WARNING...
 HERE ARE SOME TIPS TO PREVENT DENGUE:
 1.USE/WEAR INSECT REPELLENTS
 2.DRAIN AND DUMP STANDING WATERS FOUND IN CONTAINERS INSIDE AND AROUND THE HOUSE
@@ -559,7 +565,7 @@ PLEASE BE AWARE AND KEEPSAFE!";
 	try {
 	    $response = $client->messages->create(
 	        '639335277747',
-	        ['639335277757'],
+	        ['639772862469'],
 	        $text
 	    );
 	    //print_r($response);
@@ -567,7 +573,5 @@ PLEASE BE AWARE AND KEEPSAFE!";
 	catch (PlivoRestException $ex) {
 	    print_r(ex);
 	}
-
-
 }
 ?>

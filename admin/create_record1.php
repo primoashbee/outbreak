@@ -49,10 +49,10 @@ $case_id = generateCaseNumber();
 $sql = "INSERT INTO records (case_id,disease_id,firstname,middlename,lastname,gender,birthday,barangay_id,date_of_sickness,hospital_id,created_by) values
 ('$case_id','$disease_id','$firstname','$middlename','$lastname','$gender','$birthday','$barangay_id','$date_of_sickness','$hospital_id','$user_id')";
 
-
 if(mysqli_query($conn,$sql)){
 	$count = getDiseaseCount($disease_id,date("Y"),$barangay_id);
-	if($count > 0){
+
+	if($count > 2){
 		sendAlert($disease_id,$count,$barangay_id);
 	}
 	$_SESSION['msg'] = array('isSuccess'=>1,'message'=>'Record added');
