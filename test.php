@@ -1,34 +1,18 @@
-<?php 
-/*
-require_once "vendor/autoload.php";
-
-
-
-$basic  = new \Nexmo\Client\Credentials\Basic('032c2fc0', 'B72Vlft6Yyff2FB5');
-$client = new \Nexmo\Client($basic);
-
-$message = $client->message()->send([
-    'to' => '639335277757',
-    'from' => 'ASHBEE MORGADO',
-    'text' => 'HELLO ASHBEE MORGADO'
-]);
-
-
-
-require "config.php";
-$records = getDiseasesCountPerWeek(2019);
-
-foreach ($records as $key => $value) {
-	//echo $value.'<br>';
-}
-for ($x=0;$x<=52;$x++){
-	//echo 'v['.$x.']'.'<br>';
-}
-
-for($x=1;$x<=52;$x++){
-	echo "\"$x\",";
-}
+<?php
+/**
+* Example for Message create
 */
-require "config.php";
-echo sendAlert(2,5,3);
-?> 
+require 'vendor/autoload.php';
+use Plivo\RestClient;
+$client = new RestClient("MAMJCXY2Y0ODUWMDHINZ", "OWU4YzM2ZDAzNmNmODNlN2NlNTYyNzBjYzg1Njkw");
+try {
+    $response = $client->messages->create(
+        '639335277747',
+        ['639335277757'],
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+    );
+    print_r($response);
+}
+catch (PlivoRestException $ex) {
+    print_r(ex);
+}

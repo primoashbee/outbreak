@@ -1,7 +1,7 @@
 <?php 
 
 require_once "vendor/autoload.php";
-
+use Plivo\RestClient;
 
 
 function getURL(){
@@ -508,17 +508,18 @@ function mapColor($barangay_id,$year){
 }
 
 
-function getDiseaseCount($disease_id,$year){
+function getDiseaseCount($disease_id,$year,$barangay_id){
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 
-	$sql ="SELECT COUNT(disease_id) AS total FROM records WHERE disease_id = '$disease_id' AND YEAR(date_of_sickness) = '$year'";
-	//echo $sql;
+	$sql ="SELECT COUNT(disease_id) AS total FROM records WHERE disease_id = '$disease_id' AND YEAR(date_of_sickness) = '$year' AND barangay_id = '$barangay_id'";
 	$res = mysqli_fetch_assoc(mysqli_query($conn,$sql));
 
 	$count = $res['total'];
+	return $count;
 }
 
 function sendAlert($disease_id,$count,$barangay_id){
+
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 
 	$sql ="SELECT `name` FROM diseases WHERE id = '$disease_id'";
@@ -533,25 +534,39 @@ function sendAlert($disease_id,$count,$barangay_id){
 
 	$brgy_name = $res2['name'];
 
+	if($count  < 3){
+		$color =  'GREEN';
+		return;
+	}elseif($count < 5){
+		$color = 'ORANGE';
+
+	}else{
+	 	$color = 'RED';
+	}
+
 	$text =  $name." ALERT!!!!".date("Y-m-d H:i:s A")."
-			THIS IS TO INFORM YOU THAT BARANGAY ".$brgy_name." IS ON YELLOW WARNING...
-			HERE ARE SOME TIPS TO PREVENT DENGUE:
-			1.USE/WEAR INSECT REPELLENTS
-			2.DRAIN AND DUMP STANDING WATERS FOUND IN CONTAINERS INSIDE AND AROUND THE HOUSE
-			3.INSTALL OR FIX SCREENS ON WINDOWS AND DOORS
-			4.SPRAY ADULTICIDE AROUND BARANGAY
-			FOR MORE HEALTH TIPS, VISIT(PUBLIC WEBSITE).
-			PLEASE BE AWARE AND KEEPSAFE!";
+THIS IS TO INFORM YOU THAT BARANGAY ".$brgy_name." IS ON ".$color." WARNING...
+HERE ARE SOME TIPS TO PREVENT DENGUE:
+1.USE/WEAR INSECT REPELLENTS
+2.DRAIN AND DUMP STANDING WATERS FOUND IN CONTAINERS INSIDE AND AROUND THE HOUSE
+3.INSTALL OR FIX SCREENS ON WINDOWS AND DOORS
+4.SPRAY ADULTICIDE AROUND BARANGAY
+FOR MORE HEALTH TIPS, VISIT(PUBLIC WEBSITE).
+PLEASE BE AWARE AND KEEPSAFE!";
 
-	$basic  = new \Nexmo\Client\Credentials\Basic('032c2fc0', 'B72Vlft6Yyff2FB5');
-	$client = new \Nexmo\Client($basic);
-	$message = $client->message()->send([
-	    'to' => '639335277757',
-	    'from' => 'ASHBEE MORGADO',
-	    'text' => "DENGUE ALERT!!!! (FEB. 13, 2019 14:00PM)"
-
-	]);
-
+	
+	$client = new RestClient("MAMJCXY2Y0ODUWMDHINZ", "OWU4YzM2ZDAzNmNmODNlN2NlNTYyNzBjYzg1Njkw");
+	try {
+	    $response = $client->messages->create(
+	        '639335277747',
+	        ['639335277757'],
+	        $text
+	    );
+	    //print_r($response);
+	}
+	catch (PlivoRestException $ex) {
+	    print_r(ex);
+	}
 
 
 }
