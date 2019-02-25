@@ -22,6 +22,10 @@ function passwordConfirmed(p1,p2){
     return false;
 }
 
+function validatePassword($password) {
+    var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+    return re.test($password);
+}
 
 $('.changePassword').click(function(){
     $('#changePassModal').modal('show')
@@ -34,6 +38,12 @@ $('#btnChangePass').click(function(){
     if(ifHasPassword(p1,p2)){
         if(passwordConfirmed(p1,p2)){
             var id = $('#changepass_id').val()
+
+            if(!validatePassword(p1)){
+                alert('Password should have one number, one lowercase and one uppercase letter')
+                return;
+            }
+
             $.ajax({
                 url:'ajax.php',
                 data: {type:'change_password_via_id',id:id,password:p1},

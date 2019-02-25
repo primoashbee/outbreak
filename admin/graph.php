@@ -34,7 +34,7 @@
          "type":"line",
            "crosshair-x":{
              "scale-label":{
-               "text":"%l 2016"
+               "text":"%l "
              }
            },
            "scale-x":{
@@ -78,7 +78,7 @@ var myConfig = {
          "type":"line",
            "crosshair-x":{
              "scale-label":{
-               "text":"%l 2016"
+               "text":"%l "
              }
            },
            "scale-x":{

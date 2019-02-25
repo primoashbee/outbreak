@@ -129,7 +129,7 @@
                                     </div>
                                     <div class="tab-pane fade " id="daily" role="tabpanel" aria-labelledby="daily-tab">
                                        <h4 class="header-title">Daily Graph</h4>
-                                          <iframe src="graph.php" type="" width="100%" height="500px" id="embedGraphDay"></iframe>    
+                                          <iframe src="graph_day.php" type="" width="100%" height="500px" id="embedGraphDay"></iframe>    
                                     </div>
                                 </div>
                             </div>

@@ -2,6 +2,8 @@
     "require": {
         "phpoffice/phpspreadsheet": "^1.6",
         "nesbot/carbon": "^2.11",
-        "plivo/php-sdk": "^4.1"
+        "plivo/php-sdk": "^4.1",
+        "twilio/sdk": "^5.28",
+        "clicksend/clicksend-php": "^5.0"
     }
 }

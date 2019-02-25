@@ -62,8 +62,6 @@ if(mysqli_query($conn,$sql)){
 }else{
 
 	$_SESSION['msg'] = array('isSuccess'=>0,'message'=>'Something went wrong.');
-	echo $sql;
-	return;
 	header('location:create_record.php');
 	return;
 }

@@ -33,7 +33,7 @@
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-pie-chart"></i><span>Diseases</span></a>
                                 <ul class="collapse">
                                     <li><a href="diseases.php">View Diseases</a></li>
-                                    <li><a href="create_disease.php">Add New Disease</a></li>
+                                    <li><a href="create_disease.php">Add Discovered Disease</a></li>
                                 </ul>
                             </li>
                             <li class="<?=urlHas(getURL(),"record")?>">

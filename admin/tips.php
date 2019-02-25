@@ -137,10 +137,10 @@
                                                             body="<?=$v['body']?>"
                                                            
                                                              class="updateTip btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
-                                                        <button type="button" 
+                                                       <!-- <button type="button" 
                                                         id="<?=$v['id']?>" 
                                                         title="<?=$v['title']?>" 
-                                                        class="deleteTip btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
+                                                        class="deleteTip btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button> -->
 
                                                     </td>
                                                 </tr>

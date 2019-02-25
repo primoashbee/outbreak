@@ -80,6 +80,7 @@
 
                                             <thead class="text-uppercase bg-dark">
                                                 <tr class="text-white">
+                                                    <th scope="col">Status</th>
                                                     <th scope="col">Name</th>
                                                     <th scope="col">Address</th>
                                                     <th scope="col">Action</th>
@@ -96,12 +97,33 @@
                                           
                                             ?>
                                                 <tr>
+                                                    <th scope="row">
+                                                        
+                                                        <?php if($hospital['isDeleted']){
+                                                        ?>      
+                                                        <span class="status-p bg-danger">Closed</span> 
+                                                        <?php }else{ ?>
+                                                        <span class="status-p bg-success">Active</span>
+                                                        <?php }?>
+                                                    </th>
                                                     <th scope="row"><?=$hospital['name']?></th>
                                                     <td><?=substr(ucfirst($hospital['address']),0,45).".."  
                                                     ?></td>
                                                     <td>
+
+
+
+                                                        <?php if($hospital['isDeleted']){
+                                                        ?>
+                                                        <button type=" button" id="<?=$hospital['id']?>" class="updateDisease btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>      
+                                                        <?php }else{ ?>
                                                         <button type=" button" id="<?=$hospital['id']?>" class="updateDisease btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
                                                         <button type="button" id="<?=$hospital['id']?>" class="deleteDisease btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
+                                                        <?php }?>
+
+
+
+
 
                                                     </td>
                                                 </tr>

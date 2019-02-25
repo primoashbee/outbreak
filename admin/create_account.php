@@ -154,23 +154,32 @@
 
 <script>
     
-/*    $('#frmCreateAccount').submit(function(e){
+    $('#frmCreateAccount').submit(function(e){
+        alert();
+
         var p1 = $('#password').val()
         var p2 = $('#password_confirmation').val()
 
         if(ifHasPassword(p1,p2)){
+
             if(passwordConfirmed(p1,p2)){
-              
+            
+                if(validatePassword(p1)){
+
+                }
+                alert('Password should have one number, one lowercase and one uppercase letter')
+                e.preventDefault()
+                return;
               
             }
             alert("Password must be confirmed")
-            e.prevenDefault()
+            e.preventDefault()
             return;
         }
         alert('Fill up both field')
-        e.prevenDefault()
+        e.preventDefault()
         return;
     })
-*/
+
 </script>
 </html>

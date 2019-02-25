@@ -73,25 +73,105 @@
                 <div class="col-lg-12 mt-5">
                         <div class="card">
                             <div class="card-body">
+                            
+                                 <div class="btn-group btn-group-toggle" data-toggle="buttons" style="float:right">
+                                  <label class="btn btn-secondary warning" id="btnPrint" >
+                                    <input type="radio"  autocomplete="off" value="all" > Morbidity Week
+                                  </label>
+                                  <label class="btn btn-warning" id="btnPrint2">
+                                    <input type="radio"  autocomplete="off" value="pending"> Line List
+                                  </label>
+                                </div>
+
                                 <h4 class="header-title">Record List</h4>
                                 <form action="records.php" method="GET" id="request">
                                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                   <label class="btn btn-secondary warning">
-                                    <input type="radio" name="request" id="option1" autocomplete="off" value="all" > All
+                                    <input type="radio" class="radio" name="request" id="option1" autocomplete="off" value="all" > All
                                   </label>
                                   <label class="btn btn-warning">
-                                    <input type="radio" name="request" id="option2" autocomplete="off" value="pending"> Pending
+                                    <input type="radio" class="radio" name="request" id="option2" autocomplete="off" value="pending"> Pending
                                   </label>
                                   <label class="btn btn-success">
-                                    <input type="radio" name="request" id="option3" autocomplete="off" value="healthy"> Healthy
+                                    <input type="radio" class="radio" name="request" id="option3" autocomplete="off" value="healthy"> Healthy
                                   </label>
                                   <label class="btn btn-danger">
-                                    <input type="radio" name="request" id="option4" autocomplete="off" value="deceased"> Deceased
+                                    <input type="radio" class="radio" name="request" id="option4" autocomplete="off" value="deceased"> Deceased
                                   </label>
                                   </form>
-                                </div>
 
+                                </div>
+                               <form action="<?=basename($_SERVER['REQUEST_URI'])?>" method="GET" id="frmSearch">
+                               <div class="row" style="padding-top:20px">
+                                <?php 
+                                    $request = "all";
+                                    if(isset($_GET['request'])){
+                                        $request = $_GET['request'];
+                                    }
+                                ?>
+                                   <input type="hidden" name="request" value="<?=$request?>" class="filter">
+                                   <div class="col-4">
+                                        <select  name="search_year" id="search_year" class="form-control filter" ">
+                                            <option value="">Year</option>
+                                              <?php 
+                                                $years = getYearsInRecords();
+
+                                                foreach ($years as $year) {
+                                                
+                                              ?>
+                                          <option value="<?=$year['year']?>"><?=$year['year']?></option>
+
+                                              <?php 
+                                              }
+
+                                              ?>
+                                        </select>
+                                       
+                                   </div>
+                                   <div class="col-3">
+                                       <select  id="from" name="from" class="form-control filter" >
+                                            <option value="">From Date</option>
+                                            <option value="1">January</option>
+                                            <option value="2">February</option>
+                                            <option value="3">March</option>
+                                            <option value="4">April</option>
+                                            <option value="5">May</option>
+                                            <option value="6">June</option>
+                                            <option value="7">July</option>
+                                            <option value="8">August</option>
+                                            <option value="9">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                   </div>
+                                   <div class="col-3">
+                                    
+                                       <select  id="to" name="to" class="form-control filter" >
+                                            <option value="">To Date</option>
+                                            <option value="1">January</option>
+                                            <option value="2">February</option>
+                                            <option value="3">March</option>
+                                            <option value="4">April</option>
+                                            <option value="5">May</option>
+                                            <option value="6">June</option>
+                                            <option value="7">July</option>
+                                            <option value="8">August</option>
+                                            <option value="9">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                        
+                                   </div>
+                                   <div class="col-2">
+                                    
+                                    <button type="submit" class="btn btn-success" class="form-control" id="btnSearch" >Search</button>
+                                    </form>
+                                </div>
+                               </div>
                                 <div class="single-table" style="margin-top: 25px">
+
                                     <div class="table table-responsive">
                                         <table class="table text-center" id="tblRecords">
 
@@ -114,10 +194,29 @@
 
                                             <?php 
                                             $request = "all";
-                                            if(isset($_GET['request'])){
+                                            
+                                            $from = "";
+                                            $to = "";
+                                            $search_year = date('Y');
+
+                                            if(isset($_GET['request'])){ 
                                                 $request = $_GET['request'];                                                
                                             }
-                                              $records = getPatientRecords(false,$request);
+                                            if(isset($_GET['from'])){ 
+                                                $from = $_GET['from'];
+                                                                                                
+                                            }
+                                            if(isset($_GET['to'])){ 
+                                                $to = $_GET['to'];
+                                                
+                                                                                               
+                                            }
+                                            if(isset($_GET['search_year'])){ 
+                                                $search_year = $_GET['search_year'];
+                                                                                               
+                                            }
+
+                                            $records = getPatientRecords(false,$request,$search_year,$from,$to);
 
                                               foreach($records as $record){
                                             ?>
@@ -302,6 +401,119 @@
         </div>
         </div>
     </div>
+
+    <div class="modal fade" id="forPrintModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Print Information</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <div class="modal-body">
+                
+
+                    <select  id="printYear" class="form-control">
+                          <?php 
+                            $years = getYearsInRecords();
+
+                            foreach ($years as $year) {
+                            
+                          ?>
+                      <option value="<?=$year['year']?>"><?=$year['year']?></option>
+
+                          <?php 
+                          }
+
+                          ?>
+                    </select>
+                    <select id ="printDiseaseID" class="form-control">
+                        <option value="">Please Select</option>
+                        <?php 
+
+                            $brgy = getDiseases();
+
+                            foreach ($brgy as $k => $v) {
+                                
+                                ?>
+
+                        <option value="<?=$v['id']?>"><?=$v['name']?></option>
+                                <?php
+                            }
+
+                        ?>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id ="btnPrintNow" class="btn btn-danger">Confirm</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="modal fade" id="forPrint2Modal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Print Information</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <div class="modal-body">
+                
+
+                    <select  id="printYear2" class="form-control">
+                          <?php 
+                            $years = getYearsInRecords();
+
+                            foreach ($years as $year) {
+                            
+                          ?>
+                      <option value="<?=$year['year']?>"><?=$year['year']?></option>
+
+                          <?php 
+                          }
+
+                          ?>
+                    </select>
+                    
+                    <select  id="printFrom" class="form-control">
+                        <option value="">From Date</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                    
+                    <select  id="printTo" class="form-control">
+                        <option value="">To Date</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id ="btnPrintNow2" class="btn btn-danger">Confirm</button>
+            </div>
+        </div>
+        </div>
+    </div>
     <div class="modal fade bd-example-modal-sm " id="onsetModal">
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content">
@@ -340,10 +552,17 @@
 <script>
 
     $(function(){
-        $('#tblRecords').DataTable();
+        $('#tblRecords').DataTable({
+            "order" :  [[8, "desc"]]
+        });
+
+        $('#from').val('<?=$from?>')
+        $('#to').val('<?=$to?>')
+        $('#search_year').val('<?=$search_year?>')
+        
 
     })
-    $('input[type=radio]').on('change',function(){
+    $('input[type=radio].radio').on('change',function(){
         $("#request").submit();
     });
     $('.updateRecord').click(function(){
@@ -475,5 +694,46 @@
             }
         })
     })
+
+    $('#btnPrint').click(function(){
+        $('#forPrintModal').modal('show')
+    })
+    $('#btnPrint2').click(function(){
+        $('#forPrint2Modal').modal('show')
+    })
+
+    $('#btnPrintNow').click(function(){
+        var year = $('#printYear').val()
+        var disease_id = $('#printDiseaseID').val()
+        if(year =="" || disease_id==""){
+            alert("Select year and disease")
+            return;
+        }
+
+        location.href="report.php?year="+year+"&disease_id="+disease_id
+    })
+    $('#btnPrintNow2').click(function(){
+        var year = $('#printYear2').val()
+        var from = $('#printFrom').val()
+        var to = $('#printTo').val()
+        if(year =="" || from=="" || to == ""){
+            alert("Select year and month range")
+            return;
+        }
+       
+       location.href="report2.php?year="+year+"&from="+from+"&to="+to
+    })
+
+    $('#frmSearch').submit(function(){
+        $.each($('.filter'),function(k,v){
+
+            if($(v).val()==""){
+                $(v).attr('disabled',true)
+            }
+
+        });
+    })
+
+
 </script>
 </html>

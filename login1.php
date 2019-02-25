@@ -7,7 +7,8 @@ if($_POST['username'] == "" || $_POST['password']==""){
 }
 $username = addslashes($_POST['username']);
 $password = addslashes($_POST['password']);
-$sql ="Select * from  users where username ='$username'";
+$sql ="Select * from  users where username ='$username' and isDeleted = false";
+
 $res = mysqli_query($conn,$sql);
 if(mysqli_num_rows($res)>0){
 	$info = mysqli_fetch_assoc($res);

@@ -24,14 +24,23 @@ function getBarangay(){
 	$sql ="SELECT * FROM barangays ORDER BY `NAME` ASC";
 	return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 }
-function getTips($isDeleted){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
-	$sql ="SELECT * FROM tips where isDeleted = '$isDeleted' ORDER BY created_at ASC";
-	return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
+function getTips($isDeleted,$top = 0){
+	if($top==0){
+		$conn = mysqli_connect("localhost","root","","outbreak"); 
+		$sql ="SELECT * FROM tips where isDeleted = '$isDeleted' ORDER BY created_at DESC";
+		return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
+	}else{
+
+		$conn = mysqli_connect("localhost","root","","outbreak"); 
+		$sql ="SELECT * FROM tips where isDeleted = '$isDeleted' ORDER BY created_at DESC LIMIT $top";
+		
+		return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
+
+	}
 }
 function getHospitals(){
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
-	$sql ="SELECT * FROM hospitals where isDeleted =false ORDER BY `NAME` ASC";
+	$sql ="SELECT * FROM hospitals ORDER BY `NAME` ASC";
 	return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 }
 function getRecordViaID($id){
@@ -43,7 +52,44 @@ function getRecordViaID($id){
 function hasError($params){
 	return 'Meron';
 }
-function getPatientRecords($isDeleted = false,$status = "pending"){
+function getLineList($year,$from,$to){
+	$conn = mysqli_connect("localhost","root","","outbreak");
+	$space = " ";
+	$sql = "SELECT 
+			  r.id,
+			  CONCAT(r.`firstname`,'$space', r.`lastname`) AS fullname,
+			  TIMESTAMPDIFF(YEAR, r.`birthday`, CURDATE()) AS age,
+			  r.gender,
+			  r.`birthday`,
+			  r.`date_of_sickness`,
+			  r.`date_of_release`,
+			  WEEK(date_of_sickness) AS wk,
+			  h.`name` AS hospital_name,
+			  b.`name` AS baranggay_name
+			FROM
+			  records r 
+			LEFT JOIN barangays b
+			ON r.`barangay_id` = b.`id`
+			LEFT JOIN hospitals h
+			ON r.`hospital_id` = h.`id` 
+			WHERE YEAR(date_of_sickness) = '$year' and 
+			MONTH(date_of_sickness) BETWEEN '$from' AND '$to'  
+			order by date_of_sickness DESC";
+
+			return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
+
+}
+function getPatientRecords($isDeleted = false,$status = "pending",$year,$from,$to){
+if($year==""){
+	$year = date('Y');
+}
+if($from==""){
+	$from = 1;
+}
+if($to==""){
+	$to = 12;
+}
+
 if($status=="all"){
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 	$space = " ";
@@ -55,7 +101,10 @@ if($status=="all"){
 	ON r.`disease_id` = d.`id` 
 	LEFT JOIN hospitals h
 	ON r.hospital_id = h.id
-	where r.isDeleted = '$isDeleted' ORDER BY case_id DESC";
+	where r.isDeleted = false AND
+	year(r.date_of_sickness) = '$year'
+	AND
+	MONTH(date_of_sickness) BETWEEN $from AND $to ORDER BY date_of_sickness DESC";
 }else{
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 	$space = " ";
@@ -67,7 +116,11 @@ if($status=="all"){
 	ON r.`disease_id` = d.`id` 
 	LEFT JOIN hospitals h
 	ON r.hospital_id = h.id
-	where r.isDeleted = '$isDeleted'  and r.status = '$status' ORDER BY case_id DESC";
+	where r.isDeleted = false  
+	and r.status = '$status'
+	and year(r.date_of_sickness) = '$year' AND	
+	MONTH(date_of_sickness) BETWEEN $from AND $to
+	ORDER BY case_id DESC";
 }
 	return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 
@@ -124,7 +177,7 @@ function getUsers(){
 function getYearsInRecords(){
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 
-	$sql = "SELECT DISTINCT(YEAR(date_of_sickness)) AS `year` FROM records where isDeleted =false";
+	$sql = "SELECT * FROM (SELECT DISTINCT(YEAR(date_of_sickness)) AS `year` FROM records WHERE isDeleted =FALSE ) b ORDER BY b.year DESC";
 	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 	return $res;
 }
@@ -161,12 +214,20 @@ function getDiseases(){
 	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 	return $res;
 }
+function getDiseaseRank($year){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+
+	$sql = "SELECT d.name, COUNT(disease_id) AS total FROM records r LEFT JOIN diseases d ON r.`disease_id` = d.`id` WHERE YEAR(r.`date_of_sickness`) = '$year' GROUP BY r.`disease_id` ORDER BY total DESC ";
+	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
+	return $res;
+}
 function getDiseaseByID($id){
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 
 	$sql = "Select * from diseases where id = '$id'";
 	if($res = mysqli_query($conn,$sql)){
 		$data =mysqli_fetch_assoc($res);
+
 		echo json_encode(array('msg'=>200,'info'=>$data));
 	}else{
 		echo json_encode(array('msg'=>404));	
@@ -353,6 +414,81 @@ function deleteTipViaID($id){
 		return;
 }
 
+function getDiseaseCountPerBaranggay($year,$disease_id,$barangay_id){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$sql = "SELECT 
+		b.`name`,
+		SUM(IF(WEEK(date_of_sickness)=0, 1, 0)) AS '0', 
+		SUM(IF(WEEK(date_of_sickness)=1, 1, 0)) AS '1', 
+		SUM(IF(WEEK(date_of_sickness)=2, 1, 0)) AS '2', 
+		SUM(IF(WEEK(date_of_sickness)=3, 1, 0)) AS '3', 
+		SUM(IF(WEEK(date_of_sickness)=4, 1, 0)) AS '4', 
+		SUM(IF(WEEK(date_of_sickness)=5, 1, 0)) AS '5', 
+		SUM(IF(WEEK(date_of_sickness)=6, 1, 0)) AS '6', 
+		SUM(IF(WEEK(date_of_sickness)=7, 1, 0)) AS '7', 
+		SUM(IF(WEEK(date_of_sickness)=8, 1, 0)) AS '8', 
+		SUM(IF(WEEK(date_of_sickness)=9, 1, 0)) AS '9', 
+		SUM(IF(WEEK(date_of_sickness)=10, 1, 0)) AS '10', 
+		SUM(IF(WEEK(date_of_sickness)=11, 1, 0)) AS '11', 
+		SUM(IF(WEEK(date_of_sickness)=12, 1, 0)) AS '12', 
+		SUM(IF(WEEK(date_of_sickness)=13, 1, 0)) AS '13', 
+		SUM(IF(WEEK(date_of_sickness)=14, 1, 0)) AS '14', 
+		SUM(IF(WEEK(date_of_sickness)=15, 1, 0)) AS '15', 
+		SUM(IF(WEEK(date_of_sickness)=16, 1, 0)) AS '16', 
+		SUM(IF(WEEK(date_of_sickness)=17, 1, 0)) AS '17', 
+		SUM(IF(WEEK(date_of_sickness)=18, 1, 0)) AS '18', 
+		SUM(IF(WEEK(date_of_sickness)=19, 1, 0)) AS '19', 
+		SUM(IF(WEEK(date_of_sickness)=20, 1, 0)) AS '20', 
+		SUM(IF(WEEK(date_of_sickness)=21, 1, 0)) AS '21', 
+		SUM(IF(WEEK(date_of_sickness)=22, 1, 0)) AS '22', 
+		SUM(IF(WEEK(date_of_sickness)=23, 1, 0)) AS '23', 
+		SUM(IF(WEEK(date_of_sickness)=24, 1, 0)) AS '24', 
+		SUM(IF(WEEK(date_of_sickness)=25, 1, 0)) AS '25', 
+		SUM(IF(WEEK(date_of_sickness)=26, 1, 0)) AS '26', 
+		SUM(IF(WEEK(date_of_sickness)=27, 1, 0)) AS '27', 
+		SUM(IF(WEEK(date_of_sickness)=28, 1, 0)) AS '28', 
+		SUM(IF(WEEK(date_of_sickness)=29, 1, 0)) AS '29', 
+		SUM(IF(WEEK(date_of_sickness)=30, 1, 0)) AS '30', 
+		SUM(IF(WEEK(date_of_sickness)=31, 1, 0)) AS '31', 
+		SUM(IF(WEEK(date_of_sickness)=32, 1, 0)) AS '32', 
+		SUM(IF(WEEK(date_of_sickness)=33, 1, 0)) AS '33', 
+		SUM(IF(WEEK(date_of_sickness)=34, 1, 0)) AS '34', 
+		SUM(IF(WEEK(date_of_sickness)=35, 1, 0)) AS '35', 
+		SUM(IF(WEEK(date_of_sickness)=36, 1, 0)) AS '36', 
+		SUM(IF(WEEK(date_of_sickness)=37, 1, 0)) AS '37', 
+		SUM(IF(WEEK(date_of_sickness)=38, 1, 0)) AS '38', 
+		SUM(IF(WEEK(date_of_sickness)=39, 1, 0)) AS '39', 
+		SUM(IF(WEEK(date_of_sickness)=40, 1, 0)) AS '40', 
+		SUM(IF(WEEK(date_of_sickness)=41, 1, 0)) AS '41', 
+		SUM(IF(WEEK(date_of_sickness)=42, 1, 0)) AS '42', 
+		SUM(IF(WEEK(date_of_sickness)=43, 1, 0)) AS '43', 
+		SUM(IF(WEEK(date_of_sickness)=44, 1, 0)) AS '44', 
+		SUM(IF(WEEK(date_of_sickness)=45, 1, 0)) AS '45', 
+		SUM(IF(WEEK(date_of_sickness)=46, 1, 0)) AS '46', 
+		SUM(IF(WEEK(date_of_sickness)=47, 1, 0)) AS '47', 
+		SUM(IF(WEEK(date_of_sickness)=48, 1, 0)) AS '48', 
+		SUM(IF(WEEK(date_of_sickness)=49, 1, 0)) AS '49', 
+		SUM(IF(WEEK(date_of_sickness)=50, 1, 0)) AS '50', 
+		SUM(IF(WEEK(date_of_sickness)=51, 1, 0)) AS '51', 
+		SUM(IF(WEEK(date_of_sickness)=52, 1, 0)) AS '52',
+		SUM(r.`disease_id`) AS total
+		FROM records r 
+		LEFT JOIN barangays b
+		ON r.`barangay_id` = b.`id` 
+		WHERE r.`disease_id` = '$disease_id' AND r.`barangay_id` = '$barangay_id' and YEAR(r.date_of_sickness) = '$year'
+		GROUP BY b.`name`";
+
+		$res = mysqli_fetch_assoc(mysqli_query($conn,$sql));
+		return $res;
+
+
+}
+function isEmpty($item){
+	if($item == "" || $item == 0){
+		return 0;
+	}
+	return $item;
+}
 function getDiseasesCountPerYear($year){
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 	$sql ="SELECT 
@@ -384,7 +520,8 @@ GROUP BY disease_id";
 function getDiseasesCountPerWeek($year){
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 	$sql ="SELECT 
-    d.name,SUM(IF(WEEK(date_of_sickness)=1, 1, 0)) AS '1', 
+    d.name,
+    SUM(IF(WEEK(date_of_sickness)=1, 1, 0)) AS '1', 
 	SUM(IF(WEEK(date_of_sickness)=2, 1, 0)) AS '2', 
 	SUM(IF(WEEK(date_of_sickness)=3, 1, 0)) AS '3', 
 	SUM(IF(WEEK(date_of_sickness)=4, 1, 0)) AS '4', 
@@ -444,6 +581,7 @@ function getDiseasesCountPerWeek($year){
 	WHERE YEAR(date_of_sickness) = '$year'
 	GROUP BY disease_id";
 	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
+	
 	return $res;
 
 }

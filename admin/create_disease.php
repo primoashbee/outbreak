@@ -73,7 +73,7 @@
                 <div class="col-lg-12 mt-5">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">Add New Disease</h4>
+                                <h4 class="header-title">Add Discovered Disease</h4>
                                 <?php 
                                 if(isset($_SESSION['msg'])){
                                     if($_SESSION['msg']['isSuccess']){
