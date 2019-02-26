@@ -235,7 +235,7 @@
         </div>
         <div class="col-12">
           <h2 class="text-center"> Graphical Representation </h2>
-          <iframe src="../admin/graph.php?year=2019" frameborder="0" height="470px" width="100%"></iframe>
+          <iframe src="../admin/graph_month.php?year=2019" frameborder="0" height="470px" width="100%"></iframe>
         </div>
       </div>
     </div>

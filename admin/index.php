@@ -118,10 +118,10 @@
                                 <div class="tab-content mt-3" id="myTabContent">
                                     <div class="tab-pane fade active show" id="yearly" role="tabpanel" aria-labelledby="yearly-tab">
                                           <h4 class="header-title">Yearly Graph</h4>
-                                          <iframe src="graph.php" type="" width="100%" height="500px" id="embedGraphYear"></iframe>                                    </div>
+                                          <iframe src="graph_year.php" type="" width="100%" height="500px" id="embedGraphYear"></iframe>                                    </div>
                                     <div class="tab-pane fade" id="monthly"" role="tabpanel" aria-labelledby="monthly-tab">
                                         <h4 class="header-title">Monthly Graph</h4>
-                                          <iframe src="graph.php" type="" width="100%" height="500px" id="embedGraphMonth"></iframe>    
+                                          <iframe src="graph_month.php" type="" width="100%" height="500px" id="embedGraphMonth"></iframe>    
                                     </div>
                                     <div class="tab-pane fade " id="weekly" role="tabpanel" aria-labelledby="weekly-tab">
                                        <h4 class="header-title">Weekly Graph</h4>
@@ -175,9 +175,10 @@ $(function(){
   var year = <?=$year?>; 
   $('#year').val(year)
   $('#embedMap').attr("src","map.php?year="+year)
-  $('#embedGraphYear').attr("src","graph.php?year="+year)
-  $('#embedGraphMonth').attr("src","graph.php?year="+year)
+  $('#embedGraphYear').attr("src","graph_year.php?year="+year)
+  $('#embedGraphMonth').attr("src","graph_month.php?year="+year)
   $('#embedGraphWeek').attr("src","graph_week.php?year="+year)
+  $('#embedGraphDay').attr("src","graph_day.php?year="+year)
 })
 
  $('#year').change(function(){

@@ -181,9 +181,9 @@ function getUsers(){
 	return $res;
 }
 function getYearsInRecords(){
+	
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
-
-	$sql = "SELECT * FROM (SELECT DISTINCT(YEAR(date_of_sickness)) AS `year` FROM records WHERE isDeleted =FALSE ) b ORDER BY b.year DESC";
+	$sql = "SELECT * FROM (SELECT DISTINCT(YEAR(date_of_sickness)) AS `year` FROM records WHERE isDeleted =FALSE ) b";
 	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 	return $res;
 }
@@ -496,6 +496,27 @@ function isEmpty($item){
 	return $item;
 }
 function getDiseasesCountPerYear($year){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$sql ="SELECT 
+			d.`name`,
+			SUM(IF(YEAR(r.`date_of_sickness`) = 2018 ,1,0)) AS '2018',
+			SUM(IF(YEAR(r.`date_of_sickness`) = 2019 ,1,0)) AS '2019',
+			SUM(IF(YEAR(r.`date_of_sickness`) = 2020 ,1,0)) AS '2020',
+			SUM(IF(YEAR(r.`date_of_sickness`) = 2021 ,1,0)) AS '2021',
+			SUM(IF(YEAR(r.`date_of_sickness`) = 2022 ,1,0)) AS '2022',
+			SUM(IF(YEAR(r.`date_of_sickness`) = 2023 ,1,0)) AS '2023',
+			SUM(IF(YEAR(r.`date_of_sickness`) = 2024 ,1,0)) AS '2024',
+			SUM(IF(YEAR(r.`date_of_sickness`) = 2025 ,1,0)) AS '2025',
+			COUNT(r.`disease_id`) AS total
+			FROM records r 
+			LEFT JOIN diseases d 
+			ON r.`disease_id` = d.`id`
+			GROUP BY disease_id";
+	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
+	return $res;
+
+}
+function getDiseasesCountPerMonth($year){
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 	$sql ="SELECT 
     d.name,

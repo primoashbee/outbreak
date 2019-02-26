@@ -25,8 +25,12 @@
          <?php
          }
 
+         $years = getYearsInRecords();
+        //foreach ($years as $k => $v) {
+           # code...
+              
          $records = getDiseasesCountPerYear($year);
-         if(count($records) > 0){
+if(count($records) > 0){
 
 
       ?>
@@ -38,7 +42,7 @@
              }
            },
            "scale-x":{
-             "labels":["January","February","March","April","May","June","July","August","September","October","November","December"],
+             "labels":[2018,2019,2020,2021,2022,2023,2024,2025],
              
            },
            "plot":{
@@ -50,28 +54,25 @@
              
          },  
          "series":[
-            <?php foreach ($records as $k => $v) {?>
-  {
-               "values":[<?php 
-              echo isZero($v['January']).",";
-              echo isZero($v['February']).",";
-              echo isZero($v['March']).",";
-              echo isZero($v['April']).",";
-              echo isZero($v['May']).",";
-              echo isZero($v['June']).",";
-              echo isZero($v['July']).",";
-              echo isZero($v['August']).",";
-              echo isZero($v['September']).",";
-              echo isZero($v['October']).",";
-              echo isZero($v['November']).",";
-              echo isZero($v['December'])."";?>],
-               "text"  :'<?=$v['name']?>'
+            <?php 
+              foreach ($records as $k => $v) {
+                # code...
+             
+            ?>
+            {
+               "values":[<?=$v['2018']?>,<?=$v['2019']?>,<?=$v['2020']?>,<?=$v['2021']?>,<?=$v['2022']?>,<?=$v['2023']?>,<?=$v['2024']?>,<?=$v['2025']?>],
+               "text"  : "<?=$v['name']?>"
             },
             <?php 
             }
-            ?> 
-         ]};
+            ?>
+          ]
+        }
+
+           
+         
 <?php 
+
 }else{
 ?>
 var myConfig = {
