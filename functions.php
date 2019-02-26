@@ -585,33 +585,38 @@ function getDiseasesCountPerWeek($year){
 	return $res;
 
 }
+function lineGraphXLabel($day){
+	$date = new DateTime(date("Y-m-d"));
+	$date->modify("-".$day." day");
+	return $date->format("Y-m-d");
 
-function getDiseasesCountPer7Day($disease_id,$year){
+}
+function getDiseasesCountPer7Days($year){
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 	$sql ="SELECT 
-		  d.name,
+		  d.name,  
 		  SUM(
-		    IF((DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) < 8 AND (DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) >6,1,0)
+		    IF( DAYOFYEAR(CURDATE())  - DAYOFYEAR(r.`date_of_sickness`) = 1,1,0)
 		  ) AS '1',
-		   SUM(
-		    IF((DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) < 7 AND (DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) >5,1,0)
+		  SUM(
+		    IF( DAYOFYEAR(CURDATE())  - DAYOFYEAR(r.`date_of_sickness`) = 2,1,0)
 		  ) AS '2',
-		   SUM(
-		    IF((DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) < 6 AND (DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) >4,1,0)
+		  SUM(
+		    IF( DAYOFYEAR(CURDATE())  - DAYOFYEAR(r.`date_of_sickness`) = 3,1,0)
 		  ) AS '3',
-		   SUM(
-		    IF((DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) < 5 AND (DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) >3,1,0)
-		  ) AS '4',
-		   SUM(
-		    IF((DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) < 4 AND (DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) >2,1,0)
-		  ) AS '5',
-		   SUM(
-		    IF((DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) < 3 AND (DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) >1,1,0)
+		  SUM(
+		    IF( DAYOFYEAR(CURDATE())  - DAYOFYEAR(r.`date_of_sickness`) = 4,1,0)
+		  ) AS '4',		  
+		  SUM(
+		    IF( DAYOFYEAR(CURDATE())  - DAYOFYEAR(r.`date_of_sickness`) = 5,1,0)
+		  ) AS '5',		  
+		  SUM(
+		    IF( DAYOFYEAR(CURDATE())  - DAYOFYEAR(r.`date_of_sickness`) = 6,1,0)
 		  ) AS '6',
 		  SUM(
-		    IF((DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) < 2 AND (DAYOFYEAR(CURDATE())  - DAYOFYEAR('2019-02-13')) >0,1,0)
-		  ) AS '7',
-		    COUNT(r.`disease_id`) AS total
+		    IF( DAYOFYEAR(CURDATE())  - DAYOFYEAR(r.`date_of_sickness`) = 7,1,0)
+		  ) AS '7',		  
+		  COUNT(r.`disease_id`) AS total
 			FROM
 			  records r 
 			  LEFT JOIN diseases d 
@@ -619,7 +624,7 @@ function getDiseasesCountPer7Day($disease_id,$year){
 			WHERE date_of_sickness BETWEEN DATE_SUB(CURDATE(), INTERVAL 7 DAY) 
 			  AND CURDATE() 
 			  AND YEAR(date_of_sickness) = '$year' 
-			GROUP BY r.`disease_id` ";
+			GROUP BY r.`disease_id`  ";
 	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 	return $res;
 
