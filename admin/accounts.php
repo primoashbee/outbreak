@@ -102,7 +102,8 @@
                                                     <td><?=ucfirst($user['lastname'])?></td> 
                                                     <td>
                                                         <button type=" button" id="<?=$user['id']?>" class="updateAccount btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
-                                                        <button type="button" id="<?=$user['id']?>" username="<?=$user['username']?>" class="deleteAccount btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
+                                                        
+                                                        <!--<button type="button" id="<?=$user['id']?>" username="<?=$user['username']?>" class="deleteAccount btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>!-->
 
                                                     </td>
                                                 </tr>

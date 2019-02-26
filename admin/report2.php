@@ -40,10 +40,9 @@ $data = mysqli_fetch_assoc($res);
 $list = getLineList($year,$from,$to);
 //$number = 10;
 $ctr = 1;
-$row = 2;
+$row = 6;
+$morbidity->getCell('A4')->setValue(getMonthName($from)." - ".getMonthName($to)." ".$year);
 foreach ($list as $k => $v) {
-
-  
     $morbidity->getCell('A'.$row)->setValue($ctr);
     $morbidity->getCell('B'.$row)->setValue($v['fullname']);
     $morbidity->getCell('C'.$row)->setValue($v['age']);

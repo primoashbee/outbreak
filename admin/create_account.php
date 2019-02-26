@@ -155,8 +155,7 @@
 <script>
     
     $('#frmCreateAccount').submit(function(e){
-        alert();
-
+       
         var p1 = $('#password').val()
         var p2 = $('#password_confirmation').val()
 

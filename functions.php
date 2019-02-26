@@ -38,6 +38,12 @@ function getTips($isDeleted,$top = 0){
 
 	}
 }
+function getMonthName($int){
+
+	$dateObj   = DateTime::createFromFormat('!m', $int);
+	return $monthName = $dateObj->format('F'); // March
+
+}
 function getHospitals(){
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 	$sql ="SELECT * FROM hospitals ORDER BY `NAME` ASC";

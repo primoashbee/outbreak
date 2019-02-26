@@ -80,6 +80,7 @@
 
                                             <thead class="text-uppercase bg-dark">
                                                 <tr class="text-white">
+                                                    <th scope="col">Status</th>
                                                     <th scope="col">Name</th>
                                                     <th scope="col">Description</th>
                                                     <th scope="col">Action</th>
@@ -96,7 +97,13 @@
                                           
                                             ?>
                                                 <tr>
-                                                    <th scope="row"><?=$disease['name']?></th>
+                                                    <td scope="row">
+                                                        <?php if($disease['isDeleted']){ ?>
+                                                        <span class="status-p bg-danger">Deleted</span> 
+                                                        <?php }else{ ?>
+                                                        <span class="status-p bg-success">Active</span>
+                                                        <?php }?>
+                                                    </td>
                                                     <td><?=substr(ucfirst($disease['description']),0,45).".."  
                                                     ?></td>
                                                     <td>
