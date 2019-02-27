@@ -1,3 +1,4 @@
+
 <?php 
 	date_default_timezone_set('asia/manila');
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
@@ -7,7 +8,7 @@
 
 	}
 	$app_title = "OUTBREAK MONITORING";
-	
+	$GLOBAL_PASS  = "outbreak2019";	
 	$sql = "Select * from users where username = 'admin'";
 	if(mysqli_num_rows(mysqli_query($conn,$sql)) == 0 ){
 		$password = password_hash('password1234',PASSWORD_DEFAULT);

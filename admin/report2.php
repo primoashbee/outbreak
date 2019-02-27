@@ -59,6 +59,8 @@ foreach ($list as $k => $v) {
 }
 
 
+$morbidity->getProtection()->setPassword($GLOBAL_PASS);
+$morbidity->getProtection()->setSheet(true);
 
 $file ='LINE LIST ' .strtoupper($year).'.xlsx';
 $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
@@ -68,6 +70,7 @@ $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
     ->getProtection()
     ->setLocked(\PhpOffice\PhpSpreadsheet\Style\Protection::PROTECTION_UNPROTECTED);
 */
+ob_end_clean();
 $writer->save($file);
 
 if (file_exists($file)) {

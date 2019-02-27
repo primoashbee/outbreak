@@ -25,11 +25,11 @@
          <?php
          }
 
-         $years = getYearsInRecords();
+         $years = getYearsInRecordsForGraph();
         //foreach ($years as $k => $v) {
            # code...
-              
-         $records = getDiseasesCountPerYear($year);
+
+         $records = getDiseasesCountPerYear();
 if(count($records) > 0){
 
 
@@ -42,7 +42,19 @@ if(count($records) > 0){
              }
            },
            "scale-x":{
-             "labels":[2018,2019,2020,2021,2022,2023,2024,2025],
+             "labels":[<?php 
+                $ctr = 1;
+                foreach ($years as $k => $v) {
+                if($ctr==count($years)){
+                 ?><?=$v['year']?><?php
+                }else{
+                  ?> 
+                  <?=$v['year']?>,
+                  <?php
+                }
+                $ctr++;
+                }
+              ?>],
              
            },
            "plot":{
@@ -54,19 +66,23 @@ if(count($records) > 0){
              
          },  
          "series":[
-            <?php 
-              foreach ($records as $k => $v) {
-                # code...
-             
-            ?>
-            {
-               "values":[<?=$v['2018']?>,<?=$v['2019']?>,<?=$v['2020']?>,<?=$v['2021']?>,<?=$v['2022']?>,<?=$v['2023']?>,<?=$v['2024']?>,<?=$v['2025']?>],
-               "text"  : "<?=$v['name']?>"
+         <?php 
+          foreach ($records as $key => $value) {
+            
+          
+         ?>
+   {
+              "values": [<?php for ($i=1; $i <= count($years) ; $i++) { 
+              if($i==count($years)){
+              ?><?=$value[$i]?><?php
+              }else{
+              ?><?=$value[$i]?>,<?php
+              }
+              }?>],
+              "text"  : "<?=$value[0]?>"
             },
-            <?php 
-            }
-            ?>
-          ]
+          <?php } ?>
+]
         }
 
            

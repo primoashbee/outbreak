@@ -3,6 +3,8 @@
 require_once('../vendor/autoload.php');
 require "../config.php";
 $inputFileName = 'templates/CASES.xlsx';
+
+
 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 
 
@@ -27,7 +29,6 @@ $data = mysqli_fetch_assoc($res);
 $d_name = strtoupper($data['name']);
 
 $morbidity->getCell('A4')->setValue($year);
-
 
 $baranggay = getBarangay();
 $number = 10;
@@ -100,7 +101,8 @@ foreach ($baranggay as $k => $v) {
 
 }
 
-
+$morbidity->getProtection()->setPassword($GLOBAL_PASS);
+$morbidity->getProtection()->setSheet(true);
 
 $file ='CASES PER BARANGGAY '.strtoupper($d_name).' - '.strtoupper($year).'.xlsx';
 $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
@@ -110,7 +112,9 @@ $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
     ->getProtection()
     ->setLocked(\PhpOffice\PhpSpreadsheet\Style\Protection::PROTECTION_UNPROTECTED);
 */
-
+//var_dump($morbidity->getCell('BD35')->getValue());
+//return; 
+ob_end_clean();
 $writer->save($file);
 
 if (file_exists($file)) {
