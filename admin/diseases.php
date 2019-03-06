@@ -166,6 +166,7 @@
                         <div class="form-group col-12">
                             <label for="message">Outbreak Message</label>
                             <textarea class="form-control" id="message" aria-describedby="message" placeholder="message" name="message" required="" rows ="5"></textarea>
+                          
                         </div>
                     </div>
                 </form>
@@ -204,6 +205,30 @@
 ?>
 <script>
     var id;
+    /*
+    $("#message").on("keyup",function(e){
+        var char = 160;
+        var total =  $(this).val().length
+        $('#charLeft').html(char - total)
+
+
+        var max = 160;
+        if (e.which < 0x20) {
+            // e.which < 0x20, then it's not a printable character
+            // e.which === 0 - Not a character
+            return;     // Do nothing
+        }
+        if (this.value.length == max) {
+            e.preventDefault();
+        } else if (this.value.length > max) {
+            // Maximum exceeded
+            this.value = this.value.substring(0, max);
+        }
+        $('#charLeft').html(char - total)
+  
+        
+    })
+    */
     $('.deleteDisease').click(function(){
         $('#d_id').val()
         id = $(this).attr('id')
@@ -222,6 +247,8 @@
     $('.updateDisease').click(function(){
         id = "";
         id = $(this).attr('id')
+
+
         $.ajax({
             url:'ajax.php',
             data:{type:'get_disease',id:id},
@@ -234,6 +261,10 @@
                 $('#name').val(data.info.name)
                 $('#description').val(data.info.description)
                 $('#message').val(data.info.message)
+                        var char = 120;
+                        var total =  $("#message").val().length
+                        
+                        $('#charLeft').html(char - total)
                 $('#updateModal').modal('show')
             }
         })

@@ -213,7 +213,7 @@ input:checked + .slider:before {
                             </thead>
                             <tbody>
                               <?php 
-                                sendAlert(1,4,21);
+                                sendAlert(5,14,15);
                                 $brgy = getBarangay();
                               ?>
                               <?php 

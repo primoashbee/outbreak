@@ -238,10 +238,36 @@
           <h2 class="text-center"> Graphical Representation </h2>
           <iframe src="../admin/graph_month.php?year=2019" frameborder="0" height="470px" width="100%"></iframe>
         </div>
+
+        <div class="col-12">
+          <h1> INFORMATION </h1>
+        
+         
+          <div class="list-group">
+          <?php 
+            $sms = getSMSAlert();
+            $ctr = 1;
+            foreach ($sms as $k => $v) {
+          ?>
+            
+        
+ 
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class=""><?=strtoupper($v['disease_name'])." ALERT AT ".$v['barangay_name']?></h5><br>
+                <small class="text-muted"><?=\Carbon\Carbon::parse($v['created_at'])->diffForHumans()?></small>
+              </div><?=(getMessageByDiseaseID($v['disease_id']))?>
+              <br>
+              <small class="text-muted"><i>Auto Generated on <?=\Carbon\Carbon::parse($v['created_at'])->format('F d, Y')?></i></small>
+            </a>
+         <?php
+            }
+          ?>
+          </div>
+        </div>
       </div>
     </div>
   </section>
-
   <!-- Team -->
   <!--
   <section class="bg-light" id="team">
@@ -513,7 +539,13 @@
 
   <!-- Custom scripts for this template -->
   <script src="js/agency.min.js"></script>
-  
+  <script>
+    
+    $('a').click(function(e){
+      e.preventDefault();
+    })
+
+  </script>  
 
 </body>
 

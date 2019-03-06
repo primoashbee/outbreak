@@ -1,7 +1,16 @@
 <?php
 
 require "../config.php";
-sendAlert(1,4,21);
+//sendAlert(1,4,21);
+
+
+$xml = $xml=simplexml_load_file("setup.xml");
+
+$msg = str_replace('[brgy]', 'Ashbe', $xml->note->msg);
+echo $msg;
+return; 
+
+
 return;
 
 require_once(__DIR__ . '/vendor/autoload.php');

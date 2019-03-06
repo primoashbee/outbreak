@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
 <AppSettings>
 	<sms>
-		<activated>false</activated>
+		<activated>true</activated>
 	</sms>
-<note><to>Aba ewan ko sa inyo</to></note></AppSettings>
+<note>
+	<msg>THIS IS TO INFORM YOU THAT BARANGAY [brgy] IS ON [color]!
+PLEASE VISIT(PUBLIC WEBSITE) FOR MORE INFO.</msg>
+</note>
+</AppSettings>

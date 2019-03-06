@@ -4,7 +4,7 @@
     if(!isset($_SESSION['user'])){
         header('location:../index.php');
     }
-    
+
     if($_SESSION['user']['isAdmin']==0){
         header('location:../index.php');   
     }
@@ -117,7 +117,7 @@
                                     <div class="form-group col-12">
                                         <label for="message">Outbreak Message</label>
                                         <textarea class="form-control" id="message" aria-describedby="message" placeholder="message" name="message" required="" rows ="5"></textarea>
-                                        <i> Maximum of 160 Characters Only (<span id="charLeft" class="bold">160 </span> left)</i>
+                                       
                                     </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Submit</button>
@@ -149,12 +149,30 @@
     unset($_SESSION['post_data']);
 ?>
 <script>
-    var char = 160;
-    $("#message").on("keyup",function(){
+    /*
+    var char = 120;
+    $("#message").on("keyup",function(e){
         var total =  $(this).val().length
         $('#charLeft').html(char - total)
+
+
+        var max = char;
+        if (e.which < 0x20) {
+            // e.which < 0x20, then it's not a printable character
+            // e.which === 0 - Not a character
+            return;     // Do nothing
+        }
+        if (this.value.length == max) {
+            e.preventDefault();
+        } else if (this.value.length > max) {
+            // Maximum exceeded
+            this.value = this.value.substring(0, max);
+        }
+        $('#charLeft').html(char - total)
+  
         
     })
+    */
 
 </script>
 </html>

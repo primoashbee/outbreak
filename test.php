@@ -45,8 +45,10 @@ $client->messages->create(
 );  
 */
 
+$xml = $xml=simplexml_load_file("setup.xml");
 
-//sendAlert(1,4,21);
+echo $xml->note->msg;
+
 return;
 
 require_once(__DIR__ . '/vendor/autoload.php');

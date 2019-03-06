@@ -744,19 +744,19 @@ function sendAlert($disease_id,$count,$barangay_id){
 	//echo $sql;
 	$res = mysqli_fetch_assoc(mysqli_query($conn,$sql));
 
-	$name = $res['name'];
-	$message = $res['message'];
+	$name = $res['name']; //disease name
+	$message = $res['message']; //disease message
 
 	$sql ="SELECT * FROM barangays WHERE id = '$barangay_id'";
 	//echo $sql;
 	$res2 = mysqli_fetch_assoc(mysqli_query($conn,$sql));
 
-	$brgy_name = $res2['name'];
-	$contact = $res2['contact'];
+	$brgy_name = strtoupper($res2['name']); //brgy name
+	$contact = $res2['contact']; //brgy contact
 
 	if($count  < 3){
 		$color =  'GREEN';
-		return;
+		
 	}elseif($count < 5){
 		$color = 'ORANGE';
 
@@ -766,21 +766,37 @@ function sendAlert($disease_id,$count,$barangay_id){
 	$basic  = new \Nexmo\Client\Credentials\Basic('451e9176', 'zYYvEKcZNKM06C89');
 	$client = new \Nexmo\Client($basic);
 
+	$prefix = strtoupper($name). " ALERT! ".\Carbon\Carbon::now()->format('Y-m-d h:i:s A').". ";
 
  	$brgy_list = getBarangay();
 
-	$text =  strtoupper($name)." ALERT!!!! ".date("Y-m-d H:i:s A")."
-	THIS IS TO INFORM YOU THAT BARANGAY ".strtoupper($brgy_name)." IS ON ".strtoupper($color)." ".".$message.";
+	$text = $xml->note->msg;
+ 	$text= str_replace("[brgy]", $brgy_name, $text);
+ 	$text= str_replace("[color]", $color, $text);
+
+ 	$sms = $prefix.$text;
 	$num =  "+63".substr($brgy_list[1]['contact'],1);
+
 	
+	/*
+	foreach ($brgy_list as $k => $v) {
+	$num = "+63".substr($v['contact'],1);
 	$message = $client->message()->send([
 	    'to' => $num,
 	    'from' => 'Nexmo',
-	    'text' => 'HELLO WORLDDDDDD'
+	    'text' => $sms
 	]);
 
-	echo "Sent to :".$num."<br>"."Body: ".$text;
 
+	}
+
+	*/
+
+	$sms = addslashes($sms);
+   
+ 	$sql = "Insert into sms (message,disease_id,barangay_id,count,disease_name,barangay_name,color) values ('$sms','$disease_id','$barangay_id','$count','$name','$brgy_name','$color')";
+ 	mysqli_query($conn,$sql);
+	echo $sql;
 
 /*
 	
@@ -808,5 +824,19 @@ function sendAlert($disease_id,$count,$barangay_id){
 }else{
 
 }
+}
+
+function getSMSAlert(){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$sql = "Select * from sms order by created_at DESC";
+	$res = $data = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
+
+	return $res;
+}
+
+function getMessageByDiseaseID($id){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$sql = "Select message from diseases where id = '$id'";
+	return mysqli_fetch_assoc(mysqli_query($conn,$sql))['message'];
 }
 ?>
