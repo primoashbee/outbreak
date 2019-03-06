@@ -79,3 +79,9 @@ function textAreaAdjust(el) {
     console.log(count);
 
 }
+
+$(function(){
+    setInterval(function(){
+        $('#time').html(moment().format('MMMM Do YYYY, h:mm:ss A'))        
+    },1000)
+})

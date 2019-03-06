@@ -16,6 +16,11 @@
                 <div class="menu-inner" style="width: 100%!important">
                     <nav>
                         <ul class="metismenu" id="menu">
+                            <li class="active">
+                              <a href="javascript:void(0)" aria-expanded="true" style="font-size:1..2em"><i class="fa fa-clock-o"></i>
+                                    <span id="time" ></span></a>
+
+                            </li>
                             <li class="<?=urlHas(getURL(),"index")?>">
                                 <a href="index.php" aria-expanded="true"><i class="ti-dashboard"></i><span>Dashboard</span></a>
                                 
@@ -90,7 +95,6 @@
                                     <li><a href="logout.php">Log Out</a></li>
                                 </ul>
                             </li>
-
                         </ul>
                     </nav>
                 </div>
