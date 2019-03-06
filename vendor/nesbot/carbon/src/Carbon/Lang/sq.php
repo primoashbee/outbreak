@@ -9,21 +9,34 @@
  * file that was distributed with this source code.
  */
 
+/**
+ * Authors:
+ * - François B
+ * - JD Isaacks
+ * - Fadion Dashi
+ */
 return [
-    'year' => 'një vit|:count vite',
-    'y' => ':count vit|:count vjet',
-    'month' => 'një muaj|:count muaj',
-    'm' => ':count muaj|:count muaj',
-    'week' => ':count javë|:count javë',
-    'w' => ':count javë|:count javë',
-    'day' => 'një ditë|:count ditë',
-    'd' => ':count ditë|:count ditë',
-    'hour' => 'një orë|:count orë',
-    'h' => ':count orë|:count orë',
-    'minute' => 'një minutë|:count minuta',
-    'min' => ':count minutë|:count minuta',
-    'second' => 'disa sekonda|:count sekonda',
-    's' => ':count sekondë|:count sekonda',
+    'year' => ':count vit|:count vjet',
+    'a_year' => 'një vit|:count vite',
+    'y' => ':count v.',
+    'month' => ':count muaj',
+    'a_month' => 'një muaj|:count muaj',
+    'm' => ':count muaj',
+    'week' => ':count javë',
+    'a_week' => ':count javë|:count javë',
+    'w' => ':count j.',
+    'day' => ':count ditë',
+    'a_day' => 'një ditë|:count ditë',
+    'd' => ':count d.',
+    'hour' => ':count orë',
+    'a_hour' => 'një orë|:count orë',
+    'h' => ':count o.',
+    'minute' => ':count minutë|:count minuta',
+    'a_minute' => 'një minutë|:count minuta',
+    'min' => ':count min.',
+    'second' => ':count sekondë|:count sekonda',
+    'a_second' => 'disa sekonda|:count sekonda',
+    's' => ':count s.',
     'ago' => ':time më parë',
     'from_now' => 'në :time',
     'after' => ':time pas',
@@ -45,11 +58,7 @@ return [
         'sameElse' => 'L',
     ],
     'ordinal' => ':number.',
-    'meridiem' => function ($hour, $minute, $isLower) {
-        $meridiem = $hour < 12 ? 'PD' : 'MD';
-
-        return $isLower ? strtolower($meridiem) : $meridiem;
-    },
+    'meridiem' => ['PD', 'MD'],
     'months' => ['Janar', 'Shkurt', 'Mars', 'Prill', 'Maj', 'Qershor', 'Korrik', 'Gusht', 'Shtator', 'Tetor', 'Nëntor', 'Dhjetor'],
     'months_short' => ['Jan', 'Shk', 'Mar', 'Pri', 'Maj', 'Qer', 'Kor', 'Gus', 'Sht', 'Tet', 'Nën', 'Dhj'],
     'weekdays' => ['E Diel', 'E Hënë', 'E Martë', 'E Mërkurë', 'E Enjte', 'E Premte', 'E Shtunë'],

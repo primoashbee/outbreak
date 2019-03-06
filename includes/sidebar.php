@@ -21,6 +21,9 @@
                                 
                                    
                             </li>
+                            <?php
+                                if($_SESSION['user']['isAdmin']){
+                            ?>
                             <li class="<?=urlHas(getURL(),"account")?>">
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout-sidebar-left"></i><span>Accounts
                                     </span></a>
@@ -29,6 +32,12 @@
                                     <li><a href="create_account.php">Create Account</a></li>
                                 </ul>
                             </li>
+                            <?php 
+                            }
+                            ?>
+                            <?php
+                                if($_SESSION['user']['isAdmin']){
+                            ?>                            
                             <li class="<?=urlHas(getURL(),"disease")?>">
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-pie-chart"></i><span>Diseases</span></a>
                                 <ul class="collapse">
@@ -36,6 +45,9 @@
                                     <li><a href="create_disease.php">Add Discovered Disease</a></li>
                                 </ul>
                             </li>
+                            <?php 
+                            }
+                            ?>
                             <li class="<?=urlHas(getURL(),"record")?>">
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-palette"></i><span>Records</span></a>
                                 <ul class="collapse">
@@ -43,6 +55,9 @@
                                     <li><a href="create_record.php">Add New Record</a></li>
                                 </ul>
                             </li>
+                            <?php
+                                if($_SESSION['user']['isAdmin']){
+                            ?>                            
                             <li class="<?=urlHas(getURL(),"hospital")?>">
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout-column4-alt"></i><span>Hospital</span></a>
                                 <ul class="collapse">
@@ -50,6 +65,9 @@
                                     <li><a href="create_hospital.php">Add New Hospital</a></li>
                                 </ul>
                             </li>
+                            <?php
+                            }
+                            ?>
                             <li class="<?=urlHas(getURL(),"tip")?>">
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-slice"></i><span>Health Knowledge</span></a>
                                 <ul class="collapse">
@@ -58,9 +76,16 @@
                                 </ul>
                             </li>
                             <li>
-                                <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-exclamation-triangle"></i>
-                                    <span>Account</span></a>
+                                <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-gear"></i>
+                                    <span>Settings</span></a>
                                 <ul class="collapse">
+                                <?php
+                                    if($_SESSION['user']['isAdmin']){
+                                ?>
+                                    <li><a href="setup.php">Set Up</a></li>
+                                <?php 
+                                }
+                                ?>
                                     <li class="changePassword"><a href="#changePass">Change Password</a></li>
                                     <li><a href="logout.php">Log Out</a></li>
                                 </ul>

@@ -12,25 +12,47 @@
     return $number === 1 ? 0 : 1;
 }, 'uz');
 
+/*
+ * Authors:
+ * - Dmitriy Shabanov
+ * - JD Isaacks
+ * - Inoyatulloh
+ * - Jamshid
+ * - aarkhipov
+ * - Philippe Vaucher
+ * - felixthemagnificent
+ * - Tsutomu Kuroda
+ * - tjku
+ * - Max Melentiev
+ * - Juanito Fatas
+ * - Alisher Ulugbekov
+ */
 return [
-    'year' => 'бир йил|:count йил',
-    'y' => ':count yil',
-    'month' => 'бир ой|:count ой',
-    'm' => ':count oy',
-    'week' => 'бир ҳафта|:count ҳафта',
-    'w' => ':count ҳафта',
-    'day' => 'бир кун|:count кун',
-    'd' => ':count kun',
-    'hour' => 'бир соат|:count соат',
-    'h' => ':count soat',
-    'minute' => 'бир дакика|:count дакика',
-    'min' => ':count daq',
-    'second' => 'фурсат|:count фурсат',
-    's' => ':count s',
+    'year' => ':count йил',
+    'a_year' => 'бир йил|:count йил',
+    'y' => ':count й',
+    'month' => ':count ой',
+    'a_month' => 'бир ой|:count ой',
+    'm' => ':count о',
+    'week' => ':count ҳафта',
+    'a_week' => 'бир ҳафта|:count ҳафта',
+    'w' => ':count ҳ',
+    'day' => ':count кун',
+    'a_day' => 'бир кун|:count кун',
+    'd' => ':count к',
+    'hour' => ':count соат',
+    'a_hour' => 'бир соат|:count соат',
+    'h' => ':count с',
+    'minute' => ':count дакика',
+    'a_minute' => 'бир дакика|:count дакика',
+    'min' => ':count д',
+    'second' => ':count фурсат',
+    'a_second' => 'фурсат|:count фурсат',
+    's' => ':count ф',
     'ago' => 'Бир неча :time олдин',
     'from_now' => 'Якин :time ичида',
-    'after' => ':time keyin',
-    'before' => ':time oldin',
+    'after' => ':time пас аз он',
+    'before' => ':time пеш аз он',
     'diff_yesterday' => 'Кеча',
     'diff_tomorrow' => 'Эртага',
     'formats' => [
@@ -56,4 +78,6 @@ return [
     'weekdays_min' => ['Як', 'Ду', 'Се', 'Чо', 'Па', 'Жу', 'Ша'],
     'first_day_of_week' => 1,
     'day_of_first_week_of_year' => 1,
+    'meridiem' => ['ertalab', 'kechasi'],
+    'list' => [', ', ' va '],
 ];

@@ -14,6 +14,14 @@ function ifHasPassword(p1,p2){
 
 }
 
+function strReverse(string){
+    var reversed = ""
+    var str = string
+    for (var i = str.length - 1; i >= 0; i--) {
+        reversed = reversed + str.charAt(i)
+    }
+    return reversed;
+}
 function passwordConfirmed(p1,p2){
     if(p1==p2){
         return true;
@@ -64,3 +72,10 @@ $('#btnChangePass').click(function(){
     alert('fill up fields')
     return;
 })
+
+function textAreaAdjust(el) {
+    var lines = el.val().split('\n');
+    var count = lines.length;
+    console.log(count);
+
+}

@@ -13,10 +13,15 @@ $res = mysqli_query($conn,$sql);
 if(mysqli_num_rows($res)>0){
 	$info = mysqli_fetch_assoc($res);
 	if(password_verify($password,$info['password'])){
-		echo 'nice pass';
+		
 		$_SESSION['user'] = $info;
-		header('location:admin/index.php');
-		exit;
+		
+		if($info['isAdmin']){
+			header('location:admin/index.php');
+			return;
+		}
+			header('location:rhu/index.php');
+			return;
 	}
 	$_SESSION['msg'] = array('isSucces'=>0,'msg'=>'User not found!');
 	$_SESSION['post_data'] = $_POST;

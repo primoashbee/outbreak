@@ -45,13 +45,8 @@ $client->messages->create(
 );  
 */
 
-require "config.php";
-$x = getDiseasesCountPerYear();
 
-foreach($x as $k=>$v){
-    echo $v['name']."<br>";
-}
-
+//sendAlert(1,4,21);
 return;
 
 require_once(__DIR__ . '/vendor/autoload.php');

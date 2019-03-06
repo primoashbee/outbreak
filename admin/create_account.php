@@ -4,6 +4,10 @@
     if(!isset($_SESSION['user'])){
         header('location:../index.php');
     }
+    if($_SESSION['user']['isAdmin']==0){
+        header('location:../index.php');   
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -164,7 +168,7 @@
             if(passwordConfirmed(p1,p2)){
             
                 if(validatePassword(p1)){
-
+                    e.submit()
                 }
                 alert('Password should have one number, one lowercase and one uppercase letter')
                 e.preventDefault()

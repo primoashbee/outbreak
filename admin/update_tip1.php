@@ -4,6 +4,10 @@ require "../config.php";
     if(!isset($_SESSION['user'])){
         header('location:../index.php');
     }
+    if($_SESSION['user']['isAdmin']==0){
+        header('location:../index.php');   
+    }
+
 $errors = array();
 foreach($_POST as $k => $v){
 	if($v==""){

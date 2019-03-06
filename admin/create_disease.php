@@ -4,6 +4,10 @@
     if(!isset($_SESSION['user'])){
         header('location:../index.php');
     }
+    
+    if($_SESSION['user']['isAdmin']==0){
+        header('location:../index.php');   
+    }
 ?>
 
 <!DOCTYPE html>
@@ -106,9 +110,14 @@
                                         <input type="text" class="form-control" name="name" id="name" aria-describedby="name" placeholder="name" required="">
                                     </div>
                                     <div class="row">
-                                    <div class="form-group col">
+                                    <div class="form-group col-12">
                                         <label for="description">Description</label>
-                                        <textarea class="form-control" id="description" aria-describedby="description" placeholder="description" name="description" required=""></textarea>
+                                        <textarea class="form-control" id="description" aria-describedby="description" placeholder="description" name="description" required="" rows ="5"></textarea>
+                                    </div>
+                                    <div class="form-group col-12">
+                                        <label for="message">Outbreak Message</label>
+                                        <textarea class="form-control" id="message" aria-describedby="message" placeholder="message" name="message" required="" rows ="5"></textarea>
+                                        <i> Maximum of 160 Characters Only (<span id="charLeft" class="bold">160 </span> left)</i>
                                     </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Submit</button>
@@ -122,9 +131,12 @@
 
 <?php 
 
+    
     include "../includes/footer.php";
+   
 
-?>
+?> 
+
 
     </div>
     <!-- page container area end -->
@@ -136,4 +148,13 @@
     unset($_SESSION['msg']);
     unset($_SESSION['post_data']);
 ?>
+<script>
+    var char = 160;
+    $("#message").on("keyup",function(){
+        var total =  $(this).val().length
+        $('#charLeft').html(char - total)
+        
+    })
+
+</script>
 </html>

@@ -9,14 +9,25 @@
  * file that was distributed with this source code.
  */
 
+/**
+ * Authors:
+ * - JD Isaacks
+ */
 return [
-    'year' => 'ഒരു വർഷം|:count വർഷം',
-    'month' => 'ഒരു മാസം|:count മാസം',
-    'week' => 'ഒരാഴ്ച|:count ആഴ്ച',
-    'day' => 'ഒരു ദിവസം|:count ദിവസം',
-    'hour' => 'ഒരു മണിക്കൂർ|:count മണിക്കൂർ',
-    'minute' => 'ഒരു മിനിറ്റ്|:count മിനിറ്റ്',
-    'second' => 'അൽപ നിമിഷങ്ങൾ|:count സെക്കൻഡ്',
+    'year' => ':count വർഷം',
+    'a_year' => 'ഒരു വർഷം|:count വർഷം',
+    'month' => ':count മാസം',
+    'a_month' => 'ഒരു മാസം|:count മാസം',
+    'week' => ':count ആഴ്ച',
+    'a_week' => 'ഒരാഴ്ച|:count ആഴ്ച',
+    'day' => ':count ദിവസം',
+    'a_day' => 'ഒരു ദിവസം|:count ദിവസം',
+    'hour' => ':count മണിക്കൂർ',
+    'a_hour' => 'ഒരു മണിക്കൂർ|:count മണിക്കൂർ',
+    'minute' => ':count മിനിറ്റ്',
+    'a_minute' => 'ഒരു മിനിറ്റ്|:count മിനിറ്റ്',
+    'second' => ':count സെക്കൻഡ്',
+    'a_second' => 'അൽപ നിമിഷങ്ങൾ|:count സെക്കൻഡ്',
     'ago' => ':time മുൻപ്',
     'from_now' => ':time കഴിഞ്ഞ്',
     'diff_yesterday' => 'ഇന്നലെ',
@@ -37,7 +48,7 @@ return [
         'lastWeek' => '[കഴിഞ്ഞ] dddd, LT',
         'sameElse' => 'L',
     ],
-    'meridiem' => function ($hour, $minute, $isLower) {
+    'meridiem' => function ($hour) {
         if ($hour < 4) {
             return 'രാത്രി';
         }

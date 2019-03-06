@@ -9,6 +9,13 @@
  * file that was distributed with this source code.
  */
 
+/**
+ * Authors:
+ * - Daniel Cohen Gindi
+ * - JD Isaacks
+ * - Itai Nathaniel
+ * - GabMic
+ */
 return [
     'year' => 'שנה|{2}שנתיים|:count שנים',
     'y' => 'שנה|{2}שנתיים|:count שנים',
@@ -20,12 +27,13 @@ return [
     'd' => 'יום|{2}יומיים|:count ימים',
     'hour' => 'שעה|{2}שעתיים|:count שעות',
     'h' => 'שעה|{2}שעתיים|:count שעות',
-    'minute' => 'דקה|{2}דקותיים|:count דקות',
-    'min' => 'דקה|{2}דקותיים|:count דקות',
-    'second' => 'שניה|:count שניות',
+    'minute' => 'דקה|{2}שתי דקות|:count דקות',
+    'min' => 'דקה|{2}שתי דקות|:count דקות',
+    'second' => 'שנייה|:count שניות',
+    'a_second' => 'כמה שניות|:count שניות',
     's' => 'שניה|:count שניות',
     'ago' => 'לפני :time',
-    'from_now' => 'בעוד :time',
+    'from_now' => 'בעוד :time מעכשיו',
     'after' => 'אחרי :time',
     'before' => 'לפני :time',
     'formats' => [

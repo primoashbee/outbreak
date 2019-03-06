@@ -11,6 +11,8 @@
 namespace Carbon;
 
 use Closure;
+use ReflectionException;
+use ReflectionFunction;
 use Symfony\Component\Translation;
 
 class Translator extends Translation\Translator
@@ -143,7 +145,18 @@ class Translator extends Translation\Translator
         $format = $this->getCatalogue($locale)->get((string) $id, $domain);
 
         if ($format instanceof Closure) {
-            return $format(...array_values($parameters));
+            // @codeCoverageIgnoreStart
+            try {
+                $count = (new ReflectionFunction($format))->getNumberOfRequiredParameters();
+            } catch (ReflectionException $exception) {
+                $count = 0;
+            }
+            // @codeCoverageIgnoreEnd
+
+            return $format(
+                ...array_values($parameters),
+                ...array_fill(0, max(0, $count - count($parameters)), null)
+            );
         }
 
         return parent::trans($id, $parameters, $domain, $locale);
@@ -288,8 +301,14 @@ class Translator extends Translation\Translator
     public function setLocale($locale)
     {
         $locale = preg_replace_callback('/[-_]([a-z]{2,})/', function ($matches) {
-            // _2-letters is a region, _3+-letters is a variant
-            return '_'.call_user_func(strlen($matches[1]) > 2 ? 'ucfirst' : 'strtoupper', $matches[1]);
+            // _2-letters or YUE is a region, _3+-letters is a variant
+            $upper = strtoupper($matches[1]);
+
+            if ($upper === 'YUE' || strlen($upper) < 3) {
+                return "_$upper";
+            }
+
+            return '_'.ucfirst($matches[1]);
         }, strtolower($locale));
 
         if ($this->getLocale() === $locale) {

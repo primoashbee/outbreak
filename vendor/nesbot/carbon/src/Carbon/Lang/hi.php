@@ -9,6 +9,12 @@
  * file that was distributed with this source code.
  */
 
+/**
+ * Authors:
+ * - abhimanyu003
+ * - Josh Soref
+ * - JD Isaacks
+ */
 return [
     'year' => 'एक वर्ष|:count वर्ष',
     'y' => '1 वर्ष|:count वर्षों',
@@ -46,7 +52,7 @@ return [
         'lastWeek' => '[पिछले] dddd, LT',
         'sameElse' => 'L',
     ],
-    'meridiem' => function ($hour, $minute, $isLower) {
+    'meridiem' => function ($hour) {
         if ($hour < 4) {
             return 'रात';
         }
@@ -68,4 +74,6 @@ return [
     'weekdays_short' => ['रवि', 'सोम', 'मंगल', 'बुध', 'गुरू', 'शुक्र', 'शनि'],
     'weekdays_min' => ['र', 'सो', 'मं', 'बु', 'गु', 'शु', 'श'],
     'list' => [', ', ' और '],
+    'first_day_of_week' => 0,
+    'day_of_first_week_of_year' => 1,
 ];

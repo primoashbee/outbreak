@@ -37,14 +37,26 @@ $weekdays = [
     'ހޮނިހިރު',
 ];
 
+/*
+ * Authors:
+ * - Josh Soref
+ * - Jawish Hameed
+ */
 return [
-    'year' => 'އަހަރެއް|އަހަރު :count',
-    'month' => 'މަހެއް|މަސް :count',
-    'week' => 'ހަފްތާ :count',
-    'day' => 'ދުވަހެއް|ދުވަސް :count',
-    'hour' => 'ގަޑިއިރެއް|ގަޑިއިރު :count',
-    'minute' => 'މިނިޓެއް|މިނިޓު :count',
-    'second' => 'ސިކުންތުކޮޅެއް|d% ސިކުންތު',
+    'year' => ':count '.'އަހަރު',
+    'a_year' => 'އަހަރެއް'.'|:count '.'އަހަރު',
+    'month' => ':count '.'މަސް',
+    'a_month' => 'މަހެއް'.'|:count '.'މަސް',
+    'week' => ':count '.'ހަފްތާ',
+    'a_week' => 'ސިކުންތުކޮޅެއް'.'|:count '.'ހަފްތާ',
+    'day' => ':count '.'ދުވަސް',
+    'a_day' => 'ދުވަހެއް'.'|:count '.'ދުވަސް',
+    'hour' => ':count '.'ގަޑިއިރު',
+    'a_hour' => 'ގަޑިއިރެއް'.'|:count '.'ގަޑިއިރު',
+    'minute' => ':count '.'މިނިޓު',
+    'a_minute' => 'މިނިޓެއް'.'|:count '.'މިނިޓު',
+    'second' => ':count '.'ސިކުންތު',
+    'a_second' => 'ސިކުންތުކޮޅެއް'.'|:count '.'ސިކުންތު',
     'ago' => 'ކުރިން :time',
     'from_now' => 'ތެރޭގައި :time',
     'after' => ':time ފަހުން',
@@ -67,13 +79,13 @@ return [
         'lastWeek' => '[ފާއިތުވި] dddd LT',
         'sameElse' => 'L',
     ],
-    'meridiem' => function ($hour, $minute, $isLower) {
-        return $hour < 12 ? 'މކ' : 'މފ';
-    },
+    'meridiem' => ['މކ', 'މފ'],
     'months' => $months,
     'months_short' => $months,
     'weekdays' => $weekdays,
     'weekdays_short' => $weekdays,
     'weekdays_min' => ['އާދި', 'ހޯމަ', 'އަން', 'ބުދަ', 'ބުރާ', 'ހުކު', 'ހޮނި'],
     'list' => [', ', ' އަދި '],
+    'first_day_of_week' => 0,
+    'day_of_first_week_of_year' => 1,
 ];

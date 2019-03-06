@@ -9,20 +9,34 @@
  * file that was distributed with this source code.
  */
 
+/**
+ * Authors:
+ * - Josh Soref
+ * - du
+ * - JD Isaacks
+ * - Nafies Luthfi
+ */
 return [
-    'year' => '{1}setahun|]1,Inf[:count tahun',
+    'year' => ':count tahun',
+    'a_year' => '{1}setahun|]1,Inf[:count tahun',
     'y' => ':countthn',
-    'month' => '{1}sebulan|]1,Inf[:count bulan',
+    'month' => ':count bulan',
+    'a_month' => '{1}sebulan|]1,Inf[:count bulan',
     'm' => ':countbln',
     'week' => ':count minggu',
+    'a_week' => '{1}seminggu|]1,Inf[:count minggu',
     'w' => ':countmgg',
-    'day' => '{1}sehari|]1,Inf[:count hari',
+    'day' => ':count hari',
+    'a_day' => '{1}sehari|]1,Inf[:count hari',
     'd' => ':counthr',
-    'hour' => '{1}sejam|]1,Inf[:count jam',
+    'hour' => ':count jam',
+    'a_hour' => '{1}sejam|]1,Inf[:count jam',
     'h' => ':countj',
-    'minute' => '{1}semenit|]1,Inf[:count menit',
+    'minute' => ':count menit',
+    'a_minute' => '{1}semenit|]1,Inf[:count menit',
     'min' => ':countmnt',
-    'second' => '{1}beberapa detik|]1,Inf[:count detik',
+    'second' => ':count detik',
+    'a_second' => '{1}beberapa detik|]1,Inf[:count detik',
     's' => ':countdt',
     'ago' => ':time yang lalu',
     'from_now' => 'dalam :time',
@@ -44,7 +58,7 @@ return [
         'lastWeek' => 'dddd [lalu pukul] LT',
         'sameElse' => 'L',
     ],
-    'meridiem' => function ($hour, $minute, $isLower) {
+    'meridiem' => function ($hour) {
         if ($hour < 11) {
             return 'pagi';
         }

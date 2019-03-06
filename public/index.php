@@ -52,12 +52,13 @@
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#about">Alerts</a>
           </li>
+          <!--
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#team">Team</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
-          </li>
+          </li>!-->
         </ul>
       </div>
     </div>
@@ -242,6 +243,7 @@
   </section>
 
   <!-- Team -->
+  <!--
   <section class="bg-light" id="team">
     <div class="container">
       <div class="row">
@@ -330,9 +332,10 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> !-->
 
   <!-- Clients -->
+  <!--
   <section class="py-5">
     <div class="container">
       <div class="row">
@@ -358,9 +361,10 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> !-->
 
   <!-- Contact -->
+  <!--
   <section id="contact">
     <div class="container">
       <div class="row">
@@ -403,7 +407,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> !-->
 
   <!-- Footer -->
   <footer>
@@ -509,6 +513,7 @@
 
   <!-- Custom scripts for this template -->
   <script src="js/agency.min.js"></script>
+  
 
 </body>
 

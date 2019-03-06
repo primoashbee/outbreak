@@ -4,6 +4,10 @@
     if(!isset($_SESSION['user'])){
         header('location:../index.php');
     }
+    if($_SESSION['user']['isAdmin']==0){
+        header('location:../index.php');   
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -79,7 +83,12 @@
                     <div class="row">
                         <div class="col-12">
                           <div class="card">
-                            <select name="year" id="year" class="form-control">
+                            <form action="<?=basename($_SERVER['REQUEST_URI'])?>" id="frmSearch" method="GET">
+                             <div class="row" style="padding:15px 15px 0px 15px">
+                            
+                            <div class="col-6">
+                              <select name="year" id="year" class="form-control filter" >
+                                 <option value="">Please select</option>
                               <?php 
                                 $years = getYearsInRecords();
 
@@ -91,16 +100,38 @@
                               }
 
                               ?>
+                            </select>   
+                            </div>
+                            <div class="col-6">          
+                            <select name="disease_id" id="disease_id" class="form-control filter">
+                              <option value="">Please select</option>
+                              <?php 
+                                $diseases = getDiseases();
+
+                                foreach ($diseases as $x) {
+                                
+                              ?>
+                              <option value="<?=$x['id']?>"><?=$x['name']?></option>
+                              <?php 
+                              }
+
+                              ?>
                             </select>
+                            </div>    
+                            </div>
+                            </form>
                               <div class="card-body">
-                                  <h4 class="header-title">Map Status</h4>
+                                  <h5 class="header-title">Map Status </h5>
+                                  <h4> As of <?=todayForHumans()?></h4>
                                   <iframe src="map.php" type="" width="100%" height="550px" id="embedMap"></iframe>
                              </div>
                           </div>
                         </div>                       
                         <div class="col-12">
                           <div class="card">
+
                             <div class="card-body">
+
                                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link active show" id="yearly-tab" data-toggle="tab" href="#yearly" role="tab" aria-controls="yearly" aria-selected="false">Yearly</a>
@@ -166,26 +197,48 @@ var year;
 $(function(){
   <?php 
   $year =2019;
+  $disease_id = "";
   if(isset($_GET['year'])){ 
   $year = $_GET['year']; 
-  } ?>
+  } 
+
+  if(isset($_GET['disease_id'])){ 
+  $disease_id = $_GET['disease_id']; 
+  } 
+
+  ?>
 
 
 
-  var year = <?=$year?>; 
+  var year = <?=$year?>;  
+  var disease_id = "<?=$disease_id?>"; 
   $('#year').val(year)
-  $('#embedMap').attr("src","map.php?year="+year)
+  $('#disease_id').val(disease_id)
+  $('#embedMap').attr("src","map.php?<?=$_SERVER['REQUEST_URI']?>")
   $('#embedGraphYear').attr("src","graph_year.php?year="+year)
   $('#embedGraphMonth').attr("src","graph_month.php?year="+year)
   $('#embedGraphWeek').attr("src","graph_week.php?year="+year)
   $('#embedGraphDay').attr("src","graph_day.php?year="+year)
 })
 
- $('#year').change(function(){
+/* $('#year').change(function(){
  
   window.location.href = 'index.php?year='+$(this).val();
  })
  var innerHiddenValue = $($('input[name="f01"]').val()).val();
+*/
+$('.filter').change(function(){
+var year = $("#year").val();
+var disease_id = $("#disease_id").val();
+
+$.each($('.filter'),function(k,v){
+  if($(v).val() == ""){
+    $(v).attr("disabled",true)
+  }
+})
+
+$('#frmSearch').submit();
+})
 
 </script>
 

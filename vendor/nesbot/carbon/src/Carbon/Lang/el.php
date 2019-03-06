@@ -9,21 +9,37 @@
  * file that was distributed with this source code.
  */
 
+/**
+ * Authors:
+ * - Alessandro Di Felice
+ * - François B
+ * - Tim Fish
+ * - Gabriel Monteagudo
+ * - JD Isaacks
+ * - yiannisdesp
+ */
 return [
-    'year' => 'ένας χρόνος|:count χρόνια',
-    'y' => ':count χρόνος|:count χρόνια',
-    'month' => 'ένας μήνας|:count μήνες',
-    'm' => ':count μήνας|:count μήνες',
+    'year' => ':count χρόνος|:count χρόνια',
+    'a_year' => 'ένας χρόνος|:count χρόνια',
+    'y' => ':count χρό.',
+    'month' => ':count μήνας|:count μήνες',
+    'a_month' => 'ένας μήνας|:count μήνες',
+    'm' => ':count μήν.',
     'week' => ':count εβδομάδα|:count εβδομάδες',
-    'w' => ':count εβδομάδα|:count εβδομάδες',
-    'day' => 'μία μέρα|:count μέρες',
-    'd' => ':count μέρα|:count μέρες',
-    'hour' => 'μία ώρα|:count ώρες',
+    'a_week' => 'μια εβδομάδα|:count εβδομάδες',
+    'w' => ':count εβδ.',
+    'day' => ':count μέρα|:count μέρες',
+    'a_day' => 'μία μέρα|:count μέρες',
+    'd' => ':count μέρ.',
+    'hour' => ':count ώρα|:count ώρες',
+    'a_hour' => 'μία ώρα|:count ώρες',
     'h' => ':count ώρα|:count ώρες',
-    'minute' => 'ένα λεπτό|:count λεπτά',
-    'min' => ':count λεπτό|:count λεπτά',
-    'second' => 'λίγα δευτερόλεπτα|:count δευτερόλεπτα',
-    's' => ':count δευτερόλεπτο|:count δευτερόλεπτα',
+    'minute' => ':count λεπτό|:count λεπτά',
+    'a_minute' => 'ένα λεπτό|:count λεπτά',
+    'min' => ':count λεπ.',
+    'second' => ':count δευτερόλεπτο|:count δευτερόλεπτα',
+    'a_second' => 'λίγα δευτερόλεπτα|:count δευτερόλεπτα',
+    's' => ':count δευ.',
     'ago' => ':time πριν',
     'from_now' => 'σε :time',
     'after' => ':time μετά',
@@ -52,11 +68,7 @@ return [
         'sameElse' => 'L',
     ],
     'ordinal' => ':numberη',
-    'meridiem' => function ($hour, $minute, $isLower) {
-        return $isLower
-            ? ($hour > 11 ? 'μμ' : 'πμ')
-            : ($hour > 11 ? 'ΜΜ' : 'ΠΜ');
-    },
+    'meridiem' => ['ΠΜ', 'ΜΜ', 'πμ', 'μμ'],
     'months' => ['Ιανουαρίου', 'Φεβρουαρίου', 'Μαρτίου', 'Απριλίου', 'Μαΐου', 'Ιουνίου', 'Ιουλίου', 'Αυγούστου', 'Σεπτεμβρίου', 'Οκτωβρίου', 'Νοεμβρίου', 'Δεκεμβρίου'],
     'months_standalone' => ['Ιανουάριος', 'Φεβρουάριος', 'Μάρτιος', 'Απρίλιος', 'Μάιος', 'Ιούνιος', 'Ιούλιος', 'Αύγουστος', 'Σεπτέμβριος', 'Οκτώβριος', 'Νοέμβριος', 'Δεκέμβριος'],
     'months_regexp' => '/D[oD]?[\s,]+MMMM/',

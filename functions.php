@@ -3,7 +3,9 @@
 require_once "vendor/autoload.php";
 use Plivo\RestClient;
 
-
+function todayForHumans(){
+	return \Carbon\Carbon::now()->isoFormat('MMMM Do YYYY, h:mm:ss a');
+}
 function getURL(){
 	return 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 }
@@ -358,9 +360,9 @@ function checkIfDiseaseExists($name){
 
 }
 
-function updateDiseaseByID($id,$name,$description){
+function updateDiseaseByID($id,$name,$description,$message){
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
-	$sql = "Update diseases set name = '$name', description ='$description' where id ='$id'";
+	$sql = "Update diseases set name = '$name', description ='$description', message ='$message' where id ='$id'";
 	if(mysqli_query($conn,$sql)){
 		echo  json_encode(array('isSuccess'=>1,'message'=>'Disease Succesfully Updated!'));
 		return;
@@ -696,12 +698,18 @@ function isZero($value){
 	return $value;
 }
 
-function mapColor($barangay_id,$year){
+function mapColor($barangay_id,$year,$disease_id){
 	//$x = ['green','orange','red'];
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	
 
+	$sql ="SELECT COUNT(disease_id) AS total FROM records WHERE barangay_id = '$barangay_id' AND YEAR(date_of_sickness) = '$year' and disease_id='$disease_id'";
+	
+	if($disease_id==""){
 	$sql ="SELECT COUNT(disease_id) AS total FROM records WHERE barangay_id = '$barangay_id' AND YEAR(date_of_sickness) = '$year'";
-	//echo $sql;
+	//echo $sql;	
+	}
+
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
 	$res = mysqli_fetch_assoc(mysqli_query($conn,$sql));
 
 	$count = $res['total'];
@@ -727,20 +735,24 @@ function getDiseaseCount($disease_id,$year,$barangay_id){
 }
 
 function sendAlert($disease_id,$count,$barangay_id){
+	$xml = $xml=simplexml_load_file("setup.xml");
 
+	if($xml->sms->activated=="true"){
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 
-	$sql ="SELECT `name` FROM diseases WHERE id = '$disease_id'";
+	$sql ="SELECT * FROM diseases WHERE id = '$disease_id'";
 	//echo $sql;
 	$res = mysqli_fetch_assoc(mysqli_query($conn,$sql));
 
 	$name = $res['name'];
+	$message = $res['message'];
 
-	$sql ="SELECT `name` FROM barangays WHERE id = '$barangay_id'";
+	$sql ="SELECT * FROM barangays WHERE id = '$barangay_id'";
 	//echo $sql;
 	$res2 = mysqli_fetch_assoc(mysqli_query($conn,$sql));
 
 	$brgy_name = $res2['name'];
+	$contact = $res2['contact'];
 
 	if($count  < 3){
 		$color =  'GREEN';
@@ -751,29 +763,50 @@ function sendAlert($disease_id,$count,$barangay_id){
 	}else{
 	 	$color = 'RED';
 	}
+	$basic  = new \Nexmo\Client\Credentials\Basic('451e9176', 'zYYvEKcZNKM06C89');
+	$client = new \Nexmo\Client($basic);
 
-	$text =  $name." ALERT!!!!".date("Y-m-d H:i:s A")."
-THIS IS TO INFORM YOU THAT BARANGAY ".strtoupper($brgy_name)." IS ON ".strtoupper($color)." WARNING...
-HERE ARE SOME TIPS TO PREVENT DENGUE:
-1.USE/WEAR INSECT REPELLENTS
-2.DRAIN AND DUMP STANDING WATERS FOUND IN CONTAINERS INSIDE AND AROUND THE HOUSE
-3.INSTALL OR FIX SCREENS ON WINDOWS AND DOORS
-4.SPRAY ADULTICIDE AROUND BARANGAY
-FOR MORE HEALTH TIPS, VISIT(PUBLIC WEBSITE).
-PLEASE BE AWARE AND KEEPSAFE!";
 
+ 	$brgy_list = getBarangay();
+
+	$text =  strtoupper($name)." ALERT!!!! ".date("Y-m-d H:i:s A")."
+	THIS IS TO INFORM YOU THAT BARANGAY ".strtoupper($brgy_name)." IS ON ".strtoupper($color)." ".".$message.";
+	$num =  "+63".substr($brgy_list[1]['contact'],1);
 	
-	$client = new RestClient("MAMJCXY2Y0ODUWMDHINZ", "OWU4YzM2ZDAzNmNmODNlN2NlNTYyNzBjYzg1Njkw");
+	$message = $client->message()->send([
+	    'to' => $num,
+	    'from' => 'Nexmo',
+	    'text' => 'HELLO WORLDDDDDD'
+	]);
+
+	echo "Sent to :".$num."<br>"."Body: ".$text;
+
+
+/*
+	
 	try {
-	    $response = $client->messages->create(
-	        '639335277747',
+		foreach ($brgy_list as $k => $v) {
+			echo "Send to ".$v['contact'];
+			$response = $client->messages->create(
+	         $v['contact'],
 	        ['639772862469'],
 	        $text
 	    );
-	    //print_r($response);
+
+ 		}
+
+	    	    //print_r($response);
 	}
-	catch (PlivoRestException $ex) {
-	    print_r(ex);
+	catch (Exception $e) {
+	    //print_r(ex);
+	    echo 'NOT ENOUGH CREDITS';
+	    //echo $e->getMessage();
 	}
+
+*/
+
+}else{
+
+}
 }
 ?>

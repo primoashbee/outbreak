@@ -9,6 +9,13 @@
  * file that was distributed with this source code.
  */
 
+/**
+ * Authors:
+ * - Josh Soref
+ * - MOHAN M U
+ * - François B
+ * - rajeevnaikte
+ */
 return [
     'year' => '{1}ಒಂದು ವರ್ಷ|]1,Inf[:count ವರ್ಷ',
     'month' => '{1}ಒಂದು ತಿಂಗಳು|]1,Inf[:count ತಿಂಗಳು',
@@ -38,7 +45,7 @@ return [
         'sameElse' => 'L',
     ],
     'ordinal' => ':numberನೇ',
-    'meridiem' => function ($hour, $minute, $isLower) {
+    'meridiem' => function ($hour) {
         if ($hour < 4) {
             return 'ರಾತ್ರಿ';
         }
@@ -60,4 +67,6 @@ return [
     'weekdays_short' => ['ಭಾನು', 'ಸೋಮ', 'ಮಂಗಳ', 'ಬುಧ', 'ಗುರು', 'ಶುಕ್ರ', 'ಶನಿ'],
     'weekdays_min' => ['ಭಾ', 'ಸೋ', 'ಮಂ', 'ಬು', 'ಗು', 'ಶು', 'ಶ'],
     'list' => ', ',
+    'first_day_of_week' => 0,
+    'day_of_first_week_of_year' => 1,
 ];

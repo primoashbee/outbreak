@@ -9,21 +9,50 @@
  * file that was distributed with this source code.
  */
 
+/**
+ * Authors:
+ * - Bari Badamshin
+ * - Jørn Ølmheim
+ * - François B
+ * - Tim Fish
+ * - Коренберг Марк (imac)
+ * - Serhan Apaydın
+ * - RomeroMsk
+ * - vsn4ik
+ * - JD Isaacks
+ * - Bari Badamshin
+ * - Jørn Ølmheim
+ * - François B
+ * - Коренберг Марк (imac)
+ * - Serhan Apaydın
+ * - RomeroMsk
+ * - vsn4ik
+ * - JD Isaacks
+ * - Fellzo
+ * - andrey-helldar
+ */
 return [
     'year' => ':count год|:count года|:count лет',
     'y' => ':count г|:count г|:count л',
+    'a_year' => '{1}год|:count год|:count года|:count лет',
     'month' => ':count месяц|:count месяца|:count месяцев',
     'm' => ':count м|:count м|:count м',
+    'a_month' => '{1}месяц|:count месяц|:count месяца|:count месяцев',
     'week' => ':count неделю|:count недели|:count недель',
     'w' => ':count н|:count н|:count н',
+    'a_week' => '{1}неделю|:count неделю|:count недели|:count недель',
     'day' => ':count день|:count дня|:count дней',
     'd' => ':count д|:count д|:count д',
+    'a_day' => '{1}день|:count день|:count дня|:count дней',
     'hour' => ':count час|:count часа|:count часов',
     'h' => ':count ч|:count ч|:count ч',
+    'a_hour' => '{1}час|:count час|:count часа|:count часов',
     'minute' => ':count минуту|:count минуты|:count минут',
     'min' => ':count мин|:count мин|:count мин',
+    'a_minute' => '{1}минуту|:count минуту|:count минуты|:count минут',
     'second' => ':count секунду|:count секунды|:count секунд',
     's' => ':count с|:count с|:count с',
+    'a_second' => '{1}секунду|:count секунду|:count секунды|:count секунд',
     'ago' => ':time назад',
     'from_now' => 'через :time',
     'after' => ':time после',
@@ -101,7 +130,7 @@ return [
                 return $number;
         }
     },
-    'meridiem' => function ($hour, $minute, $isLower) {
+    'meridiem' => function ($hour) {
         if ($hour < 4) {
             return 'ночи';
         }
@@ -116,8 +145,8 @@ return [
     },
     'months' => ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'],
     'months_standalone' => ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'],
-    'months_short' => ['янв.', 'февр.', 'мар.', 'апр.', 'мая', 'июня', 'июля', 'авг.', 'сент.', 'окт.', 'нояб.', 'дек.'],
-    'months_short_standalone' => ['янв.', 'февр.', 'март', 'апр.', 'май', 'июнь', 'июль', 'авг.', 'сент.', 'окт.', 'нояб.', 'дек.'],
+    'months_short' => ['янв', 'фев', 'мар', 'апр', 'мая', 'июня', 'июля', 'авг', 'сен', 'окт', 'ноя', 'дек'],
+    'months_short_standalone' => ['янв', 'фев', 'март', 'апр', 'май', 'июнь', 'июль', 'авг', 'сен', 'окт', 'ноя', 'дек'],
     'months_regexp' => '/D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/',
     'weekdays' => ['воскресенье', 'понедельник', 'вторник', 'среду', 'четверг', 'пятницу', 'субботу'],
     'weekdays_standalone' => ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'],

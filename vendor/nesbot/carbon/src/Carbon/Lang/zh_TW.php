@@ -9,6 +9,21 @@
  * file that was distributed with this source code.
  */
 
+/**
+ * Authors:
+ * - Adam
+ * - monkeycon
+ * - François B
+ * - Jason Katz-Brown
+ * - Chris Lam
+ * - Serhan Apaydın
+ * - Gary Lo
+ * - JD Isaacks
+ * - Chris Hemp
+ * - Eddie
+ * - KID
+ * - shankesgk2
+ */
 return [
     'year' => ':count年',
     'y' => ':count年',
@@ -22,7 +37,8 @@ return [
     'h' => ':count小時',
     'minute' => ':count分鐘',
     'min' => ':count分鐘',
-    'second' => '{1}幾秒|]1,Inf[:count秒',
+    'second' => ':count秒',
+    'a_second' => '{1}幾秒|]1,Inf[:count秒',
     's' => ':count秒',
     'ago' => ':time前',
     'from_now' => ':time內',
@@ -61,7 +77,7 @@ return [
                 return $number;
         }
     },
-    'meridiem' => function ($hour, $minute, $isLower) {
+    'meridiem' => function ($hour, $minute) {
         $time = $hour * 100 + $minute;
         if ($time < 600) {
             return '凌晨';

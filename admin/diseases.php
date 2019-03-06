@@ -4,6 +4,10 @@
     if(!isset($_SESSION['user'])){
         header('location:../index.php');
     }
+    if($_SESSION['user']['isAdmin']==0){
+        header('location:../index.php');   
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -104,8 +108,11 @@
                                                         <span class="status-p bg-success">Active</span>
                                                         <?php }?>
                                                     </td>
+                                                    <td><?=(ucfirst($disease['name']))?>
                                                     <td><?=substr(ucfirst($disease['description']),0,45).".."  
-                                                    ?></td>
+                                                    ?>
+                                                        
+                                                    </td>
                                                     <td>
                                                         <button type=" button" id="<?=$disease['id']?>" class="updateDisease btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
                                                         <button type="button" id="<?=$disease['id']?>" class="deleteDisease btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
@@ -139,7 +146,7 @@
     <!-- offset area start -->
 
     <div class="modal fade" id="updateModal">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title"><span id="diseaseName"></span></h5>
@@ -152,9 +159,13 @@
                         <input type="text" class="form-control" name="name" id="name" aria-describedby="name" placeholder="name" required="">
                     </div>
                     <div class="row">
-                        <div class="form-group col">
+                        <div class="form-group col-12">
                             <label for="description">Description</label>
-                            <textarea class="form-control" id="description" aria-describedby="description" placeholder="description" name="description" required=""></textarea>
+                            <textarea class="form-control" id="description" aria-describedby="description" placeholder="description" name="description" required="" rows ="5"></textarea>
+                        </div>
+                        <div class="form-group col-12">
+                            <label for="message">Outbreak Message</label>
+                            <textarea class="form-control" id="message" aria-describedby="message" placeholder="message" name="message" required="" rows ="5"></textarea>
                         </div>
                     </div>
                 </form>
@@ -217,9 +228,12 @@
             dataType:'JSON',
             type:'POST',
             success: function(data){
+                textAreaAdjust($('#description'))
+                //textAreaAdjust($('#message'))
                 $('#diseaseName').html(data.info.name)
                 $('#name').val(data.info.name)
                 $('#description').val(data.info.description)
+                $('#message').val(data.info.message)
                 $('#updateModal').modal('show')
             }
         })
@@ -228,15 +242,16 @@
     $('#btnUpdate').click(function(){
         var name = $('#name').val()
         var description = $('#description').val()
+        var message = $('#message').val()
 
-        if(name == "" || description ==""){
+        if(name == "" || description =="" || message ==""){
             alert('Please fill up all fields')
             return;
         }
 
         $.ajax({
             url:'ajax.php',
-            data: {type:'update_disease_via_id',id:id,name:name,description:description},
+            data: {type:'update_disease_via_id',id:id,name:name,description:description,message:message},
             type:'POST',
             dataType:'JSON',
             success: function(data){
