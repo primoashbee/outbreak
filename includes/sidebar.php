@@ -17,7 +17,7 @@
                     <nav>
                         <ul class="metismenu" id="menu">
                             <li class="active">
-                              <a href="javascript:void(0)" aria-expanded="true" style="font-size:1..2em"><i class="fa fa-clock-o"></i>
+                              <a href="javascript:void(0)" aria-expanded="true" style="font-size:1.em"><i class="fa fa-clock-o"></i>
                                     <span id="time" ></span></a>
 
                             </li>

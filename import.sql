@@ -1,24 +1,3 @@
-/*
-SQLyog Ultimate v12.09 (64 bit)
-MySQL - 5.7.19 : Database - outbreak
-*********************************************************************
-*/
-
-
-/*!40101 SET NAMES utf8 */;
-
-/*!40101 SET SQL_MODE=''*/;
-
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-/*CREATE DATABASE /*!32312 IF NOT EXISTS*/`outbreak` /*!40100 DEFAULT CHARACTER SET latin1 */;
-
-/*USE `jimboyji_test`*/;
-
-/*Table structure for table `barangays` */
-
 DROP TABLE IF EXISTS `barangays`;
 
 CREATE TABLE `barangays` (
@@ -164,8 +143,3 @@ CREATE TABLE `users` (
 /*Data for the table `users` */
 
 insert  into `users`(`id`,`username`,`firstname`,`isAdmin`,`lastname`,`password`,`date_created`,`date_updated`,`isDeleted`) values (15,'chantal.gomez','Chantal',1,'Gomez','$2y$10$vSkHOHYs9G95BAI6gD65q.o5Sfhfqbwtdju7ACM2P80XkyXQeQeBm','2019-01-24 10:09:19','2019-01-24 10:09:19',0),(16,'johndoe','John',0,'Doe','$2y$10$F/cIRjIKndXzdfoKXMianu5duJiWjm1wqof08sRMwFQ.OdY5c5z8a','2019-02-14 09:20:03','2019-02-14 09:20:03',0),(22,'admin','Administrator',1,'Account','$2y$10$e7IOgjI1zA2SkntoohMzS.PHT3pThqbm2QUprb0h6cKV364Cv7aMu','2019-02-21 10:35:48','2019-02-21 10:35:48',0),(23,'tesklsdak','Chris',0,'Pratt','$2y$10$laBVtxgTBYtS3Z4Ql/SxyOdRIJxvan4mT2LDzzmXLs0jvbgf6kYNm','2019-02-28 10:34:14','2019-02-28 10:34:14',0),(24,'rhu','RHU',0,'One','$2y$10$tHGX3ZBMog8C5gBvDwS/I.7iGtmu9jS4O73ANE3MHD0eyCxVj.Phe','2019-03-06 10:26:35','2019-03-06 10:26:35',0);
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
