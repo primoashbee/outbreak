@@ -96,6 +96,3 @@ try {
     echo 'Exception when calling SMSApi->smsSendPost: ', $e->getMessage(), PHP_EOL;
 }
 ?>
-
-
-?>

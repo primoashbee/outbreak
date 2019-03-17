@@ -82,6 +82,6 @@ function textAreaAdjust(el) {
 
 $(function(){
     setInterval(function(){
-        $('#time').html(moment().format('MMMM LL YYYY, h:mm:ss A'))        
+        $('#time').html(moment().format('LL - h:mm:ss A'))        
     },1000)
 })

@@ -175,10 +175,10 @@ function generateCaseNumber(){
 	return $case_number;
 
 }
-function getUsers(){
+function getUsers($isAdmin = false){
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 
-	$sql = "Select * from users where isDeleted=false";
+	$sql = "Select * from users where isDeleted=false and isAdmin = '$isAdmin'";
 	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 	return $res;
 }

@@ -2,8 +2,7 @@
 SQLyog Ultimate v12.09 (64 bit)
 MySQL - 5.7.19 : Database - outbreak
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -13,9 +12,9 @@ MySQL - 5.7.19 : Database - outbreak
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-/*CREATE DATABASE /*!32312 IF NOT EXISTS*/`outbreak` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`outbreak` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
-/*USE `jimboyji_test`*/;
+USE `outbreak`;
 
 /*Table structure for table `barangays` */
 
@@ -118,11 +117,11 @@ CREATE TABLE `sms` (
   `disease_name` varchar(255) DEFAULT NULL,
   `color` varbinary(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
 /*Data for the table `sms` */
 
-insert  into `sms`(`id`,`message`,`created_at`,`disease_id`,`barangay_id`,`count`,`barangay_name`,`disease_name`,`color`) values (16,'DENGUE ALERT! 2019-03-06 02:41:51 PM. THIS IS TO INFORM YOU THAT BARANGAY PUERTO RIVAS LOTE IS ON RED!\nPLEASE VISIT(PUBLIC WEBSITE) FOR MORE INFO.','2019-03-06 14:41:51',2,21,9,'PUERTO RIVAS LOTE','Dengue','RED'),(21,'ANOTHER 1 ALERT! 2019-03-06 02:56:57 PM. THIS IS TO INFORM YOU THAT BARANGAY PUERTO RIVAS ITAAS IS ON RED!\nPLEASE VISIT(PUBLIC WEBSITE) FOR MORE INFO.','2019-03-06 14:56:57',5,15,14,'PUERTO RIVAS ITAAS','Another 1','RED');
+insert  into `sms`(`id`,`message`,`created_at`,`disease_id`,`barangay_id`,`count`,`barangay_name`,`disease_name`,`color`) values (16,'DENGUE ALERT! 2019-03-06 02:41:51 PM. THIS IS TO INFORM YOU THAT BARANGAY PUERTO RIVAS LOTE IS ON RED!\nPLEASE VISIT(PUBLIC WEBSITE) FOR MORE INFO.','2019-03-06 14:41:51',2,21,9,'PUERTO RIVAS LOTE','Dengue','RED'),(21,'ANOTHER 1 ALERT! 2019-03-06 02:56:57 PM. THIS IS TO INFORM YOU THAT BARANGAY PUERTO RIVAS ITAAS IS ON RED!\nPLEASE VISIT(PUBLIC WEBSITE) FOR MORE INFO.','2019-03-06 14:56:57',5,15,14,'PUERTO RIVAS ITAAS','Another 1','RED'),(23,'ANOTHER 1 ALERT! 2019-03-06 03:25:04 PM. THIS IS TO INFORM YOU THAT BARANGAY PUERTO RIVAS ITAAS IS ON RED!\nPLEASE VISIT(PUBLIC WEBSITE) FOR MORE INFO.','2019-03-06 15:25:04',5,15,14,'PUERTO RIVAS ITAAS','Another 1','RED'),(24,'ANOTHER 1 ALERT! 2019-03-06 03:26:44 PM. THIS IS TO INFORM YOU THAT BARANGAY PUERTO RIVAS ITAAS IS ON RED!\nPLEASE VISIT(PUBLIC WEBSITE) FOR MORE INFO.','2019-03-06 15:26:44',5,15,14,'PUERTO RIVAS ITAAS','Another 1','RED'),(25,'ANOTHER 1 ALERT! 2019-03-12 10:12:45 AM. THIS IS TO INFORM YOU THAT BARANGAY PUERTO RIVAS ITAAS IS ON RED!\nPLEASE VISIT(PUBLIC WEBSITE) FOR MORE INFO.','2019-03-12 10:12:45',5,15,14,'PUERTO RIVAS ITAAS','Another 1','RED'),(26,'ANOTHER 1 ALERT! 2019-03-17 05:41:34 PM. THIS IS TO INFORM YOU THAT BARANGAY PUERTO RIVAS ITAAS IS ON RED!\nPLEASE VISIT(PUBLIC WEBSITE) FOR MORE INFO.','2019-03-17 17:41:34',5,15,14,'PUERTO RIVAS ITAAS','Another 1','RED');
 
 /*Table structure for table `tips` */
 
@@ -158,12 +157,13 @@ CREATE TABLE `users` (
   `date_created` datetime DEFAULT CURRENT_TIMESTAMP,
   `date_updated` datetime DEFAULT CURRENT_TIMESTAMP,
   `isDeleted` tinyint(1) DEFAULT '0',
+  `isLoggedIn` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
 /*Data for the table `users` */
 
-insert  into `users`(`id`,`username`,`firstname`,`isAdmin`,`lastname`,`password`,`date_created`,`date_updated`,`isDeleted`) values (15,'chantal.gomez','Chantal',1,'Gomez','$2y$10$vSkHOHYs9G95BAI6gD65q.o5Sfhfqbwtdju7ACM2P80XkyXQeQeBm','2019-01-24 10:09:19','2019-01-24 10:09:19',0),(16,'johndoe','John',0,'Doe','$2y$10$F/cIRjIKndXzdfoKXMianu5duJiWjm1wqof08sRMwFQ.OdY5c5z8a','2019-02-14 09:20:03','2019-02-14 09:20:03',0),(22,'admin','Administrator',1,'Account','$2y$10$e7IOgjI1zA2SkntoohMzS.PHT3pThqbm2QUprb0h6cKV364Cv7aMu','2019-02-21 10:35:48','2019-02-21 10:35:48',0),(23,'tesklsdak','Chris',0,'Pratt','$2y$10$laBVtxgTBYtS3Z4Ql/SxyOdRIJxvan4mT2LDzzmXLs0jvbgf6kYNm','2019-02-28 10:34:14','2019-02-28 10:34:14',0),(24,'rhu','RHU',0,'One','$2y$10$tHGX3ZBMog8C5gBvDwS/I.7iGtmu9jS4O73ANE3MHD0eyCxVj.Phe','2019-03-06 10:26:35','2019-03-06 10:26:35',0);
+insert  into `users`(`id`,`username`,`firstname`,`isAdmin`,`lastname`,`password`,`date_created`,`date_updated`,`isDeleted`,`isLoggedIn`) values (15,'chantal.gomez','Chantal',1,'Gomez','$2y$10$vSkHOHYs9G95BAI6gD65q.o5Sfhfqbwtdju7ACM2P80XkyXQeQeBm','2019-01-24 10:09:19','2019-01-24 10:09:19',0,0),(16,'johndoe','John',0,'Doe','$2y$10$mOyT0l2E7vpAdADEs2XBye8S63fd5cayQjjYinQ/l.2bbmtcBNbKG','2019-02-14 09:20:03','2019-02-14 09:20:03',0,1),(22,'admin','Administrator',1,'Account','$2y$10$e7IOgjI1zA2SkntoohMzS.PHT3pThqbm2QUprb0h6cKV364Cv7aMu','2019-02-21 10:35:48','2019-02-21 10:35:48',0,1),(23,'tesklsdak','Chris',0,'Pratt','$2y$10$laBVtxgTBYtS3Z4Ql/SxyOdRIJxvan4mT2LDzzmXLs0jvbgf6kYNm','2019-02-28 10:34:14','2019-02-28 10:34:14',0,0),(24,'rhu','RHU',0,'One','$2y$10$tHGX3ZBMog8C5gBvDwS/I.7iGtmu9jS4O73ANE3MHD0eyCxVj.Phe','2019-03-06 10:26:35','2019-03-06 10:26:35',0,0),(25,'bee','Ashbee',0,'Morgado','$2y$10$g.ZlV/QYg1vGxnPNkhcuFOHJvUUAc98m4oZhyjugnvrzDHuxA6DEC','2019-03-08 13:15:09','2019-03-08 13:15:09',0,0);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

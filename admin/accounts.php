@@ -87,6 +87,7 @@
                                                     <th scope="col">Username</th>
                                                     <th scope="col">Firstname</th>
                                                     <th scope="col">Lastname</th>
+                                                    <th scope="col">Is Logged In</th>
                                                     <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
@@ -94,7 +95,7 @@
 
 
                                             <?php 
-                                              $users = getUsers();
+                                              $users = getUsers(false);
 
                                               foreach($users as $user){
                                                
@@ -104,10 +105,27 @@
                                                     <th scope="row"><?=$user['username']?></th>
                                                     <td><?=ucfirst($user['firstname'])?></td>
                                                     <td><?=ucfirst($user['lastname'])?></td> 
+                                                    <td scope="row">
+                                                        
+                                                        <?php if(!$user['isLoggedIn']){
+                                                        ?>      
+                                                        <span class="status-p bg-danger">Inactive</span>
+
+                                                        <?php }else{ ?>
+                                                        <span class="status-p bg-success">Active</span>
+                                                        <?php }?>
+                                                    </td> 
                                                     <td>
                                                         <button type=" button" id="<?=$user['id']?>" class="updateAccount btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
                                                         
-                                                        <!--<button type="button" id="<?=$user['id']?>" username="<?=$user['username']?>" class="deleteAccount btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>!-->
+                                                        <?php if(!$user['isLoggedIn']){
+                                                        ?>      
+                                                        <?php }else{ ?>
+
+                                                        <button type="button" id="<?=$user['id']?>" username="<?=$user['username']?>" class="deleteAccount btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
+
+                                                        <?php }?>
+
 
                                                     </td>
                                                 </tr>
@@ -165,11 +183,11 @@
                     <div class="row">
                     <div class="form-group col">
                         <label for="password">Password</label>
-                        <input type="password" name="password" class="form-control" id="password" placeholder="Password"  required="">
+                        <input type="password" name="password" class="form-control" id="password1" placeholder="Password"  required="">
                     </div>
                     <div class="form-group col">
                         <label for="password_confirmation">Password Confirmation</label>
-                        <input type="password" class="form-control" id="password_confirmation" placeholder="Password Confirmation" name="password" required="">
+                        <input type="password" class="form-control" id="password_confirmation1" placeholder="Password Confirmation" name="password" required="">
                     </div>
                     </div>
                 </form>
@@ -226,8 +244,8 @@
             id = $('#username_id').val()
             firstname = $('#firstname').val()
             lastname = $('#lastname').val()
-            var p1 =$('#password').val();
-            var p2 = $('#password_confirmation').val();
+            var p1 = $('#password1').val();
+            var p2 = $('#password_confirmation1').val();
             if(ifHasPassword(p1,p2)){
                 if(passwordConfirmed(p1,p2)){
                     $.ajax({

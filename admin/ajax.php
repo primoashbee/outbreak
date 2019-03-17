@@ -56,8 +56,10 @@ if($_POST['type']=="update_user_via_id"){
 	$firstname = addslashes($_POST['firstname']);
 	$lastname = addslashes($_POST['lastname']);
 
+
+
 	if(isset($_POST['password'])){
-		$password  =$_POST['password'];
+		$password  =password_hash($_POST['password'],PASSWORD_DEFAULT);
 		$sql ="Update users set firstname='$firstname', lastname='$lastname', password='$password' where id = '$id'";
 		if(mysqli_query($conn,$sql)){
 			echo  json_encode(array('isSuccess'=>1,'message'=>'Account Succesffuly Updated!'));
@@ -92,7 +94,7 @@ if($_POST['type']=="change_password_via_id"){
 
 if($_POST['type']=="delete_user_via_id"){
 	$id = $_POST['id'];
-	$sql ="Update users set isDeleted = true where id ='$id'";
+	$sql ="Update users set isDeleted = true and isLoggedIn = false where id ='$id'";
 		if(mysqli_query($conn,$sql)){
 			echo  json_encode(array('isSuccess'=>1,'message'=>'Account Succesffuly Deleted!'));
 			return;

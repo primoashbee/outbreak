@@ -53,11 +53,20 @@
                             <?php 
                             }
                             ?>
+                      
                             <li class="<?=urlHas(getURL(),"record")?>">
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-palette"></i><span>Records</span></a>
                                 <ul class="collapse">
                                     <li><a href="records.php">View Records</a></li>
+                             
+
+                                    <?php
+                                        if(!$_SESSION['user']['isAdmin']){
+                                    ?> 
                                     <li><a href="create_record.php">Add New Record</a></li>
+                                    <?php 
+                                        }
+                                    ?>
                                 </ul>
                             </li>
                             <?php
