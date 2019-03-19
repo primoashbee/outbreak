@@ -2,7 +2,14 @@
 
 require_once "vendor/autoload.php";
 use Plivo\RestClient;
+function validateLogIn($user_id){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$sql ="SELECT forceLogout from USERS where id = '$user_id' and forceLogout = true ";
+	if(mysqli_num_rows(mysqli_query($conn,$sql)) > 0){
+		header("location:logout.php");
+	}
 
+}
 function todayForHumans(){
 	return \Carbon\Carbon::now()->isoFormat('MMMM Do YYYY, h:mm:ss a');
 }
@@ -700,14 +707,15 @@ function isZero($value){
 
 function mapColor($barangay_id,$year,$disease_id){
 	//$x = ['green','orange','red'];
-	
+	$month = date("m");
 
-	$sql ="SELECT COUNT(disease_id) AS total FROM records WHERE barangay_id = '$barangay_id' AND YEAR(date_of_sickness) = '$year' and disease_id='$disease_id'";
+	$sql ="SELECT COUNT(disease_id) AS total FROM records WHERE barangay_id = '$barangay_id' AND YEAR(date_of_sickness) = '$year' and disease_id='$disease_id' and month(date_of_sickness) = '$month'";
 	
-	if($disease_id==""){
-	$sql ="SELECT COUNT(disease_id) AS total FROM records WHERE barangay_id = '$barangay_id' AND YEAR(date_of_sickness) = '$year'";
+	if($disease_id=="all"){
+	$sql ="SELECT COUNT(disease_id) AS total FROM records WHERE barangay_id = '$barangay_id' AND YEAR(date_of_sickness) = '$year' and month(date_of_sickness) = '$month'";
 	//echo $sql;	
 	}
+
 
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 	$res = mysqli_fetch_assoc(mysqli_query($conn,$sql));

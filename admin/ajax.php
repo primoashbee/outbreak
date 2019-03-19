@@ -89,12 +89,12 @@ if($_POST['type']=="change_password_via_id"){
 	}
 	echo json_encode(array('isSuccess'=>0,'message'=>'Something went wrong'));
 	return;
-
 }
 
 if($_POST['type']=="delete_user_via_id"){
 	$id = $_POST['id'];
-	$sql ="Update users set isDeleted = true and isLoggedIn = false where id ='$id'";
+	$sql ="Update users set isDeleted = true, forceLogOut = true where id ='$id'";
+
 		if(mysqli_query($conn,$sql)){
 			echo  json_encode(array('isSuccess'=>1,'message'=>'Account Succesffuly Deleted!'));
 			return;

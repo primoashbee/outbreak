@@ -37,7 +37,7 @@
 },
            "crosshair-x":{
              "scale-label":{
-               "text":"%l "
+               "text":"%l <?=$year?>"
              }
            },
            "scale-x":{
@@ -84,7 +84,7 @@ var myConfig = {
 },
            "crosshair-x":{
              "scale-label":{
-               "text":"%l "
+               "text":"%l <?=$year?> "
              }
            },
            "scale-x":{

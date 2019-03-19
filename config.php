@@ -1,6 +1,7 @@
 
 <?php 
 	date_default_timezone_set('asia/manila');
+	
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 	if (mysqli_connect_errno()) {
 	    printf("Connect failed: %s\n", mysqli_connect_error());

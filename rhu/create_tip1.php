@@ -4,6 +4,7 @@ require "../config.php";
     if(!isset($_SESSION['user'])){
         header('location:../index.php');
     }
+    validateLogIn($_SESSION['user']['id']);
 $errors = array();
 foreach($_POST as $k => $v){
 	if($v==""){

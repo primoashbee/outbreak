@@ -84,7 +84,7 @@ var myConfig = {
              }
            },
            "scale-x":{
-             "labels":[["<?=lineGraphXLabel(7)?>","<?=lineGraphXLabel(6)?>","<?=lineGraphXLabel(5)?>","<?=lineGraphXLabel(4)?>","<?=lineGraphXLabel(3)?>","<?=lineGraphXLabel(2)?>","<?=lineGraphXLabel(1)?>"]],
+             "labels":["<?=lineGraphXLabel(7)?>","<?=lineGraphXLabel(6)?>","<?=lineGraphXLabel(5)?>","<?=lineGraphXLabel(4)?>","<?=lineGraphXLabel(3)?>","<?=lineGraphXLabel(2)?>","<?=lineGraphXLabel(1)?>"],
              
            },
            "plot":{
