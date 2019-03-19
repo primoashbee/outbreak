@@ -75,72 +75,140 @@
             <div class="main-content-inner">
 
                 <div class="col-lg-12 mt-5">
-                        <div class="card">
+                <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">List of Accounts</h4>
-                                <div class="single-table">
-                                    <div class="table-responsive">
-                                        <table class="table text-center">
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active show" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Existing</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link " id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Deleted</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content mt-3" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                         <h4 class="header-title">List of Accounts</h4>
+                                            <div class="single-table">
+                                                <div class="table-responsive">
+                                                    <table class="table text-center">
 
-                                            <thead class="text-uppercase bg-dark">
-                                                <tr class="text-white">
-                                                    <th scope="col">Username</th>
-                                                    <th scope="col">Firstname</th>
-                                                    <th scope="col">Lastname</th>
-                                                    <th scope="col">Is Logged In</th>
-                                                    <th scope="col">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-
-                                            <?php 
-                                              $users = getUsers(false);
-
-                                              foreach($users as $user){
-                                               
-                                          
-                                            ?>
-                                                <tr>
-                                                    <th scope="row"><?=$user['username']?></th>
-                                                    <td><?=ucfirst($user['firstname'])?></td>
-                                                    <td><?=ucfirst($user['lastname'])?></td> 
-                                                    <td scope="row">
-                                                        
-                                                        <?php if(!$user['isLoggedIn']){
-                                                        ?>      
-                                                        <span class="status-p bg-danger">Inactive</span>
-
-                                                        <?php }else{ ?>
-                                                        <span class="status-p bg-success">Active</span>
-                                                        <?php }?>
-                                                    </td> 
-                                                    <td>
-                                                        <button type=" button" id="<?=$user['id']?>" class="updateAccount btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
-                                                        
-                                                        <?php if(!$user['isLoggedIn']){
-                                                        ?>      
-                                                        <?php }else{ ?>
-
-                                                        <button type="button" id="<?=$user['id']?>" username="<?=$user['username']?>" class="deleteAccount btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
-
-                                                        <?php }?>
+                                                        <thead class="text-uppercase bg-dark">
+                                                            <tr class="text-white">
+                                                                <th scope="col">Username</th>
+                                                                <th scope="col">Firstname</th>
+                                                                <th scope="col">Lastname</th>
+                                                                <th scope="col">Is Logged In</th>
+                                                                <th scope="col">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
 
 
-                                                    </td>
-                                                </tr>
-                                            <?php 
+                                                        <?php 
+                                                          $users = getUsers(false);
 
-                                            }
+                                                          foreach($users as $user){
+                                                           
+                                                      
+                                                        ?>
+                                                            <tr>
+                                                                <th scope="row"><?=$user['username']?></th>
+                                                                <td><?=ucfirst($user['firstname'])?></td>
+                                                                <td><?=ucfirst($user['lastname'])?></td> 
+                                                                <td scope="row">
+                                                                    
+                                                                    <?php if(!$user['isLoggedIn']){
+                                                                    ?>      
+                                                                    <span class="status-p bg-danger">Inactive</span>
 
-                                            ?>
-                                            </tbody>
-                                        </table>
+                                                                    <?php }else{ ?>
+                                                                    <span class="status-p bg-success">Active</span>
+                                                                    <?php }?>
+                                                                </td> 
+                                                                <td>
+                                                                    <button type=" button" id="<?=$user['id']?>" class="updateAccount btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
+                                                                    
+                                                                    <?php if(!$user['isLoggedIn']){
+                                                                    ?>      
+                                                                    <?php }else{ ?>
+
+                                                                    <button type="button" id="<?=$user['id']?>" username="<?=$user['username']?>" class="deleteAccount btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
+
+                                                                    <?php }?>
+
+
+                                                                </td>
+                                                            </tr>
+                                                        <?php 
+
+                                                        }
+
+                                                        ?>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                                                                    <div class="single-table">
+                                                <div class="table-responsive">
+                                                    <table class="table text-center">
+
+                                                        <thead class="text-uppercase bg-dark">
+                                                            <tr class="text-white">
+                                                                <th scope="col">Username</th>
+                                                                <th scope="col">Firstname</th>
+                                                                <th scope="col">Lastname</th>
+                                                                <th scope="col">Is Logged In</th>
+                                                                <th scope="col">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+
+                                                        <?php 
+                                                          $users = getUsersDeleted();
+
+                                                              foreach($users as $user){
+                                                           
+                                                      
+                                                        ?>
+                                                            <tr>
+                                                                <th scope="row"><?=$user['username']?></th>
+                                                                <td><?=ucfirst($user['firstname'])?></td>
+                                                                <td><?=ucfirst($user['lastname'])?></td> 
+                                                                <td scope="row">
+                                                                    
+                                                                    <?php if(!$user['isLoggedIn']){
+                                                                    ?>      
+                                                                    <span class="status-p bg-danger">Forced Log Out</span>
+
+                                                                    <?php }else{ ?>
+                                                                    <span class="status-p bg-success">Active</span>
+                                                                    <?php }?>
+                                                                </td> 
+                                                                <td>
+
+                                                                    <button type="button" id="<?=$user['id']?>" username="<?=$user['username']?>" class="recoverAccount btn btn-rounded btn-primary mb-3"><i class="ti-back-left"></i></button>
+
+
+
+                                                                </td>
+                                                            </tr>
+                                                        <?php 
+
+                                                        }
+
+                                                        ?>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                </div>
             </div>
         </div>
         <!-- main content area end -->
@@ -213,6 +281,24 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" id ="btnDelete" class="btn btn-danger">Confirm</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="modal fade" id="recoverModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Alert</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id ="r_id">
+               <h3> Are you sure you want to Recover this Account <b><i><span id="usernameRec"></span></i></b>? </h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id ="btnRecover" class="btn btn-danger">Confirm</button>
             </div>
         </div>
         </div>
@@ -302,11 +388,32 @@
             $('#usernameDel').html($(this).attr('username'))
             $('#alertModal').modal('show')
         })
+
+        $(".recoverAccount").click(function(){
+            $('#r_id').val($(this).attr('id'))
+            $('#usernameRec').html($(this).attr('username'))
+            $('#recoverModal').modal('show')
+        });
         $("#btnDelete").click(function(){
             var id = $('#d_id').val();
             $.ajax({
                 url:'ajax.php',
                 data:{type:'delete_user_via_id',id:id},
+                type:'POST',
+                dataType:'JSON',
+                success:function(data){
+                    if(data.isSuccess){
+                        alert(data.message)
+                        location.reload()
+                    }
+                }
+            })
+        })
+        $("#btnRecover").click(function(){
+            var id = $('#r_id').val();
+            $.ajax({
+                url:'ajax.php',
+                data:{type:'recover_user_via_id',id:id},
                 type:'POST',
                 dataType:'JSON',
                 success:function(data){

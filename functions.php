@@ -182,10 +182,17 @@ function generateCaseNumber(){
 	return $case_number;
 
 }
-function getUsers($isAdmin = false){
+function getUsers($isAdmin = false,$isLoggedOut =false){
 	$conn = mysqli_connect("localhost","root","","outbreak"); 
 
 	$sql = "Select * from users where isDeleted=false and isAdmin = '$isAdmin'";
+	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
+	return $res;
+}
+function getUsersDeleted(){
+	$conn = mysqli_connect("localhost","root","","outbreak"); 
+
+	$sql = "Select * from users where isDeleted=true and isAdmin = false and forceLogOut=true";
 	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 	return $res;
 }

@@ -103,6 +103,17 @@ if($_POST['type']=="delete_user_via_id"){
 		return;
 }
 
+if($_POST['type']=="recover_user_via_id"){
+	$id = $_POST['id'];
+	$sql ="Update users set isDeleted = false, forceLogOut = false where id ='$id'";
+		if(mysqli_query($conn,$sql)){
+			echo  json_encode(array('isSuccess'=>1,'message'=>'Account Succesffuly Recovered!'));
+			return;
+		}
+		echo json_encode(array('isSuccess'=>0,'message'=>'Something went wrong'));
+		return;
+}
+
 echo 'Invalid Request';
 return 'Invalid Request';
 ?>
