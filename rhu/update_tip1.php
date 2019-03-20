@@ -51,7 +51,7 @@ if(!$_FILES['img_src']['error'] == 4){
 
 			$sql ="Update tips set subtitle ='$subtitle', body ='$body', img_src ='$img_src' where id = '$id'";		
 			if(mysqli_query($conn,$sql)){
-				move_uploaded_file($file_tmp,"../public/".$img_src);
+				move_uploaded_file($file_tmp,"../site/".$img_src);
 				$_SESSION['msg'] = array('isSuccess'=>1,'message'=>'Tip Succesfully Created!');
 				header('location:tips.php');
 			}else{

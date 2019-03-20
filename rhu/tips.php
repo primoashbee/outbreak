@@ -127,14 +127,14 @@
                                                 <tr>
                                                     <th scope="row"><?=$v['title']?></th>
                                                     <td><?=(ucfirst($v['subtitle'])) ?></td>
-                                                    <td><img src="../public/<?=$v['img_src']?>" style="max-width: 100px;max-height: 100px" /></td>
+                                                    <td><img src="../site/<?=$v['img_src']?>" style="max-width: 100px;max-height: 100px" /></td>
                                                     <td><?=getNameByID($v['created_by'])?></td>
                                                     <td>
                                                         <button type=" button" 
                                                             id="<?=$v['id']?>" 
                                                             title="<?=$v['title']?>"
                                                             subtitle="<?=$v['subtitle']?>"
-                                                            img_src="../public/<?=$v['img_src']?>"
+                                                            img_src="../site/<?=$v['img_src']?>"
                                                             body="<?=$v['body']?>"
                                                            
                                                              class="updateTip btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
