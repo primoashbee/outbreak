@@ -5,7 +5,7 @@
     if(!isset($_SESSION['user'])){
         header('location:../index.php');
     }
-    validateLogin($_SESSION['user']['id']);
+    validateLogIn($_SESSION['user']['id']);
 ?>
 
 <!DOCTYPE html>

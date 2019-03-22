@@ -150,7 +150,8 @@
                                             </div>
                                     </div>
                                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                                                                    <div class="single-table">
+                                            <h4 class="header-title">List of Accounts</h4>
+                                            <div class="single-table">
                                                 <div class="table-responsive">
                                                     <table class="table text-center">
 
