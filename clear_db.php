@@ -16,7 +16,7 @@
 	mysqli_query($conn,$sql);
 
 	$sql="DELETE from SMS";
-	mysqli_query($conn,$sql);
+	mysqli_master_query(link, query)($conn,$sql);
 
 
 

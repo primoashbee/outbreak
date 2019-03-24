@@ -671,6 +671,9 @@ function getDiseasesCountPer7Days($year){
 	$sql ="SELECT 
 		  d.name,  
 		  SUM(
+		    IF( DAYOFYEAR(CURDATE())  - DAYOFYEAR(r.`date_of_sickness`) = 0,1,0)
+		  ) AS '0',
+		  SUM(
 		    IF( DAYOFYEAR(CURDATE())  - DAYOFYEAR(r.`date_of_sickness`) = 1,1,0)
 		  ) AS '1',
 		  SUM(
@@ -678,19 +681,16 @@ function getDiseasesCountPer7Days($year){
 		  ) AS '2',
 		  SUM(
 		    IF( DAYOFYEAR(CURDATE())  - DAYOFYEAR(r.`date_of_sickness`) = 3,1,0)
-		  ) AS '3',
+		  ) AS '3',		  
 		  SUM(
 		    IF( DAYOFYEAR(CURDATE())  - DAYOFYEAR(r.`date_of_sickness`) = 4,1,0)
 		  ) AS '4',		  
 		  SUM(
 		    IF( DAYOFYEAR(CURDATE())  - DAYOFYEAR(r.`date_of_sickness`) = 5,1,0)
-		  ) AS '5',		  
+		  ) AS '5',
 		  SUM(
 		    IF( DAYOFYEAR(CURDATE())  - DAYOFYEAR(r.`date_of_sickness`) = 6,1,0)
-		  ) AS '6',
-		  SUM(
-		    IF( DAYOFYEAR(CURDATE())  - DAYOFYEAR(r.`date_of_sickness`) = 7,1,0)
-		  ) AS '7',		  
+		  ) AS '6',		  
 		  COUNT(r.`disease_id`) AS total
 			FROM
 			  records r 
@@ -699,7 +699,8 @@ function getDiseasesCountPer7Days($year){
 			WHERE date_of_sickness BETWEEN DATE_SUB(CURDATE(), INTERVAL 7 DAY) 
 			  AND CURDATE() 
 			  AND YEAR(date_of_sickness) = '$year' 
-			GROUP BY r.`disease_id`  ";
+			GROUP BY r.`disease_id`";
+			
 	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 	return $res;
 
@@ -778,7 +779,7 @@ function sendAlert($disease_id,$count,$barangay_id){
 	}else{
 	 	$color = 'RED';
 	}
-	$basic  = new \Nexmo\Client\Credentials\Basic('451e9176', 'zYYvEKcZNKM06C89');
+	$basic  = new \Nexmo\Client\Credentials\Basic('032c2fc0', 'B72Vlft6Yyff2FB5');
 	$client = new \Nexmo\Client($basic);
 
 	$prefix = strtoupper($name). " ALERT! ".\Carbon\Carbon::now()->format('Y-m-d h:i:s A').". ";
@@ -791,27 +792,43 @@ function sendAlert($disease_id,$count,$barangay_id){
 
  	$sms = $prefix.$text;
 	$num =  "+63".substr($brgy_list[1]['contact'],1);
-
+	
+	$to_send = array();
+	
+	foreach ($brgy_list as $key => $value) {
+		$num =  "+63".substr($value['contact'],1);
+		if(!in_array($num, $to_send)){
+			array_push($to_send, $num);
+		}
+		
+	}
+	
+	
 	
 	/*
-	foreach ($brgy_list as $k => $v) {
-	$num = "+63".substr($v['contact'],1);
-	$message = $client->message()->send([
-	    'to' => $num,
-	    'from' => 'Nexmo',
-	    'text' => $sms
-	]);
+		$message = $client->message()->send([
+		    'to' => '+639335277757',
+		    'from' => 'Nexmo',
+		    'text' => $sms
+		]);
+	*/
+	
+	foreach ($to_send as $k => $v) {
+		$message = $client->message()->send([
+		    'to' => $v,
+		    'from' => 'Nexmo',
+		    'text' => $sms
+		]);
 
 
 	}
-
-	*/
+	
 
 	$sms = addslashes($sms);
    
  	$sql = "Insert into sms (message,disease_id,barangay_id,count,disease_name,barangay_name,color) values ('$sms','$disease_id','$barangay_id','$count','$name','$brgy_name','$color')";
  	mysqli_query($conn,$sql);
-	echo $sql;
+	//echo $sql;
 
 /*
 	

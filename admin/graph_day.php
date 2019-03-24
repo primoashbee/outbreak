@@ -42,7 +42,7 @@
              }
            },
            "scale-x":{
-             "labels":["<?=lineGraphXLabel(7)?>","<?=lineGraphXLabel(6)?>","<?=lineGraphXLabel(5)?>","<?=lineGraphXLabel(4)?>","<?=lineGraphXLabel(3)?>","<?=lineGraphXLabel(2)?>","<?=lineGraphXLabel(1)?>"],
+             "labels":["<?=lineGraphXLabel(6)?>","<?=lineGraphXLabel(5)?>","<?=lineGraphXLabel(4)?>","<?=lineGraphXLabel(3)?>","<?=lineGraphXLabel(2)?>","<?=lineGraphXLabel(1)?>","<?=lineGraphXLabel(0)?>"],
              
            },
            "plot":{
@@ -57,13 +57,13 @@
             <?php foreach ($records as $k => $v) {?>
             {
                "values":[
-                      <?=$v['7']?>,
                       <?=$v['6']?>,
                       <?=$v['5']?>,
                       <?=$v['4']?>,
                       <?=$v['3']?>,
                       <?=$v['2']?>,
-                      <?=$v['1']?>],
+                      <?=$v['1']?>,
+                      <?=$v['0']?>],
                "text"  :'<?=$v['name']?>'
             },
             <?php 
