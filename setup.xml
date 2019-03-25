@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<AppSettings>
+	<sms>
+		<activated>true</activated>
+	</sms>
+<note>
+	<msg>THIS IS TO INFORM YOU THAT BARANGAY [brgy] IS ON [color]!
+PLEASE VISIT(http://outbreakbalanga.online) FOR MORE INFO.</msg>
+</note>
+</AppSettings>

@@ -1,0 +1,36 @@
+[24-Mar-2019 19:07:28 asia/manila] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/o7b41wa83uhj/public_html/config.php on line 8
+[24-Mar-2019 19:07:28 asia/manila] PHP Fatal error:  Uncaught Error: Call to undefined function getTips() in /home/o7b41wa83uhj/public_html/site/index.php:157
+Stack trace:
+#0 {main}
+  thrown in /home/o7b41wa83uhj/public_html/site/index.php on line 157
+[24-Mar-2019 19:08:39 asia/manila] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/o7b41wa83uhj/public_html/config.php on line 8
+[24-Mar-2019 19:08:39 asia/manila] PHP Fatal error:  Uncaught Error: Call to undefined function getTips() in /home/o7b41wa83uhj/public_html/site/index.php:157
+Stack trace:
+#0 {main}
+  thrown in /home/o7b41wa83uhj/public_html/site/index.php on line 157
+[24-Mar-2019 19:08:41 asia/manila] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/o7b41wa83uhj/public_html/config.php on line 8
+[24-Mar-2019 19:08:41 asia/manila] PHP Fatal error:  Uncaught Error: Call to undefined function getTips() in /home/o7b41wa83uhj/public_html/site/index.php:157
+Stack trace:
+#0 {main}
+  thrown in /home/o7b41wa83uhj/public_html/site/index.php on line 157
+[24-Mar-2019 19:09:57 asia/manila] PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /home/o7b41wa83uhj/public_html/vendor/nesbot/carbon/src/Carbon/Traits/Date.php on line 1002
+[24-Mar-2019 19:11:45 asia/manila] PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /home/o7b41wa83uhj/public_html/vendor/nesbot/carbon/src/Carbon/Traits/Date.php on line 1002
+[24-Mar-2019 19:11:51 asia/manila] PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /home/o7b41wa83uhj/public_html/vendor/nesbot/carbon/src/Carbon/Traits/Date.php on line 1002
+[24-Mar-2019 19:12:18 asia/manila] PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /home/o7b41wa83uhj/public_html/vendor/nesbot/carbon/src/Carbon/Traits/Date.php on line 1002
+[24-Mar-2019 19:12:58 asia/manila] PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /home/o7b41wa83uhj/public_html/vendor/nesbot/carbon/src/Carbon/Traits/Date.php on line 1002
+[24-Mar-2019 19:13:06 asia/manila] PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /home/o7b41wa83uhj/public_html/vendor/nesbot/carbon/src/Carbon/Traits/Date.php on line 1002
+[24-Mar-2019 19:13:14 asia/manila] PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /home/o7b41wa83uhj/public_html/vendor/nesbot/carbon/src/Carbon/Traits/Date.php on line 1002
+[24-Mar-2019 19:13:21 asia/manila] PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /home/o7b41wa83uhj/public_html/vendor/nesbot/carbon/src/Carbon/Traits/Date.php on line 1002
+[24-Mar-2019 19:13:33 asia/manila] PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /home/o7b41wa83uhj/public_html/vendor/nesbot/carbon/src/Carbon/Traits/Date.php on line 1002
+[24-Mar-2019 19:14:08 asia/manila] PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /home/o7b41wa83uhj/public_html/vendor/nesbot/carbon/src/Carbon/Traits/Date.php on line 1002
+[24-Mar-2019 19:15:22 asia/manila] PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /home/o7b41wa83uhj/public_html/vendor/nesbot/carbon/src/Carbon/Traits/Date.php on line 1002
+[24-Mar-2019 19:16:05 asia/manila] PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /home/o7b41wa83uhj/public_html/vendor/nesbot/carbon/src/Carbon/Traits/Date.php on line 1002
+[24-Mar-2019 19:16:14 asia/manila] PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /home/o7b41wa83uhj/public_html/vendor/nesbot/carbon/src/Carbon/Traits/Date.php on line 1002
+[24-Mar-2019 19:16:21 asia/manila] PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /home/o7b41wa83uhj/public_html/vendor/nesbot/carbon/src/Carbon/Traits/Date.php on line 1002
+[24-Mar-2019 19:17:06 asia/manila] PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /home/o7b41wa83uhj/public_html/vendor/nesbot/carbon/src/Carbon/Traits/Date.php on line 1002
+[24-Mar-2019 19:17:13 asia/manila] PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /home/o7b41wa83uhj/public_html/vendor/nesbot/carbon/src/Carbon/Traits/Date.php on line 1002
+[24-Mar-2019 19:17:26 asia/manila] PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /home/o7b41wa83uhj/public_html/vendor/nesbot/carbon/src/Carbon/Traits/Date.php on line 1002
+[24-Mar-2019 19:17:44 asia/manila] PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /home/o7b41wa83uhj/public_html/vendor/nesbot/carbon/src/Carbon/Traits/Date.php on line 1002
+[24-Mar-2019 19:17:59 asia/manila] PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /home/o7b41wa83uhj/public_html/vendor/nesbot/carbon/src/Carbon/Traits/Date.php on line 1002
+[24-Mar-2019 19:18:04 asia/manila] PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /home/o7b41wa83uhj/public_html/vendor/nesbot/carbon/src/Carbon/Traits/Date.php on line 1002
+[24-Mar-2019 19:18:10 asia/manila] PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /home/o7b41wa83uhj/public_html/vendor/nesbot/carbon/src/Carbon/Traits/Date.php on line 1002

@@ -987,6 +987,7 @@ function initMap() {
             fontSize: '12px',
             fontWeight: '50px',
           },
+          icon:'ewan.png',
           map: map
         });
         total_marker++

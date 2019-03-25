@@ -22,7 +22,7 @@ if(isset($_GET['disease_id'])){
     $disease_id = $_GET['disease_id'];
 }
 
-$sql = "Select * from diseases where id = '$disease_id'";
+$sql = "Select * from diseases where id = '$disease_id' and isDeleted =false";
 $res = mysqli_query($conn,$sql);
 $data = mysqli_fetch_assoc($res);
     

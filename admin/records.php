@@ -588,6 +588,7 @@
                 $("#disease_id").val(data.disease_id)
                 $("#date_of_sickness").val(data.date_of_sickness)
                 $('#updateModal').modal('show');
+                console.log("disease_id is "+data.disease_id)
             }
         })
 

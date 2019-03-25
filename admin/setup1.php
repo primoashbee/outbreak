@@ -10,13 +10,13 @@ if($_SESSION['user']['isAdmin']==0){
     header('location:../index.php');   
 }
 
-$xml=simplexml_load_file("setup.xml");
+$xml=simplexml_load_file("../setup.xml");
 if(isset($_POST['sms'])){
 	$xml->sms->activated = "true";
-	$xml->asXML('setup.xml');
+	$xml->asXML('../setup.xml');
 }else{
 	$xml->sms->activated = "false";
-	$xml->asXML('setup.xml');
+	$xml->asXML('../setup.xml');
 	
 }
 

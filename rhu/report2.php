@@ -50,7 +50,7 @@ foreach ($list as $k => $v) {
     $morbidity->getCell('E'.$row)->setValue($v['birthday']);
     $morbidity->getCell('F'.$row)->setValue($v['date_of_sickness']);
     $morbidity->getCell('G'.$row)->setValue($v['date_of_release']);
-    $morbidity->getCell('H'.$row)->setValue($v['wk']);
+    $morbidity->getCell('H'.$row)->setValue($v['wk']+1);
     $morbidity->getCell('I'.$row)->setValue($v['hospital_name']);
     $morbidity->getCell('J'.$row)->setValue($v['baranggay_name']);
     $ctr++;

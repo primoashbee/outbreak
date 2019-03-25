@@ -8,7 +8,7 @@
         header('location:../index.php');   
     }
 
-  $xml=simplexml_load_file("setup.xml");
+  $xml=simplexml_load_file("../setup.xml");
   
 ?>
 
@@ -213,7 +213,7 @@ input:checked + .slider:before {
                             </thead>
                             <tbody>
                               <?php 
-                                sendAlert(5,14,15);
+                                //sendAlert(5,14,15);
                                 $brgy = getBarangay();
                               ?>
                               <?php 

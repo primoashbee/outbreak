@@ -1,0 +1,98 @@
+[25-Mar-2019 10:43:42 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 8
+[25-Mar-2019 10:43:42 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 10:43:42 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 10:43:42 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 10:43:43 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 10:43:43 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 10:43:43 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 10:44:33 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 8
+[25-Mar-2019 10:44:34 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 10:44:34 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 10:44:34 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 10:44:34 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 10:44:34 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 10:44:34 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 10:55:43 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 8
+[25-Mar-2019 10:55:43 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 10:55:43 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 10:55:43 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:01:15 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 8
+[25-Mar-2019 11:01:42 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 8
+[25-Mar-2019 11:01:42 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:01:42 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:01:42 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:01:43 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:01:43 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:01:43 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:02:30 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 8
+[25-Mar-2019 11:02:31 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:02:31 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:02:31 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:04:30 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 8
+[25-Mar-2019 11:04:48 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 8
+[25-Mar-2019 11:04:48 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:04:48 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:04:48 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:05:06 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 8
+[25-Mar-2019 11:05:07 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:05:07 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:05:07 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:05:08 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:05:08 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:05:08 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:05:12 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 8
+[25-Mar-2019 11:05:12 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:05:12 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:05:12 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:05:13 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:05:13 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:05:13 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:05:36 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 9
+[25-Mar-2019 11:06:04 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 9
+[25-Mar-2019 11:07:04 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:07:04 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:07:04 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:07:38 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:07:38 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:07:38 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:07:49 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:07:49 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:07:49 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:07:50 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:07:50 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:07:50 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:10:40 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:10:40 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:10:40 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:10:40 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:10:40 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 11:10:40 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 12:08:20 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 9
+[25-Mar-2019 12:08:44 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 9
+[25-Mar-2019 12:08:48 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 9
+[25-Mar-2019 12:08:52 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 9
+[25-Mar-2019 12:09:01 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 9
+[25-Mar-2019 12:09:07 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 9
+[25-Mar-2019 12:10:02 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 9
+[25-Mar-2019 12:10:02 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 9
+[25-Mar-2019 12:10:05 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 9
+[25-Mar-2019 12:10:15 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 9
+[25-Mar-2019 12:10:21 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 9
+[25-Mar-2019 12:53:42 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 9
+[25-Mar-2019 12:54:05 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 9
+[25-Mar-2019 12:54:37 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 9
+[25-Mar-2019 12:54:42 asia/manila] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/o7b41wa83uhj/public_html/functions.php on line 9
+[25-Mar-2019 13:57:04 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 14:28:07 asia/manila] PHP Parse error:  syntax error, unexpected 'return' (T_RETURN), expecting ',' or ';' in /home/o7b41wa83uhj/public_html/functions.php on line 759
+[25-Mar-2019 14:40:37 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 14:41:37 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 14:41:56 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 14:41:57 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 14:42:04 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 14:42:04 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 14:42:22 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 14:50:26 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 14:50:26 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 14:51:11 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 14:51:11 asia/manila] PHP Notice:  Undefined offset: 7 in /home/o7b41wa83uhj/public_html/rhu/graph_day.php on line 60
+[25-Mar-2019 14:53:26 asia/manila] PHP Notice:  Undefined index: user in /home/o7b41wa83uhj/public_html/rhu/logout.php on line 5

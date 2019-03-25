@@ -3,15 +3,16 @@
 require_once "vendor/autoload.php";
 use Plivo\RestClient;
 function validateLogIn($user_id){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
-	$sql ="SELECT forceLogout from USERS where id = '$user_id' and forceLogout = true ";
+	$conn = mysqli_connect("localhost","root","","outbreak");
+	$sql ="SELECT forceLogout from users where id = '$user_id' and forceLogout = true ";
+
 	if(mysqli_num_rows(mysqli_query($conn,$sql)) > 0){
 		header("location:logout.php");
 	}
 
 }
 function todayForHumans(){
-	return \Carbon\Carbon::now()->isoFormat('MMMM Do YYYY, h:mm:ss a');
+	return date("F d, Y");
 }
 function getURL(){
 	return 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
@@ -29,18 +30,18 @@ function getName(){
 	return "DEMO TEST";
 }
 function getBarangay(){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$sql ="SELECT * FROM barangays ORDER BY `NAME` ASC";
 	return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 }
 function getTips($isDeleted,$top = 0){
 	if($top==0){
-		$conn = mysqli_connect("localhost","root","","outbreak"); 
+		$conn = mysqli_connect("localhost","root","","outbreak");
 		$sql ="SELECT * FROM tips where isDeleted = '$isDeleted' ORDER BY created_at DESC";
 		return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 	}else{
 
-		$conn = mysqli_connect("localhost","root","","outbreak"); 
+		$conn = mysqli_connect("localhost","root","","outbreak");
 		$sql ="SELECT * FROM tips where isDeleted = '$isDeleted' ORDER BY created_at DESC LIMIT $top";
 		
 		return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
@@ -54,12 +55,12 @@ function getMonthName($int){
 
 }
 function getHospitals(){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$sql ="SELECT * FROM hospitals ORDER BY `NAME` ASC";
 	return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 }
 function getRecordViaID($id){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$sql ="SELECT * FROM records where id ='$id'";
 	
 	return json_encode(mysqli_fetch_assoc(mysqli_query($conn,$sql)));	
@@ -68,7 +69,7 @@ function hasError($params){
 	return 'Meron';
 }
 function getLineList($year,$from,$to){
-	$conn = mysqli_connect("localhost","root","","outbreak");
+	$conn = mysqli_connect("localhost","ashbee","12345","outbreak");
 	$space = " ";
 	$sql = "SELECT 
 			  r.id,
@@ -88,7 +89,8 @@ function getLineList($year,$from,$to){
 			LEFT JOIN hospitals h
 			ON r.`hospital_id` = h.`id` 
 			WHERE YEAR(date_of_sickness) = '$year' and 
-			MONTH(date_of_sickness) BETWEEN '$from' AND '$to'  
+			MONTH(date_of_sickness) BETWEEN '$from' AND '$to' 
+			AND r.`isDeleted` = false
 			order by date_of_sickness DESC";
 
 			return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
@@ -106,7 +108,7 @@ if($to==""){
 }
 
 if($status=="all"){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$space = " ";
 	$sql = "SELECT r.id,case_id, CONCAT(firstname,'$space',lastname) AS full_name, gender, b.`name` as barangay_name,d.`name` as disease_name,r.`date_of_sickness`, TIMESTAMPDIFF(YEAR, BIRTHDAY, CURDATE()) AS age, WEEK(date_of_sickness) as MW, h.id as h_id, h.name as hospital_name, r.status as `status`
 	FROM records r
@@ -121,7 +123,7 @@ if($status=="all"){
 	AND
 	MONTH(date_of_sickness) BETWEEN $from AND $to ORDER BY date_of_sickness DESC";
 }else{
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$space = " ";
 	$sql = "SELECT r.id,case_id, CONCAT(firstname,'$space',lastname) AS full_name, gender, b.`name` as barangay_name,d.`name` as disease_name,r.`date_of_sickness`, TIMESTAMPDIFF(YEAR, BIRTHDAY, CURDATE()) AS age, WEEK(date_of_sickness) as MW, h.id as h_id, h.name as hospital_name, r.status as `status`
 	FROM records r
@@ -155,7 +157,7 @@ if(!isset($_SESSION)){
 }
 
 function generateCaseNumber(){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$current_year = date('Y');
 	$sql = "SELECT DISTINCT(YEAR(date_of_sickness)) AS year FROM records ORDER BY year DESC LIMIT 1";
 
@@ -183,14 +185,14 @@ function generateCaseNumber(){
 
 }
 function getUsers($isAdmin = false,$isLoggedOut =false){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 
 	$sql = "Select * from users where isDeleted=false and isAdmin = '$isAdmin'";
 	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 	return $res;
 }
 function getUsersDeleted(){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 
 	$sql = "Select * from users where isDeleted=true and isAdmin = false and forceLogOut=true";
 	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
@@ -198,20 +200,20 @@ function getUsersDeleted(){
 }
 function getYearsInRecords(){
 	
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$sql = "SELECT * FROM (SELECT DISTINCT(YEAR(date_of_sickness)) AS `year` FROM records WHERE isDeleted =FALSE ) b";
 	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 	return $res;
 }
 function getYearsInRecordsForGraph(){
 	
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$sql = "SELECT * FROM (SELECT DISTINCT(YEAR(date_of_sickness)) AS `year` FROM records WHERE isDeleted =FALSE ) b order by b.year ASC";
 	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 	return $res;
 }
 function getAccountByID($id){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 
 	$sql = "Select * from users where id = '$id'";	
 	if($res = mysqli_query($conn,$sql)){
@@ -224,7 +226,7 @@ function getAccountByID($id){
 }
 
 function getNameByID($id){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 
 	$sql = "Select * from users where id = '$id'";	
 	if($res = mysqli_query($conn,$sql)){
@@ -237,21 +239,21 @@ function getNameByID($id){
 }
 
 function getDiseases(){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 
 	$sql = "Select * from diseases where isDeleted= false order by `name` ASC";
 	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 	return $res;
 }
 function getDiseaseRank($year){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
-
-	$sql = "SELECT d.name, COUNT(disease_id) AS total FROM records r LEFT JOIN diseases d ON r.`disease_id` = d.`id` WHERE YEAR(r.`date_of_sickness`) = '$year' GROUP BY r.`disease_id` ORDER BY total DESC ";
+	$conn = mysqli_connect("localhost","root","","outbreak");
+	$month_now = date("m");
+	$sql = "SELECT d.name, COUNT(disease_id) AS total FROM records r LEFT JOIN diseases d ON r.`disease_id` = d.`id` WHERE YEAR(r.`date_of_sickness`) = '$year' and MONTH(r.`date_of_sickness`) = '$month_now' GROUP BY r.`disease_id` ORDER BY total DESC ";
 	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 	return $res;
 }
 function getDiseaseByID($id){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 
 	$sql = "Select * from diseases where id = '$id'";
 	if($res = mysqli_query($conn,$sql)){
@@ -264,7 +266,7 @@ function getDiseaseByID($id){
 	return $res;
 }
 function getHospitalByID($id){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 
 	$sql = "Select * from hospitals where id = '$id'";
 	if($res = mysqli_query($conn,$sql)){
@@ -277,7 +279,7 @@ function getHospitalByID($id){
 }
 
 function checkIfUsernameExists($username){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$sql = "Select * from users where username = '$username'";
 	
 	$res = mysqli_query($conn,$sql);
@@ -288,7 +290,7 @@ function checkIfUsernameExists($username){
 
 }
 function checkIfTitleExists($title){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$sql = "Select * from tips where title = '$title'";
 	
 	$res = mysqli_query($conn,$sql);
@@ -300,7 +302,7 @@ function checkIfTitleExists($title){
 }
 
 function checkIfHospitalExists($name){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$sql = "Select * from hospitals where name = '$name'";
 	
 	$res = mysqli_query($conn,$sql);
@@ -313,7 +315,7 @@ function checkIfHospitalExists($name){
 
 
 function updateRecordViaID($id, $post_data){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$firstname = addslashes($post_data['firstname']);
 	$middlename = addslashes($post_data['middlename']);
 	$lastname = addslashes($post_data['lastname']);
@@ -345,7 +347,7 @@ function updateRecordViaID($id, $post_data){
 }
 
 function updateRecordStatusViaID($post_data){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$date_of_release = $post_data['date_of_release'];
 	$status = $post_data['status'];
 	$id = $post_data['id'];
@@ -363,7 +365,7 @@ function updateRecordStatusViaID($post_data){
 }
 
 function checkIfDiseaseExists($name){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$sql = "Select * from diseases where name = '$name'";
 	
 	$res = mysqli_query($conn,$sql);
@@ -375,7 +377,7 @@ function checkIfDiseaseExists($name){
 }
 
 function updateDiseaseByID($id,$name,$description,$message){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$sql = "Update diseases set name = '$name', description ='$description', message ='$message' where id ='$id'";
 	if(mysqli_query($conn,$sql)){
 		echo  json_encode(array('isSuccess'=>1,'message'=>'Disease Succesfully Updated!'));
@@ -387,7 +389,7 @@ function updateDiseaseByID($id,$name,$description,$message){
 		
 }
 function updateHospitalByID($id,$name,$address){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$sql = "Update hospitals set name = '$name', address ='$address' where id ='$id'";
 	if(mysqli_query($conn,$sql)){
 		echo  json_encode(array('isSuccess'=>1,'message'=>'Disease Succesfully Updated!'));
@@ -399,7 +401,7 @@ function updateHospitalByID($id,$name,$address){
 		
 }
 function deleteDiseaseByID($id){
-		$conn = mysqli_connect("localhost","root","","outbreak"); 
+		$conn = mysqli_connect("localhost","root","","outbreak");
 		$sql  = "Update diseases set isDeleted = true where id ='$id'";
 		if(mysqli_query($conn,$sql)){
 			echo  json_encode(array('isSuccess'=>1,'message'=>'Disease Succesfully Deleted!'));
@@ -410,7 +412,7 @@ function deleteDiseaseByID($id){
 		return;
 }
 function deleteHospitalByID($id){
-		$conn = mysqli_connect("localhost","root","","outbreak"); 
+		$conn = mysqli_connect("localhost","root","","outbreak");
 		$sql  = "Update hospitals set isDeleted = true where id ='$id'";
 		if(mysqli_query($conn,$sql)){
 			echo  json_encode(array('isSuccess'=>1,'message'=>'Hospital Succesfully Deleted!'));
@@ -421,7 +423,7 @@ function deleteHospitalByID($id){
 		return;
 }
 function deleteRecordViaID($id){
-		$conn = mysqli_connect("localhost","root","","outbreak"); 
+		$conn = mysqli_connect("localhost","root","","outbreak");
 		$sql  = "Update records set isDeleted = true where id ='$id'";
 		if(mysqli_query($conn,$sql)){
 			echo  json_encode(array('isSuccess'=>1,'message'=>'Record Succesfully Deleted!'));
@@ -433,7 +435,7 @@ function deleteRecordViaID($id){
 }
 function deleteTipViaID($id){
 
-		$conn = mysqli_connect("localhost","root","","outbreak"); 
+		$conn = mysqli_connect("localhost","root","","outbreak");
 		$sql  = "Update tips set isDeleted = true where id ='$id'";
 		if(mysqli_query($conn,$sql)){
 			echo  json_encode(array('isSuccess'=>1,'message'=>'Tip Succesfully Deleted!'));
@@ -444,7 +446,7 @@ function deleteTipViaID($id){
 }
 
 function getDiseaseCountPerBaranggay($year,$disease_id,$barangay_id){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$sql = "SELECT 
 		b.`name`,
 		SUM(IF(WEEK(date_of_sickness)=0, 1, 0)) AS '0', 
@@ -520,7 +522,7 @@ function isEmpty($item){
 }
 function getDiseasesYearly(){
 	$years = getYearsInRecords();
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$str = "";
 	foreach($years as $k => $v){
 
@@ -541,9 +543,9 @@ function getDiseasesYearly(){
 
 }
 function getDiseasesCountPerYear(){
-	//$conn = mysqli_connect("localhost","root","","outbreak"); 
+	//$conn = mysqli_connect("localhost","root","","outbreak");
 	$years = getYearsInRecordsForGraph();
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$str = "";
 	foreach($years as $k => $v){
 
@@ -565,7 +567,7 @@ function getDiseasesCountPerYear(){
 }
 
 function getDiseasesCountPerMonth($year){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$sql ="SELECT 
     d.name,
     SUM(IF(MONTH(date_of_sickness)=1, 1, 0)) AS 'January',
@@ -593,7 +595,7 @@ GROUP BY disease_id";
 }
 
 function getDiseasesCountPerWeek($year){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$sql ="SELECT 
     d.name,
     SUM(IF(WEEK(date_of_sickness)=1, 1, 0)) AS '1', 
@@ -667,7 +669,7 @@ function lineGraphXLabel($day){
 
 }
 function getDiseasesCountPer7Days($year){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$sql ="SELECT 
 		  d.name,  
 		  SUM(
@@ -725,23 +727,23 @@ function mapColor($barangay_id,$year,$disease_id){
 	}
 
 
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$res = mysqli_fetch_assoc(mysqli_query($conn,$sql));
 
 	$count = $res['total'];
 	//return $count;
 	if($count  < 3){
-		return 'green';
+		return '#005700	';
 	}elseif($count < 5){
-		return 'orange';
+		return '#FF8C00	';
 	}else{
-	return 'red';
+	return '#FF0000	';
 	}
 }
 
 
 function getDiseaseCount($disease_id,$year,$barangay_id){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 
 	$sql ="SELECT COUNT(disease_id) AS total FROM records WHERE disease_id = '$disease_id' AND YEAR(date_of_sickness) = '$year' AND barangay_id = '$barangay_id'";
 	$res = mysqli_fetch_assoc(mysqli_query($conn,$sql));
@@ -751,10 +753,11 @@ function getDiseaseCount($disease_id,$year,$barangay_id){
 }
 
 function sendAlert($disease_id,$count,$barangay_id){
-	$xml = $xml=simplexml_load_file("setup.xml");
 
+	$xml = $xml=simplexml_load_file("../setup.xml");
+	
 	if($xml->sms->activated=="true"){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 
 	$sql ="SELECT * FROM diseases WHERE id = '$disease_id'";
 	//echo $sql;
@@ -779,10 +782,13 @@ function sendAlert($disease_id,$count,$barangay_id){
 	}else{
 	 	$color = 'RED';
 	}
+
+
 	$basic  = new \Nexmo\Client\Credentials\Basic('032c2fc0', 'B72Vlft6Yyff2FB5');
 	$client = new \Nexmo\Client($basic);
 
-	$prefix = strtoupper($name). " ALERT! ".\Carbon\Carbon::now()->format('Y-m-d h:i:s A').". ";
+	$prefix = strtoupper($name). " ALERT! ".date('Y-m-d h:i:s A');
+	//$prefix = .\Carbon\Carbon::now()->format('Y-m-d h:i:s A').". ";
 
  	$brgy_list = getBarangay();
 
@@ -802,6 +808,8 @@ function sendAlert($disease_id,$count,$barangay_id){
 		}
 		
 	}
+
+	
 	
 	
 	
@@ -859,15 +867,15 @@ function sendAlert($disease_id,$count,$barangay_id){
 }
 
 function getSMSAlert(){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
-	$sql = "Select * from sms order by created_at DESC";
+	$conn = mysqli_connect("localhost","root","","outbreak");
+	$sql = "Select * from sms order by created_at DESC LIMIT 6";
 	$res = $data = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 
 	return $res;
 }
 
 function getMessageByDiseaseID($id){
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","root","","outbreak");
 	$sql = "Select message from diseases where id = '$id'";
 	return mysqli_fetch_assoc(mysqli_query($conn,$sql))['message'];
 }

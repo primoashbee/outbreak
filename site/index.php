@@ -176,7 +176,7 @@
             <p class="text-muted"><?=$v['subtitle']?></p>
             <p class="text-muted"> 
             By <b><?=getNameByID($v['created_by'])?> </b> on 
-            <b><?=\Carbon\Carbon::parse($v['created_at'])->diffForHumans()?></b></i> </p>
+            <b><?=$v['created_at']?></b></i> </p>
 
           </div>
         </div>
@@ -196,15 +196,57 @@
         <div class="col-lg-12 text-center">
           <h2 class="section-heading text-uppercase">Alerts</h2>
           <h3 class="section-subheading text-muted">Outbreak Information About Balanga City</h3>
+
         </div>
       </div>
+      <form>
       <div class="row">
-        <div class="col-7">
-          <h2 class="text-center"> Geographical Status </h2>
-          <iframe src="../admin/map.php?year=2019" frameborder="0" height="600px" width = "600px"></iframe>
+
+        <div class="col-12 row">
+
+          <div class="col-5">
+              <select name="year" id="year" class="form-control filter"  required="">
+              <option value="">Please select</option>
+              <?php 
+              $years = getYearsInRecords();
+
+              foreach ($years as $year) {
+
+              ?>
+              <option value="<?=$year['year']?>"><?=$year['year']?></option>
+              <?php 
+              }
+
+              ?>
+              </select>   
+          </div>
+          <div class="col-5">          
+            <select name="disease_id" id="disease_id" class="form-control filter" required="">
+              <option value="">Please select</option>
+              <?php 
+                $diseases = getDiseases();
+
+                foreach ($diseases as $x) {
+                
+              ?>
+              <option value="<?=$x['id']?>"><?=$x['name']?></option>
+              <?php 
+              }
+
+              ?>
+            </select>
+          </div>
+          <div class="2">
+            <button class="btn btn-primary" style="width: 100%"> Go </button>
+          </div>
+
         </div>
-        <div class="col-5">
-          <h2 class="text-center"> Disease Rank </h2>
+        <div class="col-12">
+          <h2 class="text-center"> Geographical Status </h2>                            
+          <iframe src="../admin/map.php?year=2019" frameborder="0" height="600px" width = "100%" id="iframe_1"></iframe>
+        </div>
+        <div class="col-12">
+          <h2 class="text-center"> Disease Rank (<?=date("F")." ".date("Y")?>)</h2>
             <?php
               $rank  =getDiseaseRank(date('Y'));
 
@@ -255,10 +297,10 @@
             <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
               <div class="d-flex w-100 justify-content-between">
                 <h5 class=""><?=strtoupper($v['disease_name'])." ALERT AT ".$v['barangay_name']?></h5><br>
-                <small class="text-muted"><?=\Carbon\Carbon::parse($v['created_at'])->diffForHumans()?></small>
+                <small class="text-muted"><?=$v['created_at']?></small>
               </div><?=(getMessageByDiseaseID($v['disease_id']))?>
               <br>
-              <small class="text-muted"><i>Auto Generated on <?=\Carbon\Carbon::parse($v['created_at'])->format('F d, Y')?></i></small>
+              <small class="text-muted"><i>Auto Generated on <?=$v['created_at']?></i></small>
             </a>
          <?php
             }
@@ -267,6 +309,7 @@
         </div>
       </div>
     </div>
+    </form>
   </section>
   <!-- Team -->
   <!--
@@ -509,7 +552,7 @@
                 <ul class="list-inline">
                   <li><i>Posted by: 
                     <b><?=getNameByID($v['created_by'])?> </b> on 
-                    <b><?=\Carbon\Carbon::parse($v['created_at'])->diffForHumans()?></b></i> 
+                    <b><?$v['created_at']?></b></i> 
                   </li>
                
                 </ul>
@@ -540,11 +583,32 @@
   <!-- Custom scripts for this template -->
   <script src="js/agency.min.js"></script>
   <script>
-    
-    $('a').click(function(e){
-      e.preventDefault();
-    })
+    <?php
+      $year = date("Y");
+      $disease_id = "";
+      if(isset($_GET['year'])){
+        $year = $_GET['year'];
+      }
+      if(isset($_GET['disease_id'])){
+        $disease_id = $_GET['disease_id'];
+      }
 
+    ?>
+   $(function(){
+      var year = '<?=$year?>'
+
+      var disease_id = '<?=$disease_id?>'
+      
+      $("#year").val(year)
+      $("#disease_id").val(disease_id)
+
+     
+  
+      if(disease_id>0){
+        $("#iframe_1").attr("src","../admin/map.php?year="+year+"&disease_id="+disease_id)
+        
+      }
+   })
   </script>  
 
 </body>
