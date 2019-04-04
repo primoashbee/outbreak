@@ -172,7 +172,7 @@
                                 </div>
                                </div>
                                 <div class="single-table" style="margin-top: 25px">
-
+                                <div id="app">
                                     <div class="table table-responsive">
                                         <table class="table text-center" id="tblRecords">
 
@@ -217,61 +217,43 @@
                                                                                                
                                             }
 
-                                            $records = getPatientRecords(false,$request,$search_year,$from,$to);
-
-                                              foreach($records as $record){
                                             ?>
-                                                <tr class="active">
-                                                    <th scope="row"><?=$record['case_id']?></th>
-                                                    <th scope="row">
-                                                        
-                                                        <?php if($record['status']=="pending"){
-                                                        ?>
-                                                        <span class="status-p bg-warning">Pending</span>
-                                                        <?php }elseif($record['status']=="deceased"){
-                                                        ?>      
-                                                        <span class="status-p bg-danger">Deceased</span> 
-                                                        <?php }else{ ?>
-                                                        <span class="status-p bg-success">Healthy</span>
-                                                        <?php }?>
-                                                    </th>
-                                                    
-                                                    <td><?=ucfirst($record['full_name'])?></td>
-                                                    <td><?=ucfirst($record['gender'])?></td> 
-                                                    <td><?=ucfirst($record['age'])?></td> 
-                                                    <td><?=ucfirst($record['hospital_name'])?></td> 
-                                                    <td><?=ucfirst($record['barangay_name'])?></td> 
-                                                    <td><?=ucfirst($record['disease_name'])?></td> 
-                                                    <td><?=ucfirst($record['date_of_sickness'])?></td> 
-                                                    
+                                                <tr class="active" v-for="record in records">
+                                                    <td>{{record.case_id}}</td>
                                                     <td>
-                                                        <button type=" button" id="<?=$record['id']?>" case_id = "<?=$record['case_id']?>" class="updateRecord btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
+                                                        <span class="status-p bg-warning" v-if="record.status=='pending'">Pending</span>
+                                                        <span class="status-p bg-danger" v-else-if="record.status=='deceased'">Deceased</span>
+                                                        <span class="status-p bg-success" v-else-if="record.status=='healthy'">Healthy</span>
+
+                                                    </td>
+                                                    <td>{{record.full_name}}</td>
+                                                    <td>{{record.gender}}</td>
+                                                    <td>{{record.age}}</td>
+                                                    <td>{{record.hospital_name}}</td>
+                                                    <td>{{record.barangay_name}}</td>
+                                                    <td>{{record.disease_name}}</td>
+                                                    <td>{{record.date_of_sickness}}</td>
+                                                    <td>
+
+                                                        <button type=" button" v-bind:id="record.id" v-bind:case_id = "record.case_id" class="updateRecord btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
  
-                                                        <?php if($record['status']=="pending"){
-                                                        ?>
-                                                        <button type="button" 
-                                                        id="<?=$record['id']?>" 
-                                                        case_id = "<?=$record['case_id']?>"  
-                                                        date_of_sickness = "<?=$record['date_of_sickness']?>"
+                                                        <button type=" button" v-bind:id="record.id" v-bind:case_id = "record.case_id" class="updateRecord btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
+ 
+                                                        <button v-if="record.status==pending" type="button" 
+                                                        v-bind:id="record.id" 
+                                                        v-bind:case_id = "record.case_id" 
+                                                        v-bind:date_of_sickness = "record.date_of_sickness"
                                                         class ="onsetRecord btn btn-rounded btn-success mb-3"><i class="ti-check"></i></button>
 
-                                                        <?php } ?>
-
-
-                                                        
-
-                                                        <button type="button" id="<?=$record['id']?>" case_id = "<?=$record['case_id']?>"  class="deleteRecord btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
+ 
 
                                                     </td>
                                                 </tr>
-                                            <?php 
-
-                                            }
-
-                                            ?>
+                                           
                                             </tbody>
                                         </table>
                                     </div>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -551,6 +533,102 @@
     unset($_SESSION['post_data']);
 ?>
 <script>
+     var app = new Vue({
+      el:"#app",
+      data: {
+        records: 
+          <?=json_encode(getPatientRecords(false,$request,$search_year,$from,$to))?>
+        
+      },
+
+      methods: {
+        addRecord(data){
+            this.records.push(data)
+            this.refreshTable()
+        },
+        refreshTable(){
+            $('#tblRecords').DataTable()
+        }
+
+
+      },
+      mouted(){
+         this.$nextTick(function() {
+            $('#tblRecords').DataTable({
+                'destroy'     : true,
+                'paging'      : true,
+                'lengthChange': true,
+                'searching'   : true,
+                'ordering'    : true,
+                'order'       : [[ 8, 'desc' ]],
+                'info'        : true,
+                'autoWidth'   : false,
+                'dom'         : 'Blfrtip',
+                'buttons'     : [
+                    {
+                        'extend': 'csv',
+                        'title': this.$route.meta.report_name + ' Report'
+                    },
+                    {
+                        'extend': 'pdf',
+                        'title': this.$route.meta.report_name + ' Report'
+                    },
+                    {
+                        'extend': 'print',
+                        'title': this.$route.meta.report_name + ' Report'
+                    }
+                ]
+            });
+        });
+      }
+    });
+
+    //Pusher.logToConsole = true;
+    var pusher = new Pusher('21ce5477f6d4ba94c932', {
+      cluster: 'ap1',
+      forceTLS: true
+    });
+    var channel = pusher.subscribe('my-channel');
+
+    channel.bind('record.create', function(data) {
+      //$("#data").html(data.text);
+      $('#tblRecords').DataTable().destroy()
+      app.addRecord(data);
+      $.notify("Record created [Record: "+data.case_id+"]",
+        {
+             // whether to hide the notification on click
+              clickToHide: true,
+              // whether to auto-hide the notification
+              autoHide: false,
+              // if autoHide, hide after milliseconds
+              autoHideDelay: 5000,
+              // show the arrow pointing at the element
+              arrowShow: true,
+              // arrow size in pixels
+              arrowSize: 5,
+              // position defines the notification position though uses the defaults below
+              position: '...',
+              // default positions
+              elementPosition: 'top right',
+              globalPosition: 'top right',
+              // default style
+              style: 'bootstrap',
+              // default class (string or [string])
+              className: 'success',
+              // show animation
+              showAnimation: 'slideDown',
+              // show animation duration
+              showDuration: 400,
+              // hide animation
+              hideAnimation: 'slideUp',
+              // hide animation duration
+              hideDuration: 200,
+              // padding between element and notification
+              gap: 2
+        })
+
+     
+    });
 
     $(function(){
         $('#tblRecords').DataTable({

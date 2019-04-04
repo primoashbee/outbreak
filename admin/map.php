@@ -34,7 +34,17 @@ if(isset($_GET['disease_id'])){
     
     <div id="map"></div>
     </script>
+    <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
     <script>
+    //Pusher.logToConsole = true;
+    var pusher = new Pusher('21ce5477f6d4ba94c932', {
+      cluster: 'ap1',
+      forceTLS: true
+    });
+    var channel = pusher.subscribe('my-channel');
+     channel.bind('record.create', function(data) {
+      location.reload()
+     })
 
       // This example creates a simple polygon representing the Bermuda Triangle.
 var year = <?=$year?> 
@@ -828,7 +838,7 @@ function initMap() {
         google.maps.event.addListener(balangaMap, "click", function (event) {
             var latitude = event.latLng.lat();
             var longitude = event.latLng.lng();
-            console.log( '{lat:'+ latitude + ', lng: ' + longitude +'}' );
+            //console.log( '{lat:'+ latitude + ', lng: ' + longitude +'}' );
         });
 
 
@@ -993,7 +1003,7 @@ function initMap() {
         total_marker++
 
       }
-      console.log(total_marker);
+      //console.log(total_marker);
 }
 
 

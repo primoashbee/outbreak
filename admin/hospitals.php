@@ -73,7 +73,7 @@
             </div>
             <!-- page title area end -->
             <div class="main-content-inner">
-
+                <div id="app">
                 <div class="col-lg-12 mt-5">
                         <div class="card">
                             <div class="card-body">
@@ -93,37 +93,28 @@
                                             <tbody>
 
 
-                                            <?php 
-                                              $hospitals = getHospitals();
-
-                                              foreach($hospitals as $hospital){
-                                               
-                                          
-                                            ?>
-                                                <tr>
+                                         
+                                                <tr v-for="hospital in hospitals">
                                                     <th scope="row">
-                                                        
-                                                        <?php if($hospital['isDeleted']){
-                                                        ?>      
-                                                        <span class="status-p bg-danger">Closed</span> 
-                                                        <?php }else{ ?>
-                                                        <span class="status-p bg-success">Active</span>
-                                                        <?php }?>
+                                                    
+                                                        <span class="status-p bg-danger" v-if="hospital.isDeleted==true">Closed</span> 
+                                                        <span class="status-p bg-success" v-if="hospital.isDeleted==false">Active</span>
                                                     </th>
-                                                    <th scope="row"><?=$hospital['name']?></th>
-                                                    <td><?=substr(ucfirst($hospital['address']),0,45).".."  
-                                                    ?></td>
+                                                    <th scope="row">{{hospital.name}}</th>
+                                                    <td>{{hospital.address}}</td>
                                                     <td>
 
 
 
-                                                        <?php if($hospital['isDeleted']){
-                                                        ?>
-                                                        <button type=" button" id="<?=$hospital['id']?>" class="updateDisease btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>      
-                                                        <?php }else{ ?>
-                                                        <button type=" button" id="<?=$hospital['id']?>" class="updateDisease btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
-                                                        <button type="button" id="<?=$hospital['id']?>" class="deleteDisease btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
-                                                        <?php }?>
+                                                    
+                                                        <button type=" button" v-bind:id="hospital.id" class="updateHospital btn btn-rounded btn-warning mb-3" v-if="hospital.isDeleted==true"><i class="fa fa-edit"></i></button>      
+                                                      
+                                                        <button type=" button" v-bind:id="hospital.id" class="updateHospital btn btn-rounded btn-warning mb-3"
+                                                        v-if="hospital.isDeleted==false"><i class="fa fa-edit"></i></button>
+                                                        
+                                                        <button type="button" v-bind:id="hospital.id" class="deleteHospital btn btn-rounded btn-danger mb-3"
+                                                        v-if="hospital.isDeleted==false"><i class="ti-trash"></i></button>
+                                                      
 
 
 
@@ -131,18 +122,15 @@
 
                                                     </td>
                                                 </tr>
-                                            <?php 
 
-                                            }
-
-                                            ?>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                </div>
+                </div>
             </div>
         </div>
         <!-- main content area end -->
@@ -161,11 +149,12 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"><span id="diseaseName"></span></h5>
+                <h5 class="modal-title"><span id="hospital_name"></span></h5>
                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
             </div>
             <div class="modal-body">
                 <form action="#" method="POST">
+                    <input type="hidden" id="hospital_id">
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" class="form-control" name="name" id="name" aria-describedby="name" placeholder="name" required="">
@@ -212,7 +201,77 @@
 ?>
 <script>
     var id;
-    $('.deleteDisease').click(function(){
+
+
+
+    var app = new Vue({
+      el:"#app",
+      data:{
+        hospitals : <?=json_encode(getHospitals())?>     
+      },
+      methods: {
+        addHospital(data){
+            this.hospitals.push(data)
+           
+        },
+        refreshTable(){
+            $('#tblRecords').DataTable()
+        }
+
+
+      }
+      
+
+    })
+
+    //Pusher.logToConsole = true;
+    var pusher = new Pusher('21ce5477f6d4ba94c932', {
+      cluster: 'ap1',
+      forceTLS: true
+    });
+    var channel = pusher.subscribe('my-channel');
+
+    channel.bind('hospital.create', function(data) {
+      //$("#data").html(data.text);
+        
+      app.addHospital(data);
+      $.notify("Hospital created [Hospital: "+data.name+"]",
+        {
+             // whether to hide the notification on click
+              clickToHide: true,
+              // whether to auto-hide the notification
+              autoHide: false,
+              // if autoHide, hide after milliseconds
+              autoHideDelay: 5000,
+              // show the arrow pointing at the element
+              arrowShow: true,
+              // arrow size in pixels
+              arrowSize: 5,
+              // position defines the notification position though uses the defaults below
+              position: '...',
+              // default positions
+              elementPosition: 'top right',
+              globalPosition: 'top right',
+              // default style
+              style: 'bootstrap',
+              // default class (string or [string])
+              className: 'success',
+              // show animation
+              showAnimation: 'slideDown',
+              // show animation duration
+              showDuration: 400,
+              // hide animation
+              hideAnimation: 'slideUp',
+              // hide animation duration
+              hideDuration: 200,
+              // padding between element and notification
+              gap: 2
+        })
+
+     
+    });
+
+    $('.deleteHospital').click(function(){
         $('#d_id').val()
         id = $(this).attr('id')
         $.ajax({
@@ -227,16 +286,18 @@
         })
         $('#alertModal').modal('show');
     });    
-    $('.updateDisease').click(function(){
+    $('.updateHospital').click(function(){
+
         id = "";
         id = $(this).attr('id')
+
         $.ajax({
             url:'ajax.php',
             data:{type:'get_hospital',id:id},
             dataType:'JSON',
             type:'POST',
             success: function(data){
-                $('#diseaseName').html(data.info.name)
+                $('#hospital_id').html(id)
                 $('#name').val(data.info.name)
                 $('#address').val(data.info.address)
                 $('#updateModal').modal('show')

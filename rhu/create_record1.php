@@ -20,6 +20,17 @@ if(count($errors)>1){
 	header('location:create_record.php');
 	return;
 }
+ $options = array(
+    'cluster' => 'ap1',
+    'useTLS' => true
+  );
+  $pusher = new Pusher\Pusher(
+    '21ce5477f6d4ba94c932',
+    '8c2262865eca4ce3a395',
+    '746357',
+    $options
+  );
+
 
 $firstname = addslashes($_POST['firstname']);
 $middlename = addslashes($_POST['middlename']);
@@ -53,11 +64,24 @@ $sql = "INSERT INTO records (case_id,disease_id,firstname,middlename,lastname,ge
 ('$case_id','$disease_id','$firstname','$middlename','$lastname','$gender','$birthday','$barangay_id','$date_of_sickness','$hospital_id','$user_id')";
 
 if(mysqli_query($conn,$sql)){
-	$count = getDiseaseCount($disease_id,date("Y"),$barangay_id);
-	
+$space = " ";
+		$id = mysqli_insert_id($conn);
+		$sql = "SELECT r.id,case_id, CONCAT(firstname,'$space',lastname) AS full_name, gender, b.`name` as barangay_name,d.`name` as disease_name,r.`date_of_sickness`, TIMESTAMPDIFF(YEAR, BIRTHDAY, CURDATE()) AS age, WEEK(date_of_sickness) as MW, h.id as h_id, h.name as hospital_name, r.status as `status`
+	FROM records r
+	LEFT JOIN barangays b 
+	ON r.barangay_id = b.id
+	LEFT JOIN diseases d
+	ON r.`disease_id` = d.`id` 
+	LEFT JOIN hospitals h
+	ON r.hospital_id = h.id
+	where r.id = '$id' ORDER BY date_of_sickness DESC ";
+	  	//$sql ="Select * from records where id ='$id'";
+	    $data = mysqli_fetch_assoc(mysqli_query($conn,$sql));
+	    $pusher->trigger('my-channel', 'record.create', $data);
+		$count = getDiseaseCount($disease_id,date("Y"),$barangay_id);
+
 	if($count > 2){
 		sendAlert($disease_id,$count,$barangay_id);
-		
 	}
 	$_SESSION['msg'] = array('isSuccess'=>1,'message'=>'Record added');
 
@@ -70,6 +94,3 @@ if(mysqli_query($conn,$sql)){
 	return;
 }
 
-
-
-?>

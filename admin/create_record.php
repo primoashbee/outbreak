@@ -162,7 +162,7 @@
                                                 <option value="">Please Select</option>
                                                 <?php 
 
-                                                    $hospital = getHospitals();
+                                                    $hospital = getRealHospitals(false);
 
                                                     foreach ($hospital as $k => $v) {
                                                         

@@ -14,6 +14,25 @@ foreach($_POST as $k => $v){
 		array_push($errors,$k." is empty");
 	}
 }
+
+
+require_once('../vendor/autoload.php');
+
+  $options = array(
+    'cluster' => 'ap1',
+    'useTLS' => true
+  );
+  $pusher = new Pusher\Pusher(
+    '21ce5477f6d4ba94c932',
+    '8c2262865eca4ce3a395',
+    '746357',
+    $options
+  );
+
+
+
+
+
 if(count($errors)>1){
 	//go back and send errors
 }
@@ -35,6 +54,11 @@ if(!checkIfUsernameExists($username)){
 	$sql ="Insert into users(username,firstname,lastname,password) values 
 	('$username','$firstname','$lastname','$password');";
 	if(mysqli_query($conn,$sql)){
+		$id = mysqli_insert_id($conn);
+	  	$sql ="Select * from users where id ='$id'";
+	    $data = mysqli_fetch_assoc(mysqli_query($conn,$sql));
+	    $pusher->trigger('my-channel', 'account.create', $data);
+
 		$_SESSION['msg'] = array('isSuccess'=>1,'message'=>'Account Succesfully Created!');
 		header('location:create_account.php');
 	}else{

@@ -1,5 +1,6 @@
 <!-- jquery latest version -->
     <script src="../assets/js/vendor/jquery-2.2.4.min.js"></script>
+
     <!-- bootstrap 4 js -->
     <script src="../assets/js/popper.min.js"></script>
     <script src="../assets/js/bootstrap.min.js"></script>
@@ -23,11 +24,15 @@
     <script src="../assets/js/plugins.js"></script>
     <script src="../assets/js/scripts.js"></script>
     <script src="../assets/js/helper.js"></script>
+    <script src="../assets/js/vue.js"></script>
+    <script src="../assets/js/notify.min.js"></script>
+    <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
     
     
 
     <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="../vendor/needim/noty/lib/noty.js"></script>
 <!--
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
     <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>

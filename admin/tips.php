@@ -72,94 +72,182 @@
                 </div>
             </div>
             <!-- page title area end -->
+            <div id="app">
             <div class="main-content-inner">
 
                 <div class="col-lg-12 mt-5">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">Health Knowledge / Tips</h4>
-                                <div class="single-table">
-                                                                    <?php 
-                                if(isset($_SESSION['msg'])){
-                                    if($_SESSION['msg']['isSuccess']){
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active show" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Showed</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link " id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Hidden</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content mt-3" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <h4 class="header-title">Health Knowledge / Tips</h4>
+                                    <div class="single-table">
+                                    <?php 
+                                        if(isset($_SESSION['msg'])){
+                                            if($_SESSION['msg']['isSuccess']){
 
 
-                                        ?>
-                                         <div class="alert alert-primary alert-success" role="alert">
-                                            <h2><strong>Heads up!</strong> <?=$_SESSION['msg']['message']?></h2>
-                                        </div>
+                                                ?>
+                                                 <div class="alert alert-primary alert-success" role="alert">
+                                                    <h2><strong>Heads up!</strong> <?=$_SESSION['msg']['message']?></h2>
+                                                </div>
 
-                                        <?php
-                                    }else{
-                                        ?>
-                                        <div class="alert alert-danger" role="alert">
-                                            <h2><strong>Oh no!</strong> <?=$_SESSION['msg']['message']?></h2>
-                                        </div>
+                                                <?php
+                                            }else{
+                                                ?>
+                                                <div class="alert alert-danger" role="alert">
+                                                    <h2><strong>Oh no!</strong> <?=$_SESSION['msg']['message']?></h2>
+                                                </div>
 
-                                        <?php
-
-                                    }
-
-
-                                }
-
-
-                                ?>
-                                    <div class="table-responsive">
-                                        <table class="table text-center">
-
-                                            <thead class="text-uppercase bg-dark">
-                                                <tr class="text-white">
-                                                    <th scope="col">Title</th>
-                                                    <th scope="col">Subtitle</th>
-                                                    <th scope="col">Image</th>
-                                                    <th scope="col">Published By</th>
-                                                    <th scope="col">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-
-                                            <?php 
-                                              $tips = getTips(false);
-
-                                              foreach($tips as $k => $v){
-                                               
-                                          
-                                            ?>
-                                                <tr>
-                                                    <th scope="row"><?=$v['title']?></th>
-                                                    <td><?=(ucfirst($v['subtitle'])) ?></td>
-                                                    <td><img src="../site/<?=$v['img_src']?>" style="max-width: 100px;max-height: 100px" /></td>
-                                                    <td><?=getNameByID($v['created_by'])?></td>
-                                                    <td>
-                                                        <button type=" button" 
-                                                            id="<?=$v['id']?>" 
-                                                            title="<?=$v['title']?>"
-                                                            subtitle="<?=$v['subtitle']?>"
-                                                            img_src="../site/<?=$v['img_src']?>"
-                                                            body="<?=$v['body']?>"
-                                                           
-                                                             class="updateTip btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
-                                                       <!-- <button type="button" 
-                                                        id="<?=$v['id']?>" 
-                                                        title="<?=$v['title']?>" 
-                                                        class="deleteTip btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button> -->
-
-                                                    </td>
-                                                </tr>
-                                            <?php 
+                                                <?php
 
                                             }
 
-                                            ?>
-                                            </tbody>
-                                        </table>
+
+                                        }
+
+
+                                    ?>
+                                        <div class="table-responsive">
+                                            <table class="table text-center">
+
+                                                <thead class="text-uppercase bg-dark">
+                                                    <tr class="text-white">
+                                                        <th scope="col">Title</th>
+                                                        <th scope="col">Subtitle</th>
+                                                        <th scope="col">Image</th>
+                                                        <th scope="col">Published By</th>
+                                                        <th scope="col">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+
+                                                    <tr v-for="tip in tips_shown">
+                                                        <th scope="row">{{tip.title}}</th>
+                                                        <td>{{tip.subtitle}} </td>
+                                                        <td><img v-bind:src="tip.user_src" style="max-width: 100px;max-height: 100px" /></td>
+                                                        <td>{{tip.created_by}}</td>
+                                                        <td>
+                                                            <button type=" button" 
+                                                                :id="tip.id" 
+                                                                :title="tip.title"
+                                                                :subtitle="tip.subtitle"
+                                                                :img_src="tip.user_src"
+                                                                :body="tip.body"
+                                                               
+                                                            class="updateTip btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
+                                                           
+                                                           <button type="button" 
+                                                            :id="tip.id" 
+                                                            :title="tip.title"
+                                                            class="hideTip btn btn-rounded btn-primary mb-3"><i class="fa fa-eye-slash"></i></button>                                                       
+                                                            
+                                                            <button type="button" 
+                                                            :id="tip.id" 
+                                                            :title="tip.title"                                                            
+                                                            class="deleteTip btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
+
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                        <h4 class="header-title">Health Knowledge / Tips</h4>
+                                        <div class="single-table">
+                                        <?php 
+                                            if(isset($_SESSION['msg'])){
+                                                if($_SESSION['msg']['isSuccess']){
+
+
+                                                    ?>
+                                                     <div class="alert alert-primary alert-success" role="alert">
+                                                        <h2><strong>Heads up!</strong> <?=$_SESSION['msg']['message']?></h2>
+                                                    </div>
+
+                                                    <?php
+                                                }else{
+                                                    ?>
+                                                    <div class="alert alert-danger" role="alert">
+                                                        <h2><strong>Oh no!</strong> <?=$_SESSION['msg']['message']?></h2>
+                                                    </div>
+
+                                                    <?php
+
+                                                }
+
+
+                                            }
+
+
+                                        ?>
+                                            
+                                            <div class="table-responsive">
+                                                <table class="table text-center">
+
+                                                    <thead class="text-uppercase bg-dark">
+                                                        <tr class="text-white">
+                                                            <th scope="col">Title</th>
+                                                            <th scope="col">Subtitle</th>
+                                                            <th scope="col">Image</th>
+                                                            <th scope="col">Published By</th>
+                                                            <th scope="col">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        <tr>
+                                                    <tr v-for="tip in tips_hidden">
+                                                        <th scope="row">{{tip.title}}</th>
+                                                        <td>{{tip.subtitle}} </td>
+                                                        <td><img v-bind:src="tip.user_src" style="max-width: 100px;max-height: 100px" /></td>
+                                                        <td>{{tip.created_by}}</td>
+                                                        <td>
+                                                            <button type=" button" 
+                                                                :id="tip.id" 
+                                                                :title="tip.title"
+                                                                :subtitle="tip.subtitle"
+                                                                :img_src="tip.user_src"
+                                                                :body="tip.body"
+                                                               
+                                                            class="updateTip btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
+                                                           
+                                                           <button type="button" 
+                                                            :id="tip.id" 
+                                                            :title="tip.title"
+                                                            class="showTip btn btn-rounded btn-success mb-3"><i class="fa fa-eye"></i></button>                                                       
+                                                            
+                                                            <button type="button" 
+                                                            :id="tip.id" 
+                                                            :title="tip.title"                                                            
+                                                            class="deleteTip btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
+
+                                                        </td>
+                                                    </tr>
+                                                            
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>                                     
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                </div>
                     </div>
+            </div>
             </div>
         </div>
         <!-- main content area end -->
@@ -234,6 +322,44 @@
         </div>
         </div>
     </div>
+    <div class="modal fade" id="hideModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Alert</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id ="d_id_1">
+               <h3> Are you sure you want to hide this Tip (<i><span id="diseaseNameDel_1"></span></i> )? </h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id ="btnHide" class="btn btn-danger">Confirm</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+</body>
+    <div class="modal fade" id="showModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Alert</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id ="d_id_2">
+               <h3> Are you sure you want to show this Tip (<i><span id="diseaseNameDel_2"></span></i> )? </h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id ="btnShowTip" class="btn btn-danger">Confirm</button>
+            </div>
+        </div>
+        </div>
+    </div>
 
 </body>
 <?php
@@ -243,22 +369,97 @@
 ?>
 <script>
     var id;
+
+    var app = new Vue({
+      el:"#app",
+      data:{
+        tips_shown : <?=json_encode(getTips(false))?>,     
+        tips_hidden : <?=json_encode(getTips(true))?>
+      },
+      methods: {
+        addTip(data){
+            this.tips.push(data)
+           
+        }
+
+      }
+      
+
+    })
+
+    //Pusher.logToConsole = true;
+    var pusher = new Pusher('21ce5477f6d4ba94c932', {
+      cluster: 'ap1',
+      forceTLS: true
+    });
+    var channel = pusher.subscribe('my-channel');
+
+    channel.bind('tip.create', function(data) {
+      //$("#data").html(data.text);
+        
+      app.addHospital(data);
+      $.notify("Tip created [Tip: "+data.title+"]",
+        {
+             // whether to hide the notification on click
+              clickToHide: true,
+              // whether to auto-hide the notification
+              autoHide: false,
+              // if autoHide, hide after milliseconds
+              autoHideDelay: 5000,
+              // show the arrow pointing at the element
+              arrowShow: true,
+              // arrow size in pixels
+              arrowSize: 5,
+              // position defines the notification position though uses the defaults below
+              position: '...',
+              // default positions
+              elementPosition: 'top right',
+              globalPosition: 'top right',
+              // default style
+              style: 'bootstrap',
+              // default class (string or [string])
+              className: 'success',
+              // show animation
+              showAnimation: 'slideDown',
+              // show animation duration
+              showDuration: 400,
+              // hide animation
+              hideAnimation: 'slideUp',
+              // hide animation duration
+              hideDuration: 200,
+              // padding between element and notification
+              gap: 2
+        })
+
+     
+    });
     $('.deleteTip').click(function(){
         $('#d_id').val()
         id = $(this).attr('id')
         title = $(this).attr('title')
-        $.ajax({
-            url:'ajax.php',
-            data:{type:'get_hospital',id:id},
-            dataType:'JSON',
-            type:'POST',
-            success: function(data){
-                $('#d_id').val(id)
-                $('#diseaseNameDel').html(title)
-                $('#alertModal').modal('show');
-            }
-        })
-        
+
+        $('#d_id').val(id)
+        $('#diseaseNameDel').html(title)
+        $('#alertModal').modal('show');
+
+    });
+    $('.hideTip').click(function(){
+        $('#d_id').val()
+        id = $(this).attr('id')
+        title = $(this).attr('title')
+        $('#d_id_1').val(id)
+        $('#diseaseNameDel_1').html(title)
+        $('#hideModal').modal('show');
+
+    });  
+    $('.showTip').click(function(){
+        $('#d_id').val()
+        id = $(this).attr('id')
+        title = $(this).attr('title')       
+        $('#d_id_2').val(id)
+        $('#diseaseNameDel_2').html(title)
+        $('#showModal').modal('show');
+
     });    
     $('.updateTip').click(function(){
         id = "";
@@ -284,6 +485,38 @@
         $.ajax({
             url: 'ajax.php',
             data: {id:id,type:'delete_tip_via_id'},
+            dataType: 'JSON',
+            type: 'POST',
+            success: function(data){
+                if(data.isSuccess){
+                    alert(data.message)
+                    location.reload()
+                }
+            }
+        })
+    });
+    $('#btnHide').click(function(){
+        id = $("#d_id_1").val();
+       
+        $.ajax({
+            url: 'ajax.php',
+            data: {id:id,type:'hide_tip_via_id'},
+            dataType: 'JSON',
+            type: 'POST',
+            success: function(data){
+                if(data.isSuccess){
+                    alert(data.message)
+                    location.reload()
+                }
+            }
+        })
+    });
+    $('#btnShowTip').click(function(){
+        id = $("#d_id_2").val();
+       
+        $.ajax({
+            url: 'ajax.php',
+            data: {id:id,type:'show_tip_via_id'},
             dataType: 'JSON',
             type: 'POST',
             success: function(data){

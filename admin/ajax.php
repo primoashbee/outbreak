@@ -5,6 +5,8 @@ require "../config.php";
        echo 'INVALID REQUEST';
        return;
     }
+   
+
 if($_POST['type']=="get_disease"){
 	return getDiseaseByID($_POST['id']);
 }
@@ -15,11 +17,21 @@ if($_POST['type']=="release_record_via_id"){
 if($_POST['type']=="get_hospital"){
 	return getHospitalByID($_POST['id']);
 }
+if($_POST['type']=="get_tip_via_id"){
+	echo getTipViaID($_POST['id']);
+}
 if($_POST['type']=="delete_record_via_id"){
 	return deleteRecordViaID($_POST['id']);
 }
 if($_POST['type']=="delete_tip_via_id"){
 	return deleteTipViaID($_POST['id']);
+}
+if($_POST['type']=="hide_tip_via_id"){
+
+	return hideTipViaID($_POST['id']);
+}
+if($_POST['type']=="show_tip_via_id"){
+	return showTipViaID($_POST['id']);
 }
 if($_POST['type']=="update_record_via_id"){
 	return updateRecordViaID($_POST['id'],$_POST);
@@ -93,10 +105,10 @@ if($_POST['type']=="change_password_via_id"){
 
 if($_POST['type']=="delete_user_via_id"){
 	$id = $_POST['id'];
-	$sql ="Update users set isDeleted = true, forceLogOut = true where id ='$id'";
+	$sql ="Update users set isDeleted = true, forceLogOut = true, isLoggedIn = false where id ='$id'";
 
 		if(mysqli_query($conn,$sql)){
-			echo  json_encode(array('isSuccess'=>1,'message'=>'Account Succesffuly Deleted!'));
+			echo  json_encode(array('isSuccess'=>1,'message'=>'Account Succesffuly Suspended!'));
 			return;
 		}
 		echo json_encode(array('isSuccess'=>0,'message'=>'Something went wrong'));
@@ -105,7 +117,7 @@ if($_POST['type']=="delete_user_via_id"){
 
 if($_POST['type']=="recover_user_via_id"){
 	$id = $_POST['id'];
-	$sql ="Update users set isDeleted = false, forceLogOut = false where id ='$id'";
+	$sql ="Update users set isDeleted = false, forceLogOut = false, isLoggedIn = false where id ='$id'";
 		if(mysqli_query($conn,$sql)){
 			echo  json_encode(array('isSuccess'=>1,'message'=>'Account Succesffuly Recovered!'));
 			return;

@@ -49,6 +49,12 @@ if(!checkIfTitleExists($title)){
 		'$user_id');";
 	if(mysqli_query($conn,$sql)){
 		move_uploaded_file($file_tmp,"../site/".$img_src);
+		
+		$id = mysqli_insert_id($conn);
+	  	$sql ="Select * from tips where id ='$id'";
+	    $data = mysqli_fetch_assoc(mysqli_query($conn,$sql));
+	    $pusher->trigger('my-channel', 'tip.create', $data);
+
 		$_SESSION['msg'] = array('isSuccess'=>1,'message'=>'Tip Succesfully Created!');
 		header('location:create_tip.php');
 	}else{

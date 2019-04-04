@@ -69,6 +69,7 @@ return array(
     'aa53dcba601214d17ad405b7c291b7e8' => $vendorDir . '/markbaker/matrix/classes/src/operations/multiply.php',
     '75c79eb1b25749b05a47976f32b0d8a2' => $vendorDir . '/markbaker/matrix/classes/src/operations/divideby.php',
     '6ab8ad87a734f276a6bcd5a0fe1289be' => $vendorDir . '/markbaker/matrix/classes/src/operations/divideinto.php',
+    '3109cb1a231dcd04bee1f9f620d46975' => $vendorDir . '/paragonie/sodium_compat/autoload.php',
     'cf97c57bfe0f23854afd2f3818abb7a0' => $vendorDir . '/zendframework/zend-diactoros/src/functions/create_uploaded_file.php',
     '9bf37a3d0dad93e29cb4e1b1bfab04e9' => $vendorDir . '/zendframework/zend-diactoros/src/functions/marshal_headers_from_sapi.php',
     'ce70dccb4bcc2efc6e94d2ee526e6972' => $vendorDir . '/zendframework/zend-diactoros/src/functions/marshal_method_from_sapi.php',

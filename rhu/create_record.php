@@ -102,7 +102,8 @@
 
 
                                 ?>
-                                <form action="create_record1.php" method="POST">
+                                <div id="app">
+                                <form action="create_record1.php" method="POST" id="frmCreateRecord">
                                     <div class="row">
 
                                         <div class="form-group col">
@@ -122,7 +123,7 @@
 
                                         <div class="form-group col">
                                             <label for="birthday">Birthday</label>
-                                            <input type="date" class ="form-control" name="birthday" value="<?=old('birthday')?>" required >
+                                            <input type="date" class ="form-control" name="birthday" id="birthday" value="<?=old('birthday')?>" required >
                                         </div>
                                         <div class="form-group col">
                                             <label for="gender">Gender</label>
@@ -152,59 +153,54 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" >
                                         <div class="form-group col-6">
                                             <label for="hospital_id">Hospital</label>
                                             <select name="hospital_id" id="hospital_id" class="form-control"  required="">
-                                                <option value="">Please Select</option>
-                                                <?php 
-
-                                                    $hospital = getHospitals();
-
-                                                    foreach ($hospital as $k => $v) {
-                                                        
-                                                        ?>
-
-                                                <option value="<?=$v['id']?>"><?=$v['name']?></option>
-                                                        <?php
-                                                    }
-
-                                                ?>
+                                                <option value=""> Please select </option>
+                                                <option v-for="hospital in hospitals" :value="hospital.id">{{hospital.name}}</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-3">
                                             <label for="disease_id">Disease</label>
                                             <select name="disease_id" id="disease_id" class="form-control"  required="">
                                                 <option value="">Please Select</option>
-                                                <?php 
-
-                                                    $brgy = getDiseases();
-
-                                                    foreach ($brgy as $k => $v) {
-                                                        
-                                                        ?>
-
-                                                <option value="<?=$v['id']?>"><?=$v['name']?></option>
-                                                        <?php
-                                                    }
-
-                                                ?>
+                                                <option v-for="disease in diseases" :value="disease.id">{{disease.name}}</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-3">
                                             <label for="date_of_sickness">Date</label>
-                                            <input type="date" class="form-control" id="date_of_sickness" aria-describedby="date_of_sickness" placeholder="date_of_sickness" name="date_of_sickness" required=""  value="<?=old('date_of_sickness')?>">
+                                            <input type="date" class="form-control" id="date_of_sickness" aria-describedby="date_of_sickness" placeholder="date_of_sickness" name="date_of_sickness" id="date_of_sickness"   required=""  value="<?=old('date_of_sickness')?>">
                                         </div>
                                     </div>
 
                                     <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Submit</button>
                                 </form>
+                                </div>
                             </div>
                         </div>
                 </div>
             </div>
         </div>
         <!-- main content area end -->
+    <div class="modal fade" id="alertModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Alert</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id ="r_id">
+               <h3> Are you sure you want to RECOVER this Account <b><i><span id="usernameRec"></span></i></b>? </h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id ="btnRecover" class="btn btn-danger">Confirm</button>
+            </div>
+        </div>
+        </div>
+    </div>
 
 <?php 
 
@@ -223,6 +219,55 @@
 ?>
 
 <script>
+
+    var app = new Vue({
+      el:"#app",
+      data:{
+        hospitals : <?=json_encode(getRealHospitals())?>,
+        diseases :  <?=json_encode(getDiseases())?>
+      },
+      methods: {
+        addHospital(data){
+            this.hospitals.push(data)
+           
+        },
+        addDisease(data){
+            this.diseases.push(data)
+           
+        },
+
+
+      } 
+
+    })
+
+    //Pusher.logToConsole = true;
+    var pusher = new Pusher('21ce5477f6d4ba94c932', {
+      cluster: 'ap1',
+      forceTLS: true
+    });
+    var channel = pusher.subscribe('my-channel');
+
+    channel.bind('hospital.create', function(data) {
+      //$("#data").html(data.text);
+        app.addHospital(data);
+    });
+    channel.bind('disease.create', function(data) {
+      //$("#data").html(data.text);
+        app.addDisease(data);
+    });
+
+    $("#frmCreateRecord").submit(function(e){
+       
+        var bday = $("#birthday").val();
+        var date = $("#date_of_sickness").val();
+
+        if(isFutureDate(bday) || isFutureDate($ate)){
+            alert("Birthday and Date should not be in future")
+            e.preventDefault();
+        }
+       
+    })
     $("#barangay").val("<?=old('barangay')?>")
     $("#hospital_id").val("<?=old('hospital_id')?>")
     $("#disease_id").val("<?=old('disease_id')?>")

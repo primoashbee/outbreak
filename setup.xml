@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <AppSettings>
 	<sms>
-		<activated>true</activated>
+		<activated>false</activated>
 	</sms>
 <note>
 	<msg>THIS IS TO INFORM YOU THAT BARANGAY [brgy] IS ON [color]!

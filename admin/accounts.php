@@ -19,10 +19,9 @@
 ?>
 
 </head>
-<body>
-    <div id="preloader">
-        <div class="loader"></div>
-    </div>
+<body >
+
+ 
     <!-- preloader area end -->
     <!-- page container area start -->
 
@@ -73,142 +72,125 @@
             </div>
             <!-- page title area end -->
             <div class="main-content-inner">
+                <div id="app">
+                    <div class="col-lg-12 mt-5">
+                    <div class="card">
+                                <div class="card-body">
+                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active show" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Active</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link " id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Suspended</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content mt-3" id="myTabContent">
+                                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                             <h4 class="header-title">List of Accounts</h4>
+                                                <div class="single-table">
+                                                    <div class="table-responsive">
+                                                        <table class="table text-center">
 
-                <div class="col-lg-12 mt-5">
-                <div class="card">
-                            <div class="card-body">
-                                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active show" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Existing</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Deleted</a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content mt-3" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                         <h4 class="header-title">List of Accounts</h4>
-                                            <div class="single-table">
-                                                <div class="table-responsive">
-                                                    <table class="table text-center">
-
-                                                        <thead class="text-uppercase bg-dark">
-                                                            <tr class="text-white">
-                                                                <th scope="col">Username</th>
-                                                                <th scope="col">Firstname</th>
-                                                                <th scope="col">Lastname</th>
-                                                                <th scope="col">Is Logged In</th>
-                                                                <th scope="col">Action</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
+                                                            <thead class="text-uppercase bg-dark">
+                                                                <tr class="text-white">
+                                                                    <th scope="col">Username</th>
+                                                                    <th scope="col">Firstname</th>
+                                                                    <th scope="col">Lastname</th>
+                                                                    <th scope="col">Status</th>
+                                                                    <th scope="col">Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
 
 
-                                                        <?php 
-                                                          $users = getUsers(false);
+                                                                <tr v-for="user in users">
+                                                                    <th scope="row">{{user.username}}</th>
+                                                                    <th scope="row">{{user.firstname}}</th>
+                                                                    <th scope="row">{{user.lastname}}</th>
+                                                                    <td scope="row">
 
-                                                          foreach($users as $user){
-                                                           
-                                                      
-                                                        ?>
-                                                            <tr>
-                                                                <th scope="row"><?=$user['username']?></th>
-                                                                <td><?=ucfirst($user['firstname'])?></td>
-                                                                <td><?=ucfirst($user['lastname'])?></td> 
-                                                                <td scope="row">
+                                                                        <span class="status-p bg-danger" v-if="user.forceLogout==true">Inactive</span>
+
+                                                                        <span class="status-p bg-success" v-else>Active</span>
+                                                                        
+                                                                    </td> 
+                                                                    <td>
+                                                                        <button type=" button" v-bind:id="user.id" class="updateAccount btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
+                                                                        
+
+                                                                        <button type="button" v-bind:id="user.id" v-bind:username="user.username" class="deleteAccount btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
+
                                                                     
-                                                                    <?php if(!$user['isLoggedIn']){
-                                                                    ?>      
-                                                                    <span class="status-p bg-danger">Inactive</span>
 
-                                                                    <?php }else{ ?>
-                                                                    <span class="status-p bg-success">Active</span>
-                                                                    <?php }?>
-                                                                </td> 
-                                                                <td>
-                                                                    <button type=" button" id="<?=$user['id']?>" class="updateAccount btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
-                                                                    
-                                                                    <?php if(!$user['isLoggedIn']){
-                                                                    ?>      
-                                                                    <?php }else{ ?>
+                                                                    </td>
+                                                                </tr>
 
-                                                                    <button type="button" id="<?=$user['id']?>" username="<?=$user['username']?>" class="deleteAccount btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
-
-                                                                    <?php }?>
-
-
-                                                                </td>
-                                                            </tr>
-                                                        <?php 
-
-                                                        }
-
-                                                        ?>
-                                                        </tbody>
-                                                    </table>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                            <h4 class="header-title">List of Accounts</h4>
-                                            <div class="single-table">
-                                                <div class="table-responsive">
-                                                    <table class="table text-center">
+                                        </div>
+                                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab" >
+                                                <h4 class="header-title">List of Accounts</h4>
+                                                <div class="single-table">
+                                                    <div class="table-responsive">
+                                                        <table class="table text-center">
 
-                                                        <thead class="text-uppercase bg-dark">
-                                                            <tr class="text-white">
-                                                                <th scope="col">Username</th>
-                                                                <th scope="col">Firstname</th>
-                                                                <th scope="col">Lastname</th>
-                                                                <th scope="col">Is Logged In</th>
-                                                                <th scope="col">Action</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-
-
-                                                        <?php 
-                                                          $users = getUsersDeleted();
-
-                                                              foreach($users as $user){
-                                                           
-                                                      
-                                                        ?>
-                                                            <tr>
-                                                                <th scope="row"><?=$user['username']?></th>
-                                                                <td><?=ucfirst($user['firstname'])?></td>
-                                                                <td><?=ucfirst($user['lastname'])?></td> 
-                                                                <td scope="row">
-                                                                    
-                                                                    <?php if(!$user['isLoggedIn']){
-                                                                    ?>      
-                                                                    <span class="status-p bg-danger">Forced Log Out</span>
-
-                                                                    <?php }else{ ?>
-                                                                    <span class="status-p bg-success">Active</span>
-                                                                    <?php }?>
-                                                                </td> 
-                                                                <td>
-
-                                                                    <button type="button" id="<?=$user['id']?>" username="<?=$user['username']?>" class="recoverAccount btn btn-rounded btn-primary mb-3"><i class="ti-back-left"></i></button>
+                                                            <thead class="text-uppercase bg-dark">
+                                                                <tr class="text-white">
+                                                                    <th scope="col">Username</th>
+                                                                    <th scope="col">Firstname</th>
+                                                                    <th scope="col">Lastname</th>
+                                                                    <th scope="col">Status</th>
+                                                                    <th scope="col">Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
 
 
+                                                            <?php 
+                                                              $users = getUsersDeleted();
 
-                                                                </td>
-                                                            </tr>
-                                                        <?php 
+                                                                  foreach($users as $user){
+                                                               
+                                                          
+                                                            ?>
+                                                                <tr>
+                                                                    <th scope="row"><?=$user['username']?></th>
+                                                                    <td><?=ucfirst($user['firstname'])?></td>
+                                                                    <td><?=ucfirst($user['lastname'])?></td> 
+                                                                    <td scope="row">
+                                                                        
+                                                                        <?php if(!$user['isLoggedIn']){
+                                                                        ?>      
+                                                                        <span class="status-p bg-danger">Suspended</span>
 
-                                                        }
+                                                                        <?php }else{ ?>
+                                                                        <span class="status-p bg-success">Active</span>
+                                                                        <?php }?>
+                                                                    </td> 
+                                                                    <td>
 
-                                                        ?>
-                                                        </tbody>
-                                                    </table>
+                                                                        <button type="button" id="<?=$user['id']?>" username="<?=$user['username']?>" class="recoverAccount btn btn-rounded btn-success mb-3"><i class="ti-back-left"></i></button>
+
+
+
+                                                                    </td>
+                                                                </tr>
+                                                            <?php 
+
+                                                            }
+
+                                                            ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -277,7 +259,7 @@
             </div>
             <div class="modal-body">
                 <input type="hidden" id ="d_id">
-               <h3> Are you sure you want to delete this Account <b><i><span id="usernameDel"></span></i></b>? </h3>
+               <h3> Are you sure you want to SUSPEND this Account <b><i><span id="usernameDel"></span></i></b>? </h3>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -295,7 +277,7 @@
             </div>
             <div class="modal-body">
                 <input type="hidden" id ="r_id">
-               <h3> Are you sure you want to Recover this Account <b><i><span id="usernameRec"></span></i></b>? </h3>
+               <h3> Are you sure you want to RECOVER this Account <b><i><span id="usernameRec"></span></i></b>? </h3>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -304,13 +286,74 @@
         </div>
         </div>
     </div>
+
 </body>
 <?php
     include "../includes/scripts.php";
     unset($_SESSION['post_data']);
 ?>
 <script>
-        $('.updateAccount').click(function(){
+        
+    var app = new Vue({
+      el:"#app",
+      data: {
+        users: 
+          <?=json_encode(getUsers(false))?>
+        
+      },
+      methods :{
+        addUsers(data){
+          this.users.push(data)
+          //console.log(data)
+        }  
+      }
+    });
+
+    //Pusher.logToConsole = true;
+    var pusher = new Pusher('21ce5477f6d4ba94c932', {
+      cluster: 'ap1',
+      forceTLS: true
+    });
+    var channel = pusher.subscribe('my-channel');
+
+    channel.bind('account.create', function(data) {
+      $("#data").html(data.text);
+      app.addUsers(data);
+      console.log(data)
+      $.notify("Account created [username: "+data.username+"]",
+        {
+             // whether to hide the notification on click
+              clickToHide: true,
+              // whether to auto-hide the notification
+              autoHide: false,
+              // if autoHide, hide after milliseconds
+              autoHideDelay: 5000,
+              // show the arrow pointing at the element
+              arrowShow: true,
+              // arrow size in pixels
+              arrowSize: 5,
+              // position defines the notification position though uses the defaults below
+              position: '...',
+              // default positions
+              elementPosition: 'top right',
+              globalPosition: 'top right',
+              // default style
+              style: 'bootstrap',
+              // default class (string or [string])
+              className: 'success',
+              // show animation
+              showAnimation: 'slideDown',
+              // show animation duration
+              showDuration: 400,
+              // hide animation
+              hideAnimation: 'slideUp',
+              // hide animation duration
+              hideDuration: 200,
+              // padding between element and notification
+              gap: 2
+        })
+    });
+    $('.updateAccount').click(function(){
             id = $(this).attr('id')
             $.ajax({
                 url:'ajax.php',

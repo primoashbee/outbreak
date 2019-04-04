@@ -32,7 +32,7 @@
     include "../includes/sidebar.php";
 
     ?>
-
+   
         <!-- main content area start -->
         <div class="main-content">
             <!-- header area start -->
@@ -73,7 +73,7 @@
             </div>
             <!-- page title area end -->
             <div class="main-content-inner">
-
+            <div id="app">
                 <div class="col-lg-12 mt-5">
                         <div class="card">
                             <div class="card-body">
@@ -93,37 +93,24 @@
                                             <tbody>
 
 
-                                            <?php 
-                                              $diseases = getDiseases();
-
-                                              foreach($diseases as $disease){
-                                               
-                                          
-                                            ?>
-                                                <tr>
+                                                <tr v-for="disease in diseases">
                                                     <td scope="row">
-                                                        <?php if($disease['isDeleted']){ ?>
-                                                        <span class="status-p bg-danger">Deleted</span> 
-                                                        <?php }else{ ?>
-                                                        <span class="status-p bg-success">Active</span>
-                                                        <?php }?>
+                                                      
+                                                        <span class="status-p bg-danger" v-if="disease.isDeleted == true">Deleted</span> 
+                                                        <span class="status-p bg-success" v-if="disease.isDeleted == false">Active</span> 
+                                                       
+                                                        
                                                     </td>
-                                                    <td><?=(ucfirst($disease['name']))?>
-                                                    <td><?=substr(ucfirst($disease['description']),0,45).".."  
-                                                    ?>
+                                                    <td>{{disease.name}}
+                                                    <td>{{disease.description}}  
+                                                    
                                                         
                                                     </td>
                                                     <td>
-                                                        <button type=" button" id="<?=$disease['id']?>" class="updateDisease btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
-                                                        <button type="button" id="<?=$disease['id']?>" class="deleteDisease btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
+                                                        <button type=" button" v-bind:id="disease.id" class="updateDisease btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
 
                                                     </td>
                                                 </tr>
-                                            <?php 
-
-                                            }
-
-                                            ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -132,16 +119,16 @@
                         </div>
                     </div>
             </div>
+            </div>
         </div>
         <!-- main content area end -->
-
+    </div>
     <?php 
 
     include "../includes/footer.php";
 
     ?>
 
-    </div>
     <!-- page container area end -->
     <!-- offset area start -->
 
@@ -229,6 +216,68 @@
         
     })
     */
+
+
+      var app = new Vue({
+      el:"#app",
+      data: {
+        diseases: 
+          <?=json_encode(getDiseases(false))?>
+        
+      },
+      methods :{
+        addDisease(data){
+          this.diseases.push(data)
+          //console.log(data)
+        }  
+      }
+    });
+
+    //Pusher.logToConsole = true;
+    var pusher = new Pusher('21ce5477f6d4ba94c932', {
+      cluster: 'ap1',
+      forceTLS: true
+    });
+    var channel = pusher.subscribe('my-channel');
+
+    channel.bind('disease.create', function(data) {
+      //$("#data").html(data.text);
+      app.addDisease(data);
+      console.log(data)
+      $.notify("Diseases created [Disease: "+data.name+"]",
+        {
+             // whether to hide the notification on click
+              clickToHide: true,
+              // whether to auto-hide the notification
+              autoHide: false,
+              // if autoHide, hide after milliseconds
+              autoHideDelay: 5000,
+              // show the arrow pointing at the element
+              arrowShow: true,
+              // arrow size in pixels
+              arrowSize: 5,
+              // position defines the notification position though uses the defaults below
+              position: '...',
+              // default positions
+              elementPosition: 'top right',
+              globalPosition: 'top right',
+              // default style
+              style: 'bootstrap',
+              // default class (string or [string])
+              className: 'success',
+              // show animation
+              showAnimation: 'slideDown',
+              // show animation duration
+              showDuration: 400,
+              // hide animation
+              hideAnimation: 'slideUp',
+              // hide animation duration
+              hideDuration: 200,
+              // padding between element and notification
+              gap: 2
+        })
+    });
+
     $('.deleteDisease').click(function(){
         $('#d_id').val()
         id = $(this).attr('id')

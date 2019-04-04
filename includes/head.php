@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../assets/css/metisMenu.css">
     <link rel="stylesheet" href="../assets/css/owl.carousel.min.css">
     <link rel="stylesheet" href="../assets/css/slicknav.min.css">
+    <link rel="stylesheet" href="../vendor/needim/noty/lib/noty.css"/>
     <!-- amchart css -->
     <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
     <!-- others css -->
@@ -22,6 +23,7 @@
     <script src= "https://cdnjs.cloudflare.com/ajax/libs/zingchart/2.8.5/zingchart.min.js"></script>
     <script> zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
     ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9","ee6b7db5b51705a13dc2339db3edaf6d"];</script>
+
     <script src="../assets/js/moment.js"></script>
     <!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">

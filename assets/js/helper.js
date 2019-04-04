@@ -85,3 +85,25 @@ $(function(){
         $('#time').html(moment().format('LL - h:mm:ss A'))        
     },1000)
 })
+
+function isFutureDate(date){
+
+    var myDate = new Date(date);
+    var now = new Date();
+
+    if(myDate > now){
+        return true;
+    }
+        return false;
+
+}
+
+
+function momentizeDate(date){
+    var x = new Date(date)
+    return moment(x).fromNow()
+}
+
+$(".non-clickable").click(function(e){
+    e.preventDefault()
+})

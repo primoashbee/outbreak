@@ -11,6 +11,18 @@ function validateLogIn($user_id){
 	}
 
 }
+function getCountofTips(){
+	$conn = mysqli_connect("localhost","root","","outbreak");
+	$sql ="SELECT * FROM tips where isHidden = false";
+
+	return mysqli_num_rows(mysqli_query($conn,$sql));
+}
+function getCountofSMS(){
+	$conn = mysqli_connect("localhost","root","","outbreak");
+	$sql ="SELECT * FROM SMS LIMIT 6";
+
+	return mysqli_num_rows(mysqli_query($conn,$sql));
+}
 function todayForHumans(){
 	return date("F d, Y");
 }
@@ -34,15 +46,35 @@ function getBarangay(){
 	$sql ="SELECT * FROM barangays ORDER BY `NAME` ASC";
 	return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 }
-function getTips($isDeleted,$top = 0){
+function getTips($isHidden,$top = 0){
+	$space = " ";
 	if($top==0){
 		$conn = mysqli_connect("localhost","root","","outbreak");
-		$sql ="SELECT * FROM tips where isDeleted = '$isDeleted' ORDER BY created_at DESC";
+		$sql ="SELECT 
+				  t.*,
+				  CONCAT('../site/', t.img_src) AS user_src,
+				  CONCAT(u.`firstname`,'$space',u.`lastname`) AS created_by
+				FROM
+				  tips t
+				  LEFT JOIN users u
+				    ON t.created_by = u.id 
+				WHERE t.isHidden = '$isHidden'
+				ORDER BY created_at DESC"
+				;
 		return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 	}else{
 
 		$conn = mysqli_connect("localhost","root","","outbreak");
-		$sql ="SELECT * FROM tips where isDeleted = '$isDeleted' ORDER BY created_at DESC LIMIT $top";
+		$sql ="SELECT 
+				  t.*,
+				  CONCAT('../site/', t.img_src) AS user_src,
+				  CONCAT(u.`firstname`,'$space',u.`lastname`) AS created_by
+				FROM
+				  tips t
+				  LEFT JOIN users u
+				    ON t.created_by = u.id 
+				WHERE t.isHidden = '$isHidden'
+				ORDER BY created_at DESC LIMIT $top";
 		
 		return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 
@@ -57,11 +89,24 @@ function getMonthName($int){
 function getHospitals(){
 	$conn = mysqli_connect("localhost","root","","outbreak");
 	$sql ="SELECT * FROM hospitals ORDER BY `NAME` ASC";
+
+	return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
+}
+function getRealHospitals(){
+	$conn = mysqli_connect("localhost","root","","outbreak");
+	$sql ="SELECT * FROM hospitals where isDeleted =false ORDER BY `NAME` ASC";
+
 	return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 }
 function getRecordViaID($id){
 	$conn = mysqli_connect("localhost","root","","outbreak");
 	$sql ="SELECT * FROM records where id ='$id'";
+	
+	return json_encode(mysqli_fetch_assoc(mysqli_query($conn,$sql)));	
+}
+function getTipViaID($id){
+	$conn = mysqli_connect("localhost","root","","outbreak");
+	$sql ="SELECT * FROM tips where id ='$id'";
 	
 	return json_encode(mysqli_fetch_assoc(mysqli_query($conn,$sql)));	
 }
@@ -139,6 +184,7 @@ if($status=="all"){
 	MONTH(date_of_sickness) BETWEEN $from AND $to
 	ORDER BY case_id DESC";
 }
+
 	return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 
 
@@ -187,7 +233,7 @@ function generateCaseNumber(){
 function getUsers($isAdmin = false,$isLoggedOut =false){
 	$conn = mysqli_connect("localhost","root","","outbreak");
 
-	$sql = "Select * from users where isDeleted=false and isAdmin = '$isAdmin'";
+	$sql = "Select * from users where isLoggedIn =false and isAdmin = '$isAdmin' and forceLogout = false";
 	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 	return $res;
 }
@@ -250,7 +296,7 @@ function getDiseaseRank($year){
 	$month_now = date("m");
 	$sql = "SELECT d.name, COUNT(disease_id) AS total FROM records r LEFT JOIN diseases d ON r.`disease_id` = d.`id` WHERE YEAR(r.`date_of_sickness`) = '$year' and MONTH(r.`date_of_sickness`) = '$month_now' GROUP BY r.`disease_id` ORDER BY total DESC ";
 	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
-	return $res;
+	return json_encode($res);
 }
 function getDiseaseByID($id){
 	$conn = mysqli_connect("localhost","root","","outbreak");
@@ -445,6 +491,31 @@ function deleteTipViaID($id){
 		return;
 }
 
+function hideTipViaID($id){
+
+		$conn = mysqli_connect("localhost","root","","outbreak");
+		$sql  = "Update tips set isHidden = true where id ='$id'";
+		if(mysqli_query($conn,$sql)){
+			echo  json_encode(array('isSuccess'=>1,'message'=>'Tip Succesfully Hidden!'));
+			return;
+		}
+		echo json_encode(array('isSuccess'=>0,'message'=>'Something went wrong'));
+		return;
+}
+
+
+function showTipViaID($id){
+
+		$conn = mysqli_connect("localhost","root","","outbreak");
+		$sql  = "Update tips set isHidden = false where id ='$id'";
+		if(mysqli_query($conn,$sql)){
+			echo  json_encode(array('isSuccess'=>1,'message'=>'Tip Succesfully Shown!'));
+			return;
+		}
+		echo json_encode(array('isSuccess'=>0,'message'=>'Something went wrong'));
+		return;
+}
+
 function getDiseaseCountPerBaranggay($year,$disease_id,$barangay_id){
 	$conn = mysqli_connect("localhost","root","","outbreak");
 	$sql = "SELECT 
@@ -538,7 +609,7 @@ function getDiseasesYearly(){
 
 	echo $sql;
 	return;
-	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
+	$res = n(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 	return $res;
 
 }
@@ -868,7 +939,7 @@ function sendAlert($disease_id,$count,$barangay_id){
 
 function getSMSAlert(){
 	$conn = mysqli_connect("localhost","root","","outbreak");
-	$sql = "Select * from sms order by created_at DESC LIMIT 6";
+	$sql = "SELECT s.*, d.message as d_message FROM sms s LEFT JOIN diseases d ON s.`disease_id` = d.`id` ORDER BY created_at DESC LIMIT 6";
 	$res = $data = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 
 	return $res;

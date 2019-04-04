@@ -260,8 +260,6 @@
 
                                                         
 
-                                                        <button type="button" id="<?=$record['id']?>" case_id = "<?=$record['case_id']?>"  class="deleteRecord btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
-
                                                     </td>
                                                 </tr>
                                             <?php 

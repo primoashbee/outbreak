@@ -8,7 +8,17 @@
       <input type="hidden" name="year" id="year" class="form-control" placeholder="enter year">
       <div id='myChart'></div>
    </body>
-   <script>
+    <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
+    <script>
+    //Pusher.logToConsole = true;
+    var pusher = new Pusher('21ce5477f6d4ba94c932', {
+      cluster: 'ap1',
+      forceTLS: true
+    });
+    var channel = pusher.subscribe('my-channel');
+     channel.bind('record.create', function(data) {
+      location.reload()
+     })
       var x = [];
       var year = 2019;
       <?php  

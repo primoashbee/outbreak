@@ -21,6 +21,18 @@ if(count($errors)>1){
 	return;
 }
 
+  $options = array(
+    'cluster' => 'ap1',
+    'useTLS' => true
+  );
+  $pusher = new Pusher\Pusher(
+    '21ce5477f6d4ba94c932',
+    '8c2262865eca4ce3a395',
+    '746357',
+    $options
+  );
+
+
 $firstname = addslashes($_POST['firstname']);
 $middlename = addslashes($_POST['middlename']);
 $lastname = addslashes($_POST['lastname']);
@@ -53,7 +65,12 @@ $sql = "INSERT INTO records (case_id,disease_id,firstname,middlename,lastname,ge
 ('$case_id','$disease_id','$firstname','$middlename','$lastname','$gender','$birthday','$barangay_id','$date_of_sickness','$hospital_id','$user_id')";
 
 if(mysqli_query($conn,$sql)){
-	$count = getDiseaseCount($disease_id,date("Y"),$barangay_id);
+
+		$id = mysqli_insert_id($conn);
+	  	$sql ="Select * from records where id ='$id'";
+	    $data = mysqli_fetch_assoc(mysqli_query($conn,$sql));
+	    $pusher->trigger('my-channel', 'disease.create', $data);
+		$count = getDiseaseCount($disease_id,date("Y"),$barangay_id);
 
 	if($count > 2){
 		sendAlert($disease_id,$count,$barangay_id);

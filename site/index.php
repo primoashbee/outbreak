@@ -77,7 +77,6 @@
       </div>
     </div>
   </header>
-
   <!-- Services -->
   <section id="services">
     <div class="container">
@@ -144,6 +143,7 @@
   </section>
 
   <!-- Portfolio Grid -->
+  <div id="portfolio">
   <section class="bg-light" id="portfolio">
     <div class="container">
       <div class="row">
@@ -153,43 +153,36 @@
         </div>
       </div>
       <div class="row">
-      <?php 
-        $tips = getTips(false,6);
 
-        foreach ($tips as $k => $v) {
-        ?>
-        
-        <div class="col-md-4 col-sm-6 portfolio-item" style="background-color: white">
-          <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?=$v['id']?>">
+        <div class="col-md-4 col-sm-6 portfolio-item" style="background-color: white" v-for="(tip,index,key) in tips">
+          <a class="portfolio-link" data-toggle="modal" v-bind:href="'#portfolioModal'+index">
             <div class="portfolio-hover">
               <div class="portfolio-hover-content" >
                 <i class="fas fa-plus fa-3x"></i>
               </div>
             </div>
-            <img class="img-fluid" src="<?=$v['img_src']?>" alt="" style="max-width: 350px; max-height: 197px; display: block;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: white">
+            <img v-bind:src="tip.img_src" class="img-fluid"  alt="" style="max-width: 350px; max-height: 197px; display: block;
+                margin-left: auto;
+                margin-right: auto;
+                background-color: white">
           </a>
           <div class="portfolio-caption">
-            <h4><?=$v['title']?></h4>
-            <p class="text-muted"><?=$v['subtitle']?></p>
+            <h4>{{tip.title}}</h4>
+            <p class="text-muted">{{tip.subtitle}}</p>
             <p class="text-muted"> 
-            By <b><?=getNameByID($v['created_by'])?> </b> on 
-            <b><?=$v['created_at']?></b></i> </p>
+            By <b>{{tip.created_by}}</b> on 
+            <b>{{tip.created_at}}</b></i> </p>
 
           </div>
         </div>
-      
-      <?php
-        }
-      ?>
 
       </div>
     </div>
   </section>
+  </div>
 
   <!-- About -->
+  <div id="about">
   <section id="about">
     <div class="container">
       <div class="row">
@@ -245,12 +238,9 @@
           <h2 class="text-center"> Geographical Status </h2>                            
           <iframe src="../admin/map.php?year=2019" frameborder="0" height="600px" width = "100%" id="iframe_1"></iframe>
         </div>
-        <div class="col-12">
+        <div class="col-12" >
           <h2 class="text-center"> Disease Rank (<?=date("F")." ".date("Y")?>)</h2>
-            <?php
-              $rank  =getDiseaseRank(date('Y'));
 
-            ?>
            <table class="table table-condensed">
               <thead>
                 <th></th>
@@ -258,21 +248,13 @@
                 <th># of Cases <i>(as of today)</i></th>
               </thead>
               <tbody>
-                <?php 
 
-                    $ctr = 1;
-                    foreach ($rank as $k => $v) {
-                ?>
-                <tr>
-                  <td> <?=$ctr?> </td>
-                  <td> <?=$v['name']?> </td>
-                  <td> <?=$v['total']?> </td>
+                <tr v-for="(rank,i,k) in ranks">
+                  <td> {{i+1}}</td>
+                  <td> {{rank.name}} </td>
+                  <td> {{rank.total}} </td>
                 </tr>
 
-                <?php
-                    $ctr++;
-                    }
-                ?>
               </tbody>
            </table>
         </div>
@@ -284,199 +266,27 @@
         <div class="col-12">
           <h1> INFORMATION </h1>
         
-         
-          <div class="list-group">
-          <?php 
-            $sms = getSMSAlert();
-            $ctr = 1;
-            foreach ($sms as $k => $v) {
-          ?>
-            
-        
- 
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class=""><?=strtoupper($v['disease_name'])." ALERT AT ".$v['barangay_name']?></h5><br>
-                <small class="text-muted"><?=$v['created_at']?></small>
-              </div><?=(getMessageByDiseaseID($v['disease_id']))?>
-              <br>
-              <small class="text-muted"><i>Auto Generated on <?=$v['created_at']?></i></small>
-            </a>
-         <?php
-            }
-          ?>
-          </div>
+         <div v-for="(msg, key, item) in sms">
+            <div class="list-group">        
+              <span href="" class="list-group-item list-group-item-action flex-column align-items-start non-clickable">
+                <div class="d-flex w-100 justify-content-between">
+
+                  <h5 class="">{{msg.disease_name }} ALERT AT {{msg.barangay_name}}</h5><br>
+                  <small class="text-muted">{{msg.human_date}}</small>
+                </div>
+                <span v-html="msg.d_message"></span><br>
+                <small class="text-muted"><i>Auto Generated on {{msg.created_at}}</i></small>
+              </span>
+
+            </div>
+        </div>
         </div>
       </div>
     </div>
     </form>
   </section>
-  <!-- Team -->
-  <!--
-  <section class="bg-light" id="team">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12 text-center">
-          <h2 class="section-heading text-uppercase">Our Amazing Team</h2>
-          <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-4">
-          <div class="team-member">
-            <img class="mx-auto rounded-circle" src="img/team/1.jpg" alt="">
-            <h4>Kay Garland</h4>
-            <p class="text-muted">Lead Designer</p>
-            <ul class="list-inline social-buttons">
-              <li class="list-inline-item">
-                <a href="#">
-                  <i class="fab fa-twitter"></i>
-                </a>
-              </li>
-              <li class="list-inline-item">
-                <a href="#">
-                  <i class="fab fa-facebook-f"></i>
-                </a>
-              </li>
-              <li class="list-inline-item">
-                <a href="#">
-                  <i class="fab fa-linkedin-in"></i>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="team-member">
-            <img class="mx-auto rounded-circle" src="img/team/2.jpg" alt="">
-            <h4>Larry Parker</h4>
-            <p class="text-muted">Lead Marketer</p>
-            <ul class="list-inline social-buttons">
-              <li class="list-inline-item">
-                <a href="#">
-                  <i class="fab fa-twitter"></i>
-                </a>
-              </li>
-              <li class="list-inline-item">
-                <a href="#">
-                  <i class="fab fa-facebook-f"></i>
-                </a>
-              </li>
-              <li class="list-inline-item">
-                <a href="#">
-                  <i class="fab fa-linkedin-in"></i>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="team-member">
-            <img class="mx-auto rounded-circle" src="img/team/3.jpg" alt="">
-            <h4>Diana Pertersen</h4>
-            <p class="text-muted">Lead Developer</p>
-            <ul class="list-inline social-buttons">
-              <li class="list-inline-item">
-                <a href="#">
-                  <i class="fab fa-twitter"></i>
-                </a>
-              </li>
-              <li class="list-inline-item">
-                <a href="#">
-                  <i class="fab fa-facebook-f"></i>
-                </a>
-              </li>
-              <li class="list-inline-item">
-                <a href="#">
-                  <i class="fab fa-linkedin-in"></i>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-8 mx-auto text-center">
-          <p class="large text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
-        </div>
-      </div>
-    </div>
-  </section> !-->
+  </div>
 
-  <!-- Clients -->
-  <!--
-  <section class="py-5">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3 col-sm-6">
-          <a href="#">
-            <img class="img-fluid d-block mx-auto" src="img/logos/envato.jpg" alt="">
-          </a>
-        </div>
-        <div class="col-md-3 col-sm-6">
-          <a href="#">
-            <img class="img-fluid d-block mx-auto" src="img/logos/designmodo.jpg" alt="">
-          </a>
-        </div>
-        <div class="col-md-3 col-sm-6">
-          <a href="#">
-            <img class="img-fluid d-block mx-auto" src="img/logos/themeforest.jpg" alt="">
-          </a>
-        </div>
-        <div class="col-md-3 col-sm-6">
-          <a href="#">
-            <img class="img-fluid d-block mx-auto" src="img/logos/creative-market.jpg" alt="">
-          </a>
-        </div>
-      </div>
-    </div>
-  </section> !-->
-
-  <!-- Contact -->
-  <!--
-  <section id="contact">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12 text-center">
-          <h2 class="section-heading text-uppercase">Contact Us</h2>
-          <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-12">
-          <form id="contactForm" name="sentMessage" novalidate="novalidate">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <input class="form-control" id="name" type="text" placeholder="Your Name *" required="required" data-validation-required-message="Please enter your name.">
-                  <p class="help-block text-danger"></p>
-                </div>
-                <div class="form-group">
-                  <input class="form-control" id="email" type="email" placeholder="Your Email *" required="required" data-validation-required-message="Please enter your email address.">
-                  <p class="help-block text-danger"></p>
-                </div>
-                <div class="form-group">
-                  <input class="form-control" id="phone" type="tel" placeholder="Your Phone *" required="required" data-validation-required-message="Please enter your phone number.">
-                  <p class="help-block text-danger"></p>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <textarea class="form-control" id="message" placeholder="Your Message *" required="required" data-validation-required-message="Please enter a message."></textarea>
-                  <p class="help-block text-danger"></p>
-                </div>
-              </div>
-              <div class="clearfix"></div>
-              <div class="col-lg-12 text-center">
-                <div id="success"></div>
-                <button id="sendMessageButton" class="btn btn-primary btn-xl text-uppercase" type="submit">Send Message</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section> !-->
 
   <!-- Footer -->
   <footer>
@@ -485,38 +295,6 @@
         <div class="col-md-12">
           <span class="copyright">Balanga City © Copyright 2019.</span>
         </div>
-
-      <!--
-        <div class="col-md-4">
-          <ul class="list-inline social-buttons">
-            <li class="list-inline-item">
-              <a href="#">
-                <i class="fab fa-twitter"></i>
-              </a>
-            </li>
-            <li class="list-inline-item">
-              <a href="#">
-                <i class="fab fa-facebook-f"></i>
-              </a>
-            </li>
-            <li class="list-inline-item">
-              <a href="#">
-                <i class="fab fa-linkedin-in"></i>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-4">
-          <ul class="list-inline quicklinks">
-            <li class="list-inline-item">
-              <a href="#">Privacy Policy</a>
-            </li>
-            <li class="list-inline-item">
-              <a href="#">Terms of Use</a>
-            </li>
-          </ul>
-        </div>
-      !-->
       </div>
     </div>
   </footer>
@@ -524,14 +302,8 @@
   <!-- Portfolio Modals -->
 
 
-  <?php 
-
-  
-  foreach ($tips as $k => $v) {
-    # code...
-  ?>
-  <!-- Modal 1 -->
-  <div class="portfolio-modal modal fade" id="portfolioModal<?=$v['id']?>" tabindex="-1" role="dialog" aria-hidden="true">
+  <div id="modal">
+  <div v-for="(tip, index, key) in tips " class="portfolio-modal modal fade" v-bind:id="'portfolioModal'+index" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="close-modal" data-dismiss="modal">
@@ -544,15 +316,15 @@
             <div class="col-lg-8 mx-auto">
               <div class="modal-body">
                 <!-- Project Details Go Here -->
-                <h2 class="text-uppercase"><?=$v['title']?></h2>
-                <p class="item-intro text-muted"><?=$v['subtitle']?> </p>
+                <h2 class="text-uppercase">{{tip.title}}</h2>
+                <p class="item-intro text-muted">{{tip.subtitle}}</p>
 
-                <img class="img-fluid d-block mx-auto" src="<?=$v['img_src']?>" alt="" >
-                <p><?=$v['body']?></p>
+                <img class="img-fluid d-block mx-auto" v-bind:src="tip.img_src" alt="" >
+                <p>{{tip.body}}</p>
                 <ul class="list-inline">
                   <li><i>Posted by: 
-                    <b><?=getNameByID($v['created_by'])?> </b> on 
-                    <b><?$v['created_at']?></b></i> 
+                    <b>{{tip.created_by}} </b> on 
+                    <b>{{tip.created_at}}</b></i> 
                   </li>
                
                 </ul>
@@ -566,9 +338,8 @@
       </div>
     </div>
   </div>
-<?php 
-  }
-?>
+  </div>
+
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -582,7 +353,20 @@
 
   <!-- Custom scripts for this template -->
   <script src="js/agency.min.js"></script>
+  <script src="../assets/js/vue.js"></script>
+  <script src="../assets/js/moment.js"></script>
+  <script src="../assets/js/helper.js"></script>
+  <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
   <script>
+    //Pusher.logToConsole = true;
+    var pusher = new Pusher('21ce5477f6d4ba94c932', {
+      cluster: 'ap1',
+      forceTLS: true
+    });
+    var channel = pusher.subscribe('my-channel');
+     channel.bind('record.create', function(data) {
+      location.reload()
+     })
     <?php
       $year = date("Y");
       $disease_id = "";
@@ -594,6 +378,55 @@
       }
 
     ?>
+   var about = new Vue ({
+      el : "#about",
+      data : {
+        ranks: <?=getDiseaseRank(date('Y'))?>,
+        sms: <?=json_encode(getSMSAlert())?>,
+        limit: <?=getCountOfSMS()?>
+      },
+      created(){
+          for (var i = 0; i <= this.limit-1; i++) {
+              //console.log(this.tips[i]['created_at'])
+              var date = new Date(this.sms[i]['created_at'])
+              this.sms[i].human_date = moment(date).fromNow()
+          }    
+      }
+
+   })
+   var portfolio = new Vue ({
+      el : "#portfolio",
+      data : {
+        tips : <?=json_encode(getTips(false))?>,
+        limit: <?=getCountOfTips()?>
+      },
+      mounted(){
+          for (var i = 0; i <= this.limit-1; i++) {
+              //console.log(this.tips[i]['created_at'])
+              var date = new Date(this.tips[i]['created_at'])
+              this.tips[i]['created_at'] = moment(date).fromNow()
+          }    
+      }
+
+   })
+   var modal = new Vue ({
+      el : "#modal",
+      data : {
+        tips : <?=json_encode(getTips(false))?>,
+        limit: <?=getCountOfTips()?>
+      },
+      mounted(){
+
+          for (var i = 0; i <= this.limit-1; i++) {
+              //console.log(this.tips[i]['created_at'])
+              var date = new Date(this.tips[i]['created_at'])
+              this.tips[i]['created_at'] = moment(date).fromNow()
+
+
+          }    
+      }
+
+   })
    $(function(){
       var year = '<?=$year?>'
 
