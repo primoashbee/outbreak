@@ -357,6 +357,7 @@
   <script src="../assets/js/moment.js"></script>
   <script src="../assets/js/helper.js"></script>
   <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
   <script>
     //Pusher.logToConsole = true;
     var pusher = new Pusher('21ce5477f6d4ba94c932', {
@@ -364,9 +365,27 @@
       forceTLS: true
     });
     var channel = pusher.subscribe('my-channel');
-     channel.bind('record.create', function(data) {
-      location.reload()
+     channel.bind('tip.create', function(data) {
+      portfolio.addTip(data); 
+      modal.addTip(data);
      })
+     channel.bind('tip.update',function(data){
+      portfolio.refreshTips()
+      modal.refreshTips()
+      console.log('Something happened..')
+     })
+
+
+
+
+
+
+
+
+
+
+
+
     <?php
       $year = date("Y");
       $disease_id = "";
@@ -397,7 +416,7 @@
    var portfolio = new Vue ({
       el : "#portfolio",
       data : {
-        tips : <?=json_encode(getTips(false))?>,
+        tips : <?=json_encode(getTips(false,6))?>,
         limit: <?=getCountOfTips()?>
       },
       mounted(){
@@ -406,13 +425,25 @@
               var date = new Date(this.tips[i]['created_at'])
               this.tips[i]['created_at'] = moment(date).fromNow()
           }    
+      },
+      methods :{
+        refreshTips(){
+            const vm = this
+            axios.get('../rhu/ajax.php?type=get_tips').then(function(res){
+              vm.tips = res.data
+            })
+        },
+        addTip(data){
+            this.tips.push(data)
+           
+        },
       }
 
    })
    var modal = new Vue ({
       el : "#modal",
       data : {
-        tips : <?=json_encode(getTips(false))?>,
+        tips : <?=json_encode(getTips(false,6))?>,
         limit: <?=getCountOfTips()?>
       },
       mounted(){
@@ -424,6 +455,30 @@
 
 
           }    
+      },
+      methods:{
+        addTip(data){
+            this.tips.push(data)
+           
+        },
+        refreshTips(){
+          /*
+            $.ajax({
+              url:'../rhu/ajax.php',
+              data: {type:'get_tips'},
+              dataType: 'JSON',
+              type:'POST',
+              success:function(data){
+                modal.tips = data
+                console.log(data)
+              }
+            }).bind(this)
+            */
+            const vm = this
+            axios.get('../rhu/ajax.php?type=get_tips').then(function(res){
+              vm.tips = res.data
+            })
+        }
       }
 
    })

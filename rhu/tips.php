@@ -116,17 +116,21 @@
                                                                 :img_src="tip.user_src"
                                                                 :body="tip.body"
                                                                
-                                                            class="updateTip btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
+                                                            @click="toUpdate(tip.id,$event)"
+                                                            class=" btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
                                                            
                                                            <button type="button" 
                                                             :id="tip.id" 
                                                             :title="tip.title"
-                                                            class="hideTip btn btn-rounded btn-primary mb-3"><i class="fa fa-eye-slash"></i></button>                                                       
+
+                                                            @click="toHide(tip.id,$event)"
+                                                            class="btn btn-rounded btn-primary mb-3"><i class="fa fa-eye-slash"></i></button>                                                       
                                                             
                                                             <button type="button" 
                                                             :id="tip.id" 
-                                                            :title="tip.title"                                                            
-                                                            class="deleteTip btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
+                                                            :title="tip.title"      
+                                                            @click="toDelete(tip.id,$event)"                     
+                                                            class=" btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
 
                                                         </td>
                                                     </tr>
@@ -166,7 +170,6 @@
 
                                         ?>
                                             
-                                            <div class="table-responsive">
                                                 <table class="table text-center">
 
                                                     <thead class="text-uppercase bg-dark">
@@ -194,17 +197,21 @@
                                                                 :img_src="tip.user_src"
                                                                 :body="tip.body"
                                                                
-                                                            class="updateTip btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
+                                                            @click="toUpdate(tip.id,$event)"
+                                                            class=" btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
                                                            
                                                            <button type="button" 
                                                             :id="tip.id" 
                                                             :title="tip.title"
-                                                            class="showTip btn btn-rounded btn-success mb-3"><i class="fa fa-eye"></i></button>                                                       
+
+                                                            @click="toShow(tip.id,$event)"
+                                                            class="btn btn-rounded btn-success mb-3"><i class="fa fa-eye"></i></button>                                                       
                                                             
                                                             <button type="button" 
                                                             :id="tip.id" 
-                                                            :title="tip.title"                                                            
-                                                            class="deleteTip btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
+                                                            :title="tip.title"      
+                                                            @click="toDelete(tip.id,$event)"                     
+                                                            class=" btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
 
                                                         </td>
                                                     </tr>
@@ -212,7 +219,6 @@
 
                                                     </tbody>
                                                 </table>
-                                            </div>
                                         </div>                                     
                                     </div>
                                 </div>
@@ -349,15 +355,103 @@
       },
       methods: {
         addTip(data){
-            this.tips.push(data)
+            this.tips_shown.push(data)
            
-        }
+        },
+        toUpdate(id,event){
+            id = $(event.target).attr('id')
+            title = $(event.target).attr('title')
+            subtitle = $(event.target).attr('subtitle')
+            body = $(event.target).attr('body')
+            img_src = $(event.target).attr('img_src')
+
+            $('#id').val(id)
+            $('#diseaseName').html(title)
+            $("#title").val(title)
+            $("#subtitle").val(subtitle)
+            $("#body").val(body)
+            $("#img_src1").attr('src',img_src)
+            $('#updateModal').modal('show')
+
+        },
+        toDelete(id,event){
+            id = $(event.target).attr('id')
+            title = $(event.target).attr('title')
+
+            $('#d_id').val(id)
+            $('#diseaseNameDel').html(title)
+
+            $('#alertModal').modal('show');
+
+        },
+        toHide(id,event){
+            id = $(event.target).attr('id')
+            title = $(event.target).attr('title')
+            $('#d_id_1').val(id)
+            $('#diseaseNameDel_1').html(title)
+            $('#hideModal').modal('show');
+
+        },
+        toShow(id,event){
+            id = $(event.target).attr('id')
+            title = $(event.target).attr('title')  
+    
+            $('#d_id_2').val(id)
+            $('#diseaseNameDel_2').html(title)
+            $('#showModal').modal('show');
+        },
 
       }
       
 
     })
 
+    //Pusher.logToConsole = true;
+    var pusher = new Pusher('21ce5477f6d4ba94c932', {
+      cluster: 'ap1',
+      forceTLS: true
+    });
+    var channel = pusher.subscribe('my-channel');
+
+    channel.bind('tip.create', function(data) {
+      //$("#data").html(data.text);
+        
+      app.addTip(data);
+      $.notify("Tip created [Tip: "+data.title+"]",
+        {
+             // whether to hide the notification on click
+              clickToHide: true,
+              // whether to auto-hide the notification
+              autoHide: false,
+              // if autoHide, hide after milliseconds
+              autoHideDelay: 5000,
+              // show the arrow pointing at the element
+              arrowShow: true,
+              // arrow size in pixels
+              arrowSize: 5,
+              // position defines the notification position though uses the defaults below
+              position: '...',
+              // default positions
+              elementPosition: 'top right',
+              globalPosition: 'top right',
+              // default style
+              style: 'bootstrap',
+              // default class (string or [string])
+              className: 'success',
+              // show animation
+              showAnimation: 'slideDown',
+              // show animation duration
+              showDuration: 400,
+              // hide animation
+              hideAnimation: 'slideUp',
+              // hide animation duration
+              hideDuration: 200,
+              // padding between element and notification
+              gap: 2
+        })
+
+     
+    });
     $('.deleteTip').click(function(){
         $('#d_id').val()
         id = $(this).attr('id')

@@ -60,7 +60,9 @@ function getTips($isHidden,$top = 0){
 				    ON t.created_by = u.id 
 				WHERE t.isHidden = '$isHidden'
 				ORDER BY created_at DESC"
-				;
+					;
+
+
 		return mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 	}else{
 
@@ -484,6 +486,20 @@ function deleteTipViaID($id){
 		$conn = mysqli_connect("localhost","root","","outbreak");
 		$sql  = "Update tips set isDeleted = true where id ='$id'";
 		if(mysqli_query($conn,$sql)){
+			require_once('../vendor/autoload.php');
+
+			$options = array(
+			'cluster' => 'ap1',
+			'useTLS' => true
+			);
+			$pusher = new Pusher\Pusher(
+			'21ce5477f6d4ba94c932',
+			'8c2262865eca4ce3a395',
+			'746357',
+			$options
+			);
+			$pusher->trigger('my-channel', 'tip.update', 'has-update');
+			
 			echo  json_encode(array('isSuccess'=>1,'message'=>'Tip Succesfully Deleted!'));
 			return;
 		}
@@ -496,6 +512,19 @@ function hideTipViaID($id){
 		$conn = mysqli_connect("localhost","root","","outbreak");
 		$sql  = "Update tips set isHidden = true where id ='$id'";
 		if(mysqli_query($conn,$sql)){
+			require_once('../vendor/autoload.php');
+
+			$options = array(
+			'cluster' => 'ap1',
+			'useTLS' => true
+			);
+			$pusher = new Pusher\Pusher(
+			'21ce5477f6d4ba94c932',
+			'8c2262865eca4ce3a395',
+			'746357',
+			$options
+			);
+			$pusher->trigger('my-channel', 'tip.update', 'has-update');
 			echo  json_encode(array('isSuccess'=>1,'message'=>'Tip Succesfully Hidden!'));
 			return;
 		}
@@ -509,6 +538,19 @@ function showTipViaID($id){
 		$conn = mysqli_connect("localhost","root","","outbreak");
 		$sql  = "Update tips set isHidden = false where id ='$id'";
 		if(mysqli_query($conn,$sql)){
+			require_once('../vendor/autoload.php');
+
+			$options = array(
+			'cluster' => 'ap1',
+			'useTLS' => true
+			);
+			$pusher = new Pusher\Pusher(
+			'21ce5477f6d4ba94c932',
+			'8c2262865eca4ce3a395',
+			'746357',
+			$options
+			);
+			$pusher->trigger('my-channel', 'tip.update', 'has-update');
 			echo  json_encode(array('isSuccess'=>1,'message'=>'Tip Succesfully Shown!'));
 			return;
 		}

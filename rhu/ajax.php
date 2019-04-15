@@ -1,6 +1,10 @@
 <?php 
 require "../config.php";
     session_start();
+if($_GET['type']=="get_tips"){
+	echo json_encode(getTips(false,6));
+	return;
+}
     if(!isset($_SESSION['user'])){
        echo 'INVALID REQUEST';
        return;

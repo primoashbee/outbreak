@@ -115,10 +115,10 @@
                                                                         
                                                                     </td> 
                                                                     <td>
-                                                                        <button type=" button" v-bind:id="user.id" class="updateAccount btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
+                                                                        <button type=" button" @click="toUpdate(user.id,$event)" v-bind:id="user.id" class="updateAccount btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
                                                                         
 
-                                                                        <button type="button" v-bind:id="user.id" v-bind:username="user.username" class="deleteAccount btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
+                                                                        <button type="button" @click="toDelete(user.id,$event)" v-bind:id="user.id" v-bind:username="user.username" class="deleteAccount btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
 
                                                                     
 
@@ -148,40 +148,25 @@
                                                             <tbody>
 
 
-                                                            <?php 
-                                                              $users = getUsersDeleted();
-
-                                                                  foreach($users as $user){
-                                                               
-                                                          
-                                                            ?>
-                                                                <tr>
-                                                                    <th scope="row"><?=$user['username']?></th>
-                                                                    <td><?=ucfirst($user['firstname'])?></td>
-                                                                    <td><?=ucfirst($user['lastname'])?></td> 
+                                                                <tr v-for="user in usersDeleted">
+                                                                    <th scope="row">{{user.username}}</th>
+                                                                    <th scope="row">{{user.firstname}}</th>
+                                                                    <th scope="row">{{user.lastname}}</th>
                                                                     <td scope="row">
-                                                                        
-                                                                        <?php if(!$user['isLoggedIn']){
-                                                                        ?>      
+
                                                                         <span class="status-p bg-danger">Suspended</span>
 
-                                                                        <?php }else{ ?>
-                                                                        <span class="status-p bg-success">Active</span>
-                                                                        <?php }?>
-                                                                    </td> 
+                                                                    </td>                                                                     
+
                                                                     <td>
 
-                                                                        <button type="button" id="<?=$user['id']?>" username="<?=$user['username']?>" class="recoverAccount btn btn-rounded btn-success mb-3"><i class="ti-back-left"></i></button>
+                                                                        <button @click="toRecover(user.id,$event)" type="button" v-bind:id="user.id" v-bind:username="user.username" class="recoverAccount btn btn-rounded btn-success mb-3"><i class="ti-back-left"></i></button>
 
 
 
                                                                     </td>
                                                                 </tr>
-                                                            <?php 
 
-                                                            }
-
-                                                            ?>
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -297,16 +282,44 @@
     var app = new Vue({
       el:"#app",
       data: {
-        users: 
-          <?=json_encode(getUsers(false))?>
+        users: <?=json_encode(getUsers(false))?>,
+        usersDeleted : <?=json_encode(getUsersDeleted())?>
         
       },
       methods :{
         addUsers(data){
           this.users.push(data)
           //console.log(data)
-        }  
-      }
+        },
+        toUpdate(id){
+            $.ajax({
+            url:'ajax.php',
+            data:{type:'get_account_by_id',id:id},
+            dataType:'JSON',
+            type:'POST',
+            success: function(data){
+                $('#username_id').val(id)
+                $('#username').val(data.info.username)
+                $('#firstname').val(data.info.firstname)
+                $('#lastname').val(data.info.lastname)
+                $('#updateModal').modal('show')
+            }
+            })
+        },
+        toDelete(id,event){
+            $('#d_id').val(id)
+
+            $('#usernameDel').html($(event.target).attr('username'))
+            $('#alertModal').modal('show')
+        },
+        toRecover(id,event){
+            $('#r_id').val(id)
+            $('#usernameRec').html('')
+            $('#usernameRec').html($(event.target).attr('username'))
+            $('#recoverModal').modal('show')  
+        }
+      },
+
     });
 
     //Pusher.logToConsole = true;
@@ -353,6 +366,8 @@
               gap: 2
         })
     });
+
+    /*
     $('.updateAccount').click(function(){
             id = $(this).attr('id')
             $.ajax({
@@ -369,7 +384,7 @@
                 }
             })
         });
-
+    */
         $("#btnUpdate").click(function(){
             id = $('#username_id').val()
             firstname = $('#firstname').val()
@@ -426,18 +441,20 @@
             }
             
         })
-
+ /*
         $(".deleteAccount").click(function(){
             $('#d_id').val($(this).attr('id'))
             $('#usernameDel').html($(this).attr('username'))
             $('#alertModal').modal('show')
         })
-
+*/
+/*
         $(".recoverAccount").click(function(){
             $('#r_id').val($(this).attr('id'))
-            $('#usernameRec').html($(this).attr('username'))
+            $('#usernameRec').html($(e).attr('username'))
             $('#recoverModal').modal('show')
         });
+*/
         $("#btnDelete").click(function(){
             var id = $('#d_id').val();
             $.ajax({

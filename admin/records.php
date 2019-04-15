@@ -112,7 +112,7 @@
                                 ?>
                                    <input type="hidden" name="request" value="<?=$request?>" class="filter">
                                    <div class="col-4">
-                                        <select  name="search_year" id="search_year" class="form-control filter" ">
+                                        <select  name="search_year" id="search_year" class="form-control filter">
                                             <option value="">Year</option>
                                               <?php 
                                                 $years = getYearsInRecords();
@@ -221,10 +221,15 @@
                                                 <tr class="active" v-for="record in records">
                                                     <td>{{record.case_id}}</td>
                                                     <td>
-                                                        <span class="status-p bg-warning" v-if="record.status=='pending'">Pending</span>
-                                                        <span class="status-p bg-danger" v-else-if="record.status=='deceased'">Deceased</span>
-                                                        <span class="status-p bg-success" v-else-if="record.status=='healthy'">Healthy</span>
-
+                                                        <div v-if="record.status==='pending'">
+                                                            <span class="status-p bg-warning" >Pending</span>
+                                                        </div>
+                                                        <div v-else-if="record.status==='deceased'">
+                                                            <span class="status-p bg-danger" >Deceased</span>
+                                                        </div>
+                                                        <div v-else-if="record.status==='healthy'">
+                                                            <span class="status-p bg-success" >Healthy</span>
+                                                        </div>
                                                     </td>
                                                     <td>{{record.full_name}}</td>
                                                     <td>{{record.gender}}</td>
@@ -235,11 +240,10 @@
                                                     <td>{{record.date_of_sickness}}</td>
                                                     <td>
 
-                                                        <button type=" button" v-bind:id="record.id" v-bind:case_id = "record.case_id" class="updateRecord btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
  
                                                         <button type=" button" v-bind:id="record.id" v-bind:case_id = "record.case_id" class="updateRecord btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
  
-                                                        <button v-if="record.status==pending" type="button" 
+                                                        <button v-if="record.status==='pending'" type="button" 
                                                         v-bind:id="record.id" 
                                                         v-bind:case_id = "record.case_id" 
                                                         v-bind:date_of_sickness = "record.date_of_sickness"
@@ -533,12 +537,16 @@
     unset($_SESSION['post_data']);
 ?>
 <script>
-     var app = new Vue({
+    var request ="<?=$request?>"
+    var search_year ="<?=$search_year?>"
+    var from ="<?=$from?>"
+    var to ="<?=$to?>"
+    
+    var app = new Vue({
       el:"#app",
       data: {
         records: 
-          <?=json_encode(getPatientRecords(false,$request,$search_year,$from,$to))?>
-        
+          <?=json_encode(getPatientRecords(false,$request,$search_year,$from,$to))?>        
       },
 
       methods: {
@@ -547,13 +555,23 @@
             this.refreshTable()
         },
         refreshTable(){
-            $('#tblRecords').DataTable()
-        }
+            var vm = this
 
+            $.ajax({
+                url:'ajax.php',
+                data:{type:'get_records', request:request, search_year:search_year, from:from, to:to},
+                dataType:'JSON',
+                type:'POST',
+                success:function(data){
+                    $('#tblRecords').DataTable().destroy();
+                    vm.records = data
+                    vm.refreshDataTable()
+                }
+            })
 
-      },
-      mouted(){
-         this.$nextTick(function() {
+        },
+        refreshDataTable(){
+            this.$nextTick(function() {
             $('#tblRecords').DataTable({
                 'destroy'     : true,
                 'paging'      : true,
@@ -563,23 +581,22 @@
                 'order'       : [[ 8, 'desc' ]],
                 'info'        : true,
                 'autoWidth'   : false,
-                'dom'         : 'Blfrtip',
-                'buttons'     : [
-                    {
-                        'extend': 'csv',
-                        'title': this.$route.meta.report_name + ' Report'
-                    },
-                    {
-                        'extend': 'pdf',
-                        'title': this.$route.meta.report_name + ' Report'
-                    },
-                    {
-                        'extend': 'print',
-                        'title': this.$route.meta.report_name + ' Report'
-                    }
-                ]
+                'dom'         : 'Blfrtip'
             });
+            });
+        }
+
+
+      },
+      mounted(){
+        $('#tblRecords').DataTable({
+            "order" :  [[8, "desc"]]
         });
+
+        $('#from').val('<?=$from?>')
+        $('#to').val('<?=$to?>')
+        $('#search_year').val('<?=$search_year?>')
+        
       }
     });
 
@@ -630,17 +647,6 @@
      
     });
 
-    $(function(){
-        $('#tblRecords').DataTable({
-            "order" :  [[8, "desc"]]
-        });
-
-        $('#from').val('<?=$from?>')
-        $('#to').val('<?=$to?>')
-        $('#search_year').val('<?=$search_year?>')
-        
-
-    })
     $('input[type=radio].radio').on('change',function(){
         $("#request").submit();
     });

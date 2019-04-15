@@ -90,32 +90,32 @@
                                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                     <h4 class="header-title">Health Knowledge / Tips</h4>
                                     <div class="single-table">
-                                    <?php 
-                                        if(isset($_SESSION['msg'])){
-                                            if($_SESSION['msg']['isSuccess']){
+                                                <?php 
+                                                    if(isset($_SESSION['msg'])){
+                                                        if($_SESSION['msg']['isSuccess']){
+
+
+                                                            ?>
+                                                             <div class="alert alert-primary alert-success" role="alert">
+                                                                <h2><strong>Heads up!</strong> <?=$_SESSION['msg']['message']?></h2>
+                                                            </div>
+
+                                                            <?php
+                                                        }else{
+                                                            ?>
+                                                            <div class="alert alert-danger" role="alert">
+                                                                <h2><strong>Oh no!</strong> <?=$_SESSION['msg']['message']?></h2>
+                                                            </div>
+
+                                                            <?php
+
+                                                        }
+
+
+                                                    }
 
 
                                                 ?>
-                                                 <div class="alert alert-primary alert-success" role="alert">
-                                                    <h2><strong>Heads up!</strong> <?=$_SESSION['msg']['message']?></h2>
-                                                </div>
-
-                                                <?php
-                                            }else{
-                                                ?>
-                                                <div class="alert alert-danger" role="alert">
-                                                    <h2><strong>Oh no!</strong> <?=$_SESSION['msg']['message']?></h2>
-                                                </div>
-
-                                                <?php
-
-                                            }
-
-
-                                        }
-
-
-                                    ?>
                                         <div class="table-responsive">
                                             <table class="table text-center">
 
@@ -144,17 +144,21 @@
                                                                 :img_src="tip.user_src"
                                                                 :body="tip.body"
                                                                
-                                                            class="updateTip btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
+                                                            @click="toUpdate(tip.id,$event)"
+                                                            class=" btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
                                                            
                                                            <button type="button" 
                                                             :id="tip.id" 
                                                             :title="tip.title"
-                                                            class="hideTip btn btn-rounded btn-primary mb-3"><i class="fa fa-eye-slash"></i></button>                                                       
+
+                                                            @click="toHide(tip.id,$event)"
+                                                            class="btn btn-rounded btn-primary mb-3"><i class="fa fa-eye-slash"></i></button>                                                       
                                                             
                                                             <button type="button" 
                                                             :id="tip.id" 
-                                                            :title="tip.title"                                                            
-                                                            class="deleteTip btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
+                                                            :title="tip.title"      
+                                                            @click="toDelete(tip.id,$event)"                     
+                                                            class=" btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
 
                                                         </td>
                                                     </tr>
@@ -167,32 +171,32 @@
                                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                         <h4 class="header-title">Health Knowledge / Tips</h4>
                                         <div class="single-table">
-                                        <?php 
-                                            if(isset($_SESSION['msg'])){
-                                                if($_SESSION['msg']['isSuccess']){
+                                            <?php 
+                                                if(isset($_SESSION['msg'])){
+                                                    if($_SESSION['msg']['isSuccess']){
 
 
-                                                    ?>
-                                                     <div class="alert alert-primary alert-success" role="alert">
-                                                        <h2><strong>Heads up!</strong> <?=$_SESSION['msg']['message']?></h2>
-                                                    </div>
+                                                        ?>
+                                                         <div class="alert alert-primary alert-success" role="alert">
+                                                            <h2><strong>Heads up!</strong> <?=$_SESSION['msg']['message']?></h2>
+                                                        </div>
 
-                                                    <?php
-                                                }else{
-                                                    ?>
-                                                    <div class="alert alert-danger" role="alert">
-                                                        <h2><strong>Oh no!</strong> <?=$_SESSION['msg']['message']?></h2>
-                                                    </div>
+                                                        <?php
+                                                    }else{
+                                                        ?>
+                                                        <div class="alert alert-danger" role="alert">
+                                                            <h2><strong>Oh no!</strong> <?=$_SESSION['msg']['message']?></h2>
+                                                        </div>
 
-                                                    <?php
+                                                        <?php
+
+                                                    }
+
 
                                                 }
 
 
-                                            }
-
-
-                                        ?>
+                                            ?>
                                             
                                             <div class="table-responsive">
                                                 <table class="table text-center">
@@ -222,17 +226,21 @@
                                                                 :img_src="tip.user_src"
                                                                 :body="tip.body"
                                                                
-                                                            class="updateTip btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
+                                                            @click="toUpdate(tip.id,$event)"
+                                                            class=" btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
                                                            
                                                            <button type="button" 
                                                             :id="tip.id" 
                                                             :title="tip.title"
-                                                            class="showTip btn btn-rounded btn-success mb-3"><i class="fa fa-eye"></i></button>                                                       
+
+                                                            @click="toShow(tip.id,$event)"
+                                                            class="btn btn-rounded btn-success mb-3"><i class="fa fa-eye"></i></button>                                                       
                                                             
                                                             <button type="button" 
                                                             :id="tip.id" 
-                                                            :title="tip.title"                                                            
-                                                            class="deleteTip btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
+                                                            :title="tip.title"      
+                                                            @click="toDelete(tip.id,$event)"                     
+                                                            class=" btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
 
                                                         </td>
                                                     </tr>
@@ -378,8 +386,63 @@
       },
       methods: {
         addTip(data){
-            this.tips.push(data)
+            this.tips_shown.push(data)
            
+        },
+        toUpdate(id,event){
+            id = $(event.target).attr('id')
+            title = $(event.target).attr('title')
+            subtitle = $(event.target).attr('subtitle')
+            body = $(event.target).attr('body')
+            img_src = $(event.target).attr('img_src')
+          
+            $('#id').val('')
+            $('#diseaseName').html('')
+            $("#title").val('')
+            $("#subtitle").val('')
+            $("#body").val('')
+            $("#img_src1").attr('src','') 
+
+            $('#id').val(id)
+            $('#diseaseName').html(title)
+            $("#title").val(title)
+            $("#subtitle").val(subtitle)
+            $("#body").val(body)
+            $("#img_src1").attr('src',img_src)
+            $('#updateModal').modal('show')
+
+        },
+        toDelete(id,event){
+            id = $(event.target).attr('id')
+            title = $(event.target).attr('title')
+
+            $('#d_id').val(id)
+            $('#d_id').val('')
+            $('#diseaseNameDel').html(title)
+
+            $('#alertModal').modal('show');
+
+        },
+        toHide(id,event){
+            id = $(event.target).attr('id')
+            title = $(event.target).attr('title')
+            console.log(id)     
+            console.log(title)      
+            $('#d_id_1').val(id)
+            $('#d_id_1').val('')
+            $('#diseaseNameDel_1').html(title)
+            $('#hideModal').modal('show');
+
+        },
+        toShow(id,event){
+            id = $(event.target).attr('id')
+            title = $(event.target).attr('title')  
+
+            $('#d_id_2').val(id)
+            $('#d_id_2').val('')
+            $('#diseaseNameDel_2').html('')
+            $('#diseaseNameDel_2').html(title)
+            $('#showModal').modal('show');
         }
 
       }
@@ -397,7 +460,7 @@
     channel.bind('tip.create', function(data) {
       //$("#data").html(data.text);
         
-      app.addHospital(data);
+      app.addTip(data);
       $.notify("Tip created [Tip: "+data.title+"]",
         {
              // whether to hide the notification on click
@@ -433,52 +496,28 @@
 
      
     });
+    /*
     $('.deleteTip').click(function(){
         $('#d_id').val()
-        id = $(this).attr('id')
-        title = $(this).attr('title')
-
-        $('#d_id').val(id)
-        $('#diseaseNameDel').html(title)
-        $('#alertModal').modal('show');
+        
 
     });
     $('.hideTip').click(function(){
         $('#d_id').val()
-        id = $(this).attr('id')
-        title = $(this).attr('title')
-        $('#d_id_1').val(id)
-        $('#diseaseNameDel_1').html(title)
-        $('#hideModal').modal('show');
+        
 
     });  
     $('.showTip').click(function(){
         $('#d_id').val()
-        id = $(this).attr('id')
-        title = $(this).attr('title')       
-        $('#d_id_2').val(id)
-        $('#diseaseNameDel_2').html(title)
-        $('#showModal').modal('show');
+
 
     });    
     $('.updateTip').click(function(){
         id = "";
-        id = $(this).attr('id')
-        title = $(this).attr('title')
-        subtitle = $(this).attr('subtitle')
-        body = $(this).attr('body')
-        img_src = $(this).attr('img_src')
-      
-        $('#id').val(id)
-        $('#diseaseName').html(title)
-        $("#title").val(title)
-        $("#subtitle").val(subtitle)
-        $("#body").val(body)
-        $("#img_src1").attr('src',img_src)
-        $('#updateModal').modal('show')
+       
         
     });
-
+    */
     $('#btnDelete').click(function(){
         id = $("#d_id").val();
        

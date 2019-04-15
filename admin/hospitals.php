@@ -57,6 +57,7 @@
                     <div class="col-sm-6">
                         <div class="breadcrumbs-area clearfix">
                             <h4 class="page-title pull-left">Hospital</h4>
+                                            
                         </div>
                     </div>
                     <div class="col-sm-6 clearfix">
@@ -78,6 +79,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title">List of Hospitals</h4>
+                               
                                 <div class="single-table">
                                     <div class="table-responsive">
                                         <table class="table text-center">
@@ -107,12 +109,12 @@
 
 
                                                     
-                                                        <button type=" button" v-bind:id="hospital.id" class="updateHospital btn btn-rounded btn-warning mb-3" v-if="hospital.isDeleted==true"><i class="fa fa-edit"></i></button>      
+                                                        <button type=" button" @click="toUpdate(hospital.id)" v-bind:id="hospital.id" class=" btn btn-rounded btn-warning mb-3" v-if="hospital.isDeleted==true"><i class="fa fa-edit"></i></button>      
                                                       
-                                                        <button type=" button" v-bind:id="hospital.id" class="updateHospital btn btn-rounded btn-warning mb-3"
+                                                        <button type=" button" @click="toUpdate(hospital.id)" v-bind:id="hospital.id" class="updateHospital btn btn-rounded btn-warning mb-3"
                                                         v-if="hospital.isDeleted==false"><i class="fa fa-edit"></i></button>
                                                         
-                                                        <button type="button" v-bind:id="hospital.id" class="deleteHospital btn btn-rounded btn-danger mb-3"
+                                                        <button type="button" @click="toDelete(hospital.id)" v-bind:id="hospital.id" class="deleteHospital btn btn-rounded btn-danger mb-3"
                                                         v-if="hospital.isDeleted==false"><i class="ti-trash"></i></button>
                                                       
 
@@ -216,6 +218,41 @@
         },
         refreshTable(){
             $('#tblRecords').DataTable()
+        },
+        toUpdate(id){
+            id = id
+            $.ajax({
+                url:'ajax.php',
+                data:{type:'get_hospital',id:id},
+                dataType:'JSON',
+                type:'POST',
+                success: function(data){
+                    $('#hospital_id').html(id)
+                    $('#name').val(data.info.name)
+                    $('#address').val(data.info.address)
+                    $('#updateModal').modal('show')
+                }
+            })
+            
+        },
+        toDelete(id){
+            id = id
+
+            $.ajax({
+                url:'ajax.php',
+                data:{type:'get_hospital',id:id},
+                dataType:'JSON',
+                type:'POST',
+                success: function(data){
+                    $('#d_id').val(id)
+                    $('#diseaseNameDel').html(data.info.name)
+                }
+            })
+            $('#alertModal').modal('show');
+            
+        },
+        sample:function(){
+            alert()
         }
 
 
@@ -267,11 +304,13 @@
               // padding between element and notification
               gap: 2
         })
+       
 
      
     });
-
+    /*
     $('.deleteHospital').click(function(){
+
         $('#d_id').val()
         id = $(this).attr('id')
         $.ajax({
@@ -286,7 +325,9 @@
         })
         $('#alertModal').modal('show');
     });    
-    $('.updateHospital').click(function(){
+    
+    $('.updateHospital').on('click',function(){
+        alert()
 
         id = "";
         id = $(this).attr('id')
@@ -304,7 +345,7 @@
             }
         })
     });
-
+*/
     $('#btnUpdate').click(function(){
         var name = $('#name').val()
         var address = $('#address').val()

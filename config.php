@@ -49,6 +49,7 @@
 		('admin','Administrator','Account','$password',true)";
 		mysqli_query($conn,$sql);
 	}
+
 	require "functions.php";
 	require 'vendor/autoload.php';
 ?>

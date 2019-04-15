@@ -7,8 +7,15 @@ require "../config.php";
     }
    
 
+if($_POST['type']=="get_records"){
+	echo json_encode(getPatientRecords(false,$_POST['request'],$_POST['search_year'],$_POST['from'],$_POST['to']));
+	return;
+}
 if($_POST['type']=="get_disease"){
 	return getDiseaseByID($_POST['id']);
+}
+if($_POST['type']=="get_tips"){
+	return json_encode(getTips(false));
 }
 if($_POST['type']=="release_record_via_id"){
 	updateRecordStatusViaID($_POST);

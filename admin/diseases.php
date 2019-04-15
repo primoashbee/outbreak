@@ -107,7 +107,7 @@
                                                         
                                                     </td>
                                                     <td>
-                                                        <button type=" button" v-bind:id="disease.id" class="updateDisease btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
+                                                        <button type=" button"  @click="toUpdate(disease.id)" v-bind:id="disease.id" class=" btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
 
                                                     </td>
                                                 </tr>
@@ -229,6 +229,28 @@
         addDisease(data){
           this.diseases.push(data)
           //console.log(data)
+        },
+        toUpdate(id){
+            $.ajax({
+                url:'ajax.php',
+                data:{type:'get_disease',id:id},
+                dataType:'JSON',
+                type:'POST',
+                success: function(data){
+                    textAreaAdjust($('#description'))
+                    //textAreaAdjust($('#message'))
+                    $('#diseaseName').html(data.info.name)
+                    $('#name').val(data.info.name)
+                    $('#description').val(data.info.description)
+                    $('#message').val(data.info.message)
+                            var char = 120;
+                            var total =  $("#message").val().length
+                            
+                            $('#charLeft').html(char - total)
+                    $('#updateModal').modal('show')
+                }
+            })
+
         }  
       }
     });
@@ -293,31 +315,6 @@
         })
         $('#alertModal').modal('show');
     });    
-    $('.updateDisease').click(function(){
-        id = "";
-        id = $(this).attr('id')
-
-
-        $.ajax({
-            url:'ajax.php',
-            data:{type:'get_disease',id:id},
-            dataType:'JSON',
-            type:'POST',
-            success: function(data){
-                textAreaAdjust($('#description'))
-                //textAreaAdjust($('#message'))
-                $('#diseaseName').html(data.info.name)
-                $('#name').val(data.info.name)
-                $('#description').val(data.info.description)
-                $('#message').val(data.info.message)
-                        var char = 120;
-                        var total =  $("#message").val().length
-                        
-                        $('#charLeft').html(char - total)
-                $('#updateModal').modal('show')
-            }
-        })
-    });
 
     $('#btnUpdate').click(function(){
         var name = $('#name').val()
