@@ -4,7 +4,7 @@
 		<activated>false</activated>
 	</sms>
 <note>
-	<msg>THIS IS TO INFORM YOU THAT BARANGAY [brgy] IS ON [color]!
-PLEASE VISIT(http://outbreakbalanga.online) FOR MORE INFO.</msg>
+	<msg>This is to informat you that barangay [brgy] is on [color] Alert!
+Please visit (http://outbreakbalanga.online) for more info.</msg>
 </note>
 </AppSettings>
