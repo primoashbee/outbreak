@@ -47,7 +47,7 @@ CREATE TABLE `diseases` (
   `isDeleted` tinyint(1) DEFAULT '0',
   `isDeceased` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 /*Data for the table `diseases` */
 
@@ -82,7 +82,7 @@ CREATE TABLE `messages` (
   `message` longtext,
   `create_at` datetime DEFAULT CURRENT_TIMESTAMP,
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `messages` */
 
@@ -109,7 +109,7 @@ CREATE TABLE `records` (
   `isDeleted` tinyint(1) DEFAULT '0',
   `status` varchar(255) DEFAULT 'pending',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=latin1;
 
 /*Data for the table `records` */
 
@@ -151,7 +151,7 @@ CREATE TABLE `tips` (
   `isDeleted` tinyint(1) DEFAULT '0',
   `isHidden` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 /*Data for the table `tips` */
 
@@ -174,11 +174,11 @@ CREATE TABLE `users` (
   `isLoggedIn` tinyint(1) DEFAULT '0',
   `forceLogout` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 
 /*Data for the table `users` */
 
-insert  into `users`(`id`,`username`,`firstname`,`isAdmin`,`lastname`,`password`,`date_created`,`date_updated`,`isDeleted`,`isLoggedIn`,`forceLogout`) values (26,'admin','Administrator',1,'Account','$2y$10$pdAfmxz4a7qBR2FhN32eL.XId/maNRFIHzfkKTeDLGiSm6eN1SgAy','2019-03-24 21:00:04','2019-03-24 21:00:04',0,1,0),(27,'RHU-User','Rural Health Unit -',0,'III','$2y$10$l2SvHGhOgFj/Ula3tHeo0uxXKtEma8CNwenFzp5MPz./iNk1Pnoq6','2019-03-24 21:07:41','2019-03-24 21:07:41',0,0,0),(28,'Rural Health','Rural',0,'Cupang','$2y$10$B1gWc8c.oDQbJQo.N3vaBumd2/24mBzFlU4/P4/m3UNJwWg/svR6.','2019-03-24 22:56:32','2019-03-24 22:56:32',0,0,0),(29,'user-rhu','user ',0,'rhu','$2y$10$rzeBaA7wt/bCrIMia49C3eWfNrNwSdw0qKdAUkZj2ISu8NhTkbdwa','2019-03-24 23:50:39','2019-03-24 23:50:39',0,0,0);
+insert  into `users`(`id`,`username`,`firstname`,`isAdmin`,`lastname`,`password`,`date_created`,`date_updated`,`isDeleted`,`isLoggedIn`,`forceLogout`) values (26,'admin','Administrator',1,'Account','$2y$10$pdAfmxz4a7qBR2FhN32eL.XId/maNRFIHzfkKTeDLGiSm6eN1SgAy','2019-03-24 21:00:04','2019-03-24 21:00:04',0,1,0),(27,'RHU-User','Rural Health Unit -',0,'III','$2y$10$l2SvHGhOgFj/Ula3tHeo0uxXKtEma8CNwenFzp5MPz./iNk1Pnoq6','2019-03-24 21:07:41','2019-03-24 21:07:41',0,0,0),(28,'Rural Health','Rural',0,'Cupang','$2y$10$B1gWc8c.oDQbJQo.N3vaBumd2/24mBzFlU4/P4/m3UNJwWg/svR6.','2019-03-24 22:56:32','2019-03-24 22:56:32',0,0,0),(29,'user-rhu','user ',0,'rhu','$2y$10$LfMCTBzEUTVhTBCFIELeQ.ZxICg2KmpL6b4Hz8k2MHHdTILqdmvAC','2019-03-24 23:50:39','2019-03-24 23:50:39',0,1,0);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
