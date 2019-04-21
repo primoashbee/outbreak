@@ -2,6 +2,7 @@
 
 require_once "vendor/autoload.php";
 use Plivo\RestClient;
+
 function validateLogIn($user_id){
 	$conn = mysqli_connect("localhost","root","","outbreak");
 	$sql ="SELECT forceLogout from users where id = '$user_id' and forceLogout = true ";
@@ -9,7 +10,6 @@ function validateLogIn($user_id){
 	if(mysqli_num_rows(mysqli_query($conn,$sql)) > 0){
 		header("location:logout.php");
 	}
-
 }
 function getCountofTips(){
 	$conn = mysqli_connect("localhost","root","","outbreak");

@@ -105,7 +105,7 @@
 
 
                                 ?>
-                                <form action="create_record1.php" method="POST">
+                                <form action="create_record1.php" method="POST" id="frmCreateRecord">
                                     <div class="row">
 
                                         <div class="form-group col">
@@ -208,6 +208,24 @@
             </div>
         </div>
         <!-- main content area end -->
+    <div class="modal fade" id="alertModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Alert</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id ="d_id">
+               <h3> Are you sure you want to delete this record: <b><i><span id="case_id_delete"></span></i></b> ? </h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id ="btnDelete" class="btn btn-danger">Confirm</button>
+            </div>
+        </div>
+        </div>
+    </div>
 
 <?php 
 
@@ -235,5 +253,10 @@
         unset($_SESSION['msg']);
         unset($_SESSION['post_data']);
     ?>
+
+    $('#frmCreateRecord').submit(function(e){
+        $('#alertModal').modal('show')
+        e.preventDefault()
+    });
 </script>
 </html>

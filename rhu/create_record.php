@@ -192,11 +192,11 @@
             </div>
             <div class="modal-body">
                 <input type="hidden" id ="r_id">
-               <h3> Are you sure you want to RECOVER this Account <b><i><span id="usernameRec"></span></i></b>? </h3>
-            </div>
+               <h3> Are you sure that this record is correct?</h3>
+                           </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" id ="btnRecover" class="btn btn-danger">Confirm</button>
+                <button type="button" id ="btnConfirm" class="btn btn-danger">Confirm</button>
             </div>
         </div>
         </div>
@@ -219,7 +219,7 @@
 ?>
 
 <script>
-
+    var isConfirmed = false;
     var app = new Vue({
       el:"#app",
       data:{
@@ -258,15 +258,22 @@
     });
 
     $("#frmCreateRecord").submit(function(e){
-       
         var bday = $("#birthday").val();
         var date = $("#date_of_sickness").val();
-
-        if(isFutureDate(bday) || isFutureDate($ate)){
+        if(isFutureDate(bday) || isFutureDate(date)){
             alert("Birthday and Date should not be in future")
             e.preventDefault();
         }
+
+        if(!isConfirmed){
+            $('#alertModal').modal('show')
+            e.preventDefault()
+        }
        
+    })
+    $("#btnConfirm").click(function(){
+        isConfirmed = true
+        $("#frmCreateRecord").submit();
     })
     $("#barangay").val("<?=old('barangay')?>")
     $("#hospital_id").val("<?=old('hospital_id')?>")
