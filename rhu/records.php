@@ -242,7 +242,7 @@
                                                     <td>
 
  
-                                                        <button type=" button" v-bind:id="record.id" v-bind:case_id = "record.case_id" class="updateRecord btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
+                                                        <!--<button type=" button" v-bind:id="record.id" v-bind:case_id = "record.case_id" class="updateRecord btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>!-->
  
                                                         <button v-if="record.status==='pending'" type="button" 
                                                         v-bind:id="record.id" 

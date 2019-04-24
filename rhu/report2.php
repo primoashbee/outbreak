@@ -38,6 +38,7 @@ $data = mysqli_fetch_assoc($res);
 
 
 $list = getLineList($year,$from,$to);
+
 //$number = 10;
 $ctr = 1;
 $row = 6;

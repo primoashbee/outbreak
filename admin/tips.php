@@ -137,7 +137,7 @@
                                                         <td><img v-bind:src="tip.user_src" style="max-width: 100px;max-height: 100px" /></td>
                                                         <td>{{tip.created_by}}</td>
                                                         <td>
-                                                            <button type=" button" 
+                                                            <!--<button type=" button" 
                                                                 :id="tip.id" 
                                                                 :title="tip.title"
                                                                 :subtitle="tip.subtitle"
@@ -145,7 +145,7 @@
                                                                 :body="tip.body"
                                                                
                                                             @click="toUpdate(tip.id,$event)"
-                                                            class=" btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
+                                                            class=" btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>!-->
                                                            
                                                            <button type="button" 
                                                             :id="tip.id" 
@@ -153,12 +153,12 @@
 
                                                             @click="toHide(tip.id,$event)"
                                                             class="btn btn-rounded btn-primary mb-3"><i class="fa fa-eye-slash"></i></button>                                                       
-                                                            
+                                                            <!--
                                                             <button type="button" 
                                                             :id="tip.id" 
                                                             :title="tip.title"      
                                                             @click="toDelete(tip.id,$event)"                     
-                                                            class=" btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
+                                                            class=" btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>!-->
 
                                                         </td>
                                                     </tr>
@@ -219,6 +219,8 @@
                                                         <td><img v-bind:src="tip.user_src" style="max-width: 100px;max-height: 100px" /></td>
                                                         <td>{{tip.created_by}}</td>
                                                         <td>
+
+                                                            <!--
                                                             <button type=" button" 
                                                                 :id="tip.id" 
                                                                 :title="tip.title"
@@ -227,7 +229,7 @@
                                                                 :body="tip.body"
                                                                
                                                             @click="toUpdate(tip.id,$event)"
-                                                            class=" btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
+                                                            class=" btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>-->
                                                            
                                                            <button type="button" 
                                                             :id="tip.id" 
@@ -235,12 +237,12 @@
 
                                                             @click="toShow(tip.id,$event)"
                                                             class="btn btn-rounded btn-success mb-3"><i class="fa fa-eye"></i></button>                                                       
-                                                            
+                                                            <!--
                                                             <button type="button" 
                                                             :id="tip.id" 
                                                             :title="tip.title"      
                                                             @click="toDelete(tip.id,$event)"                     
-                                                            class=" btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>
+                                                            class=" btn btn-rounded btn-danger mb-3"><i class="ti-trash"></i></button>!-->
 
                                                         </td>
                                                     </tr>

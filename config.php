@@ -6,7 +6,8 @@
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
 	
-	$conn = mysqli_connect("localhost","root","","outbreak"); 
+	//$conn = mysqli_connect("localhost","root","","outbreak"); 
+	$conn = mysqli_connect("localhost","ashbee","12345","outbreak"); 
 
 	if (mysqli_connect_errno()) {
 	    printf("Connect failed: %s\n", mysqli_connect_error());
