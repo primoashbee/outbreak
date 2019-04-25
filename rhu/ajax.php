@@ -1,9 +1,12 @@
 <?php 
 require "../config.php";
-    session_start();
-if($_GET['type']=="get_tips"){
-	echo json_encode(getTips(false,6));
-	return;
+ 
+session_start();
+if(isset($_GET['type'])){
+	if($_GET['type']=="get_tips"){
+		echo json_encode(getTips(false,6));
+		return;
+	}
 }
     if(!isset($_SESSION['user'])){
        echo 'INVALID REQUEST';
@@ -27,7 +30,7 @@ if($_POST['type']=="delete_tip_via_id"){
 	return deleteTipViaID($_POST['id']);
 }
 if($_POST['type']=="hide_tip_via_id"){
-	var_dump($_POST);
+	//var_dump($_POST);
 	return hideTipViaID($_POST['id']);
 }
 if($_POST['type']=="show_tip_via_id"){

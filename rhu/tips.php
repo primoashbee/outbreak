@@ -71,7 +71,6 @@
             <!-- page title area end -->
             <div id="app">
             <div class="main-content-inner">
-
                 <div class="col-lg-12 mt-5">
                         <div class="card">
                             <div class="card-body">
@@ -79,9 +78,11 @@
                                     <li class="nav-item">
                                         <a class="nav-link active show" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Showed</a>
                                     </li>
+                                <!--
                                     <li class="nav-item">
                                         <a class="nav-link " id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Hidden</a>
                                     </li>
+                                !-->
                                 </ul>
                                 <div class="tab-content mt-3" id="myTabContent">
                                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -97,12 +98,10 @@
                                                         <th scope="col">Subtitle</th>
                                                         <th scope="col">Image</th>
                                                         <th scope="col">Published By</th>
-                                                        <th scope="col">Action</th>
+                                                        <!--<th scope="col">Action</th>!-->
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-
-
                                                     <tr v-for="tip in tips_shown">
                                                         <th scope="row">{{tip.title}}</th>
                                                         <td>{{tip.subtitle}} </td>
@@ -118,15 +117,14 @@
                                                                 :body="tip.body"
                                                                
                                                             @click="toUpdate(tip.id,$event)"
-                                                            class=" btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button> !-->
+                                                            class=" btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button> 
                                                            
                                                            <button type="button" 
                                                             :id="tip.id" 
                                                             :title="tip.title"
 
                                                             @click="toHide(tip.id,$event)"
-                                                            class="btn btn-rounded btn-primary mb-3"><i class="fa fa-eye-slash"></i></button>                                                       
-                                                            <!--
+                                                            class="btn btn-rounded btn-primary mb-3"><i class="fa fa-eye-slash"></i></button>                                         
                                                             <button type="button" 
                                                             :id="tip.id" 
                                                             :title="tip.title"      

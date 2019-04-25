@@ -108,15 +108,15 @@
 
                                         <div class="form-group col">
                                             <label for="firstname">First Name</label>
-                                            <input type="text" class="form-control" name="firstname" id="firstname" aria-describedby="firstname" placeholder="Firstname" required="" value="<?=old('firstname')?>">
+                                            <input type="text" class="form-control" name="firstname" id="firstname" aria-describedby="firstname" placeholder="Firstname" required="" value="<?=old('firstname')?>" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
                                         </div>
                                         <div class="form-group col">
                                             <label for="middlename">Middle Name</label>
-                                            <input type="text" class="form-control" id="middlename" aria-describedby="middlename" placeholder="Middlename" name="middlename" required=""  value="<?=old('middlename')?>">
+                                            <input type="text" class="form-control" id="middlename" aria-describedby="middlename" placeholder="Middlename" name="middlename" required=""  value="<?=old('middlename')?>" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
                                         </div>
                                         <div class="form-group col">
                                             <label for="lastname">Last Name</label>
-                                            <input type="text" class="form-control" id="lastname" aria-describedby="lastname" placeholder="Lastname" name="lastname" required=""  value="<?=old('lastname')?>">
+                                            <input type="text" class="form-control" id="lastname" aria-describedby="lastname" placeholder="Lastname" name="lastname" required=""  value="<?=old('lastname')?>" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
                                         </div>
                                     </div>
                                     <div class="row">

@@ -82,11 +82,21 @@
                             <?php
                             }
                             ?>
+
+
+
                             <li class="<?=urlHas(getURL(),"tip")?>">
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-slice"></i><span>Health Knowledge</span></a>
-                                <ul class="collapse">
+                                <ul class="collapse">  
                                     <li><a href="tips.php">View Tips</a></li>
+
+                                <?php
+                                    if($_SESSION['user']['isAdmin']){
+                                ?>
                                     <li><a href="create_tip.php">Add New Tip</a></li>
+                                <?php
+                                    }
+                                ?>
                                 </ul>
                             </li>
                             <li>

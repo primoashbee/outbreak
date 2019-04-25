@@ -291,15 +291,15 @@
 
                         <div class="form-group col">
                             <label for="firstname">First Name</label>
-                            <input type="text" class="form-control required" name="firstname" id="firstname" aria-describedby="firstname" placeholder="Firstname" required="" value="">
+                            <input type="text" class="form-control required" name="firstname" id="firstname" aria-describedby="firstname" placeholder="Firstname" required="" value="" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
                         </div>
                         <div class="form-group col">
                             <label for="middlename">Middle Name</label>
-                            <input type="text" class="form-control required" id="middlename" aria-describedby="middlename" placeholder="Middlename" name="middlename" required="">
+                            <input type="text" class="form-control required" id="middlename" aria-describedby="middlename" placeholder="Middlename" name="middlename" required="" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
                         </div>
                         <div class="form-group col">
                             <label for="lastname">Last Name</label>
-                            <input type="text" class="form-control required" id="lastname" aria-describedby="lastname" placeholder="Lastname" name="lastname" required=""  value="">
+                            <input type="text" class="form-control required" id="lastname" aria-describedby="lastname" placeholder="Lastname" name="lastname" required=""  value="" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
                         </div>
                     </div>
                     <div class="row">
@@ -644,7 +644,10 @@
         var date_of_release = new Date($("#date_of_release").val())
         var status = $('#status').val()
 
-
+        if(isFutureDate(date_of_release)){
+            alert('Date should not be in the future')
+            return;
+        }
         if($("#date_of_sickness_onset").val() == "" || $("#date_of_release").val() =="" || status ==""){
             alert('Fill up release form')
             return;
