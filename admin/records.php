@@ -724,6 +724,9 @@
         })
 
     })
+    channel.bind('record.released', function(data) {
+        app.refreshTable()
+    })
     $('.deleteRecord').click(function(){
         $('#d_id').val($(this).attr('id'))
         $('#case_id_delete').html($(this).attr('case_id'))

@@ -411,6 +411,7 @@
             $("#subtitle").val(subtitle)
             $("#body").val(body)
             $("#img_src1").attr('src',img_src)
+
             $('#updateModal').modal('show')
 
         },
@@ -418,8 +419,8 @@
             id = $(event.target).attr('id')
             title = $(event.target).attr('title')
 
-            $('#d_id').val(id)
             $('#d_id').val('')
+            $('#d_id').val(id)
             $('#diseaseNameDel').html(title)
 
             $('#alertModal').modal('show');
@@ -430,8 +431,9 @@
             title = $(event.target).attr('title')
             console.log(id)     
             console.log(title)      
-            $('#d_id_1').val(id)
             $('#d_id_1').val('')
+            $('#d_id_1').val(id)
+
             $('#diseaseNameDel_1').html(title)
             $('#hideModal').modal('show');
 
@@ -440,8 +442,8 @@
             id = $(event.target).attr('id')
             title = $(event.target).attr('title')  
 
-            $('#d_id_2').val(id)
             $('#d_id_2').val('')
+            $('#d_id_2').val(id)
             $('#diseaseNameDel_2').html('')
             $('#diseaseNameDel_2').html(title)
             $('#showModal').modal('show');

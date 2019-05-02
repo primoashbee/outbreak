@@ -11,6 +11,11 @@ if($_POST['type']=="get_records"){
 	echo json_encode(getPatientRecords(false,$_POST['request'],$_POST['search_year'],$_POST['from'],$_POST['to']));
 	return;
 }
+
+if($_POST['type']=="get_users"){
+	 echo json_encode(getUsers(false));
+return;
+}
 if($_POST['type']=="get_disease"){
 	return getDiseaseByID($_POST['id']);
 }

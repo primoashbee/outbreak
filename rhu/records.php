@@ -4,7 +4,7 @@
     if(!isset($_SESSION['user'])){
         header('location:../index.php');
     }
-    validateLogIn($_SESSION['user']['id']);
+    
 ?>
 
 <!DOCTYPE html>
@@ -112,7 +112,7 @@
                                 ?>
                                    <input type="hidden" name="request" value="<?=$request?>" class="filter">
                                    <div class="col-4">
-                                        <select  name="search_year" id="search_year" class="form-control filter" ">
+                                        <select  name="search_year" id="search_year" class="form-control filter">
                                             <option value="">Year</option>
                                               <?php 
                                                 $years = getYearsInRecords();
@@ -172,7 +172,6 @@
                                 </div>
                                </div>
                                 <div class="single-table" style="margin-top: 25px">
-
                                 <div id="app">
                                     <div class="table table-responsive">
                                         <table class="table text-center" id="tblRecords">
@@ -241,9 +240,9 @@
                                                     <td>{{record.date_of_sickness}}</td>
                                                     <td>
 
- 
-                                                        <!--<button type=" button" v-bind:id="record.id" v-bind:case_id = "record.case_id" class="updateRecord btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>!-->
- 
+                                                    <!-- 
+                                                        <button type=" button" v-bind:id="record.id" v-bind:case_id = "record.case_id" class="updateRecord btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
+                                                    !-->
                                                         <button v-if="record.status==='pending'" type="button" 
                                                         v-bind:id="record.id" 
                                                         v-bind:case_id = "record.case_id" 
@@ -541,7 +540,7 @@
     var request ="<?=$request?>"
     var search_year ="<?=$search_year?>"
     var from ="<?=$from?>"
-    var to ="<?=$to?>"    
+    var to ="<?=$to?>"
     
     var app = new Vue({
       el:"#app",
@@ -590,7 +589,6 @@
 
       },
       mounted(){
-
         $('#tblRecords').DataTable({
             "order" :  [[8, "desc"]]
         });
@@ -601,7 +599,54 @@
         
       }
     });
-   
+
+    //Pusher.logToConsole = true;
+    var pusher = new Pusher('21ce5477f6d4ba94c932', {
+      cluster: 'ap1',
+      forceTLS: true
+    });
+    var channel = pusher.subscribe('my-channel');
+
+    channel.bind('record.create', function(data) {
+      //$("#data").html(data.text);
+      $('#tblRecords').DataTable().destroy()
+      app.addRecord(data);
+      $.notify("Record created [Record: "+data.case_id+"]",
+        {
+             // whether to hide the notification on click
+              clickToHide: true,
+              // whether to auto-hide the notification
+              autoHide: false,
+              // if autoHide, hide after milliseconds
+              autoHideDelay: 5000,
+              // show the arrow pointing at the element
+              arrowShow: true,
+              // arrow size in pixels
+              arrowSize: 5,
+              // position defines the notification position though uses the defaults below
+              position: '...',
+              // default positions
+              elementPosition: 'top right',
+              globalPosition: 'top right',
+              // default style
+              style: 'bootstrap',
+              // default class (string or [string])
+              className: 'success',
+              // show animation
+              showAnimation: 'slideDown',
+              // show animation duration
+              showDuration: 400,
+              // hide animation
+              hideAnimation: 'slideUp',
+              // hide animation duration
+              hideDuration: 200,
+              // padding between element and notification
+              gap: 2
+        })
+
+     
+    });
+
     $('input[type=radio].radio').on('change',function(){
         $("#request").submit();
     });
@@ -627,6 +672,7 @@
                 $("#disease_id").val(data.disease_id)
                 $("#date_of_sickness").val(data.date_of_sickness)
                 $('#updateModal').modal('show');
+                console.log("disease_id is "+data.disease_id)
             }
         })
 
@@ -648,6 +694,8 @@
             alert('Date should not be in the future')
             return;
         }
+
+
         if($("#date_of_sickness_onset").val() == "" || $("#date_of_release").val() =="" || status ==""){
             alert('Fill up release form')
             return;
@@ -675,6 +723,9 @@
             }
         })
 
+    })
+    channel.bind('record.released', function(data) {
+        app.refreshTable()
     })
     $('.deleteRecord').click(function(){
         $('#d_id').val($(this).attr('id'))

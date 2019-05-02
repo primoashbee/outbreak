@@ -109,10 +109,10 @@
                                                                     <th scope="row">{{user.lastname}}</th>
                                                                     <td scope="row">
 
-                                                                        <span class="status-p bg-danger" v-if="user.forceLogout==true">Inactive</span>
+                                                                        <span class="status-p bg-success" v-if="user.isLoggedIn==true">Acitve</span>
 
-                                                                        <span class="status-p bg-success" v-else>Active</span>
-                                                                        
+                                                                        <span class="status-p bg-danger" v-else>Inactive</span>
+
                                                                     </td> 
                                                                     <td>
                                                                         <button type=" button" @click="toUpdate(user.id,$event)" v-bind:id="user.id" class="updateAccount btn btn-rounded btn-warning mb-3"><i class="fa fa-edit"></i></button>
@@ -291,6 +291,27 @@
           this.users.push(data)
           //console.log(data)
         },
+        refreshUsers(){
+            this.users=""
+            var users = []
+            $.ajax({
+                url:'ajax.php',
+                data:{type:'get_users'},
+                dataType:'JSON',
+                type:'POST',
+                success: function(data){
+                    $.each(data,function(k,v){
+                        users.push(v)
+                        
+                    })
+            }
+            })
+            this.users = users
+            //alert(users)
+
+
+          //console.log(data)
+        },
         toUpdate(id){
             $.ajax({
             url:'ajax.php',
@@ -329,11 +350,9 @@
     });
     var channel = pusher.subscribe('my-channel');
 
-    channel.bind('account.create', function(data) {
-      $("#data").html(data.text);
-      app.addUsers(data);
-      console.log(data)
-      $.notify("Account created [username: "+data.username+"]",
+    channel.bind('account.login', function(data) {
+        //alert('May NAg login')
+        $.notify("User Logged In ["+data+"]",
         {
              // whether to hide the notification on click
               clickToHide: true,
@@ -365,6 +384,81 @@
               // padding between element and notification
               gap: 2
         })
+        app.refreshUsers()
+    })
+    channel.bind('account.logout', function(data) {
+        //alert('May nag logout')
+        $.notify("User Logged Out ["+data+"]",
+        {
+             // whether to hide the notification on click
+              clickToHide: true,
+              // whether to auto-hide the notification
+              autoHide: false,
+              // if autoHide, hide after milliseconds
+              autoHideDelay: 5000,
+              // show the arrow pointing at the element
+              arrowShow: true,
+              // arrow size in pixels
+              arrowSize: 5,
+              // position defines the notification position though uses the defaults below
+              position: '...',
+              // default positions
+              elementPosition: 'top right',
+              globalPosition: 'top right',
+              // default style
+              style: 'bootstrap',
+              // default class (string or [string])
+              className: 'success',
+              // show animation
+              showAnimation: 'slideDown',
+              // show animation duration
+              showDuration: 400,
+              // hide animation
+              hideAnimation: 'slideUp',
+              // hide animation duration
+              hideDuration: 200,
+              // padding between element and notification
+              gap: 2
+        })
+        app.refreshUsers()
+    })
+
+    channel.bind('account.create', function(data) {
+          $("#data").html(data.text);
+          app.addUsers(data);
+          console.log(data)
+          $.notify("Account created [username: "+data.username+"]",
+            {
+                 // whether to hide the notification on click
+                  clickToHide: true,
+                  // whether to auto-hide the notification
+                  autoHide: false,
+                  // if autoHide, hide after milliseconds
+                  autoHideDelay: 5000,
+                  // show the arrow pointing at the element
+                  arrowShow: true,
+                  // arrow size in pixels
+                  arrowSize: 5,
+                  // position defines the notification position though uses the defaults below
+                  position: '...',
+                  // default positions
+                  elementPosition: 'top right',
+                  globalPosition: 'top right',
+                  // default style
+                  style: 'bootstrap',
+                  // default class (string or [string])
+                  className: 'success',
+                  // show animation
+                  showAnimation: 'slideDown',
+                  // show animation duration
+                  showDuration: 400,
+                  // hide animation
+                  hideAnimation: 'slideUp',
+                  // hide animation duration
+                  hideDuration: 200,
+                  // padding between element and notification
+                  gap: 2
+            })
     });
 
     /*

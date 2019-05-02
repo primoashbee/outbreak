@@ -232,7 +232,7 @@ function generateCaseNumber(){
 function getUsers($isAdmin = false,$isLoggedOut =false){
 	$conn = mysqli_connect("localhost","root","","outbreak");
 
-	$sql = "Select * from users where isLoggedIn =false and isAdmin = '$isAdmin' and forceLogout = false";
+	$sql = "Select * from users where isAdmin = '$isAdmin' and forceLogout = false";
 	$res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
 	return $res;
 }
@@ -399,7 +399,21 @@ function updateRecordStatusViaID($post_data){
 	$sql = "Update records set date_of_release = '$date_of_release', `status` = '$status' where id ='$id'";
 
 	if(mysqli_query($conn,$sql)){
+		$options = array(			
+			'cluster' => 'ap1',
+			'useTLS' => true
+		);
+
+		$pusher = new Pusher\Pusher(
+			'21ce5477f6d4ba94c932',
+			'8c2262865eca4ce3a395',
+			'746357',
+			$options
+		);
+
+		$pusher->trigger('my-channel', 'record.released', true);
 		echo  json_encode(array('isSuccess'=>1,'message'=>'Record Succesfully Updated!'));
+
 		return;
 		
 	}
@@ -508,6 +522,7 @@ function hideTipViaID($id){
 
 		$conn = mysqli_connect("localhost","root","","outbreak");
 		$sql  = "Update tips set isHidden = true where id ='$id'";
+		
 		if(mysqli_query($conn,$sql)){
 			require_once('../vendor/autoload.php');
 
@@ -522,7 +537,7 @@ function hideTipViaID($id){
 			$options
 			);
 			$pusher->trigger('my-channel', 'tip.update', 'has-update');
-			echo  json_encode(array('isSuccess'=>1,'message'=>'Tip Succesfully Hidden!'));
+			echo json_encode(array('isSuccess'=>1,'message'=>'Tip Succesfully Hidden!'));
 			return;
 		}
 		echo json_encode(array('isSuccess'=>0,'message'=>'Something went wrong'));
